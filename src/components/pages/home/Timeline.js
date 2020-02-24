@@ -7,7 +7,8 @@ import {
   Avatar,
   IconButton,
   CardMedia,
-  CardActions
+  CardActions,
+  Badge
 } from '@material-ui/core';
 // MUI Icons
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -19,7 +20,8 @@ import BookmarkIcon from '@material-ui/icons/BookmarkTwoTone';
 import {
   makeStyles,
   createMuiTheme,
-  ThemeProvider
+  ThemeProvider,
+  withStyles
 } from '@material-ui/core/styles';
 import { red, green } from '@material-ui/core/colors';
 import { Link } from '@reach/router';
@@ -86,6 +88,13 @@ const tweetTheme = createMuiTheme({
   }
 });
 
+const StyledBadge = withStyles({
+  badge: {
+    color: 'white',
+    bottom: '-2px'
+  }
+})(Badge);
+
 export default function Timeline() {
   const classes = useStyles();
 
@@ -133,16 +142,37 @@ export default function Timeline() {
         />
         <CardActions className={classes.actions}>
           <IconButton aria-label="reply" color="secondary">
-            <ReplyIcon />
+            <StyledBadge
+              badgeContent={12}
+              max={100000}
+              color="secondary"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            >
+              <ReplyIcon />
+            </StyledBadge>
           </IconButton>
           <ThemeProvider theme={tweetTheme}>
             <IconButton aria-label="retweet" color="primary">
-              <RetweetIcon />
+              <StyledBadge
+                badgeContent={1023}
+                max={100000}
+                color="primary"
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              >
+                <RetweetIcon />
+              </StyledBadge>
             </IconButton>
           </ThemeProvider>
           <ThemeProvider theme={tweetTheme}>
             <IconButton aria-label="like" color="secondary">
-              <LikeIcon />
+              <StyledBadge
+                badgeContent={329}
+                max={100000}
+                color="secondary"
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              >
+                <LikeIcon />
+              </StyledBadge>
             </IconButton>
           </ThemeProvider>
           <IconButton aria-label="bookmark" color="secondary">
