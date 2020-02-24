@@ -20,11 +20,13 @@ const palette = {
 };
 
 const typography = {
-  fontFamily: "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif"
+  fontFamily: "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif",
+  useNextVariants: true
 }
 
 export default createMuiTheme({
   themeName,
   palette,
-  typography
+  typography,
+  spreadThis: {}
 });
