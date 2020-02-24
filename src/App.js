@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
+import { Router } from '@reach/router';
+// Styling
 import './App.css';
 import theme from './utils/theme';
-import { Link, Router } from '@reach/router';
 import { MuiThemeProvider as ThemeProvider } from '@material-ui/core/styles';
+// Pages
 import { AuthPage } from './components/pages/AuthPage';
-
+import Home from './components/pages/Home';
+// Component
 import ErrorCatcher from './ErrorCatcher';
-
+// JWT / Axios
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:3000/api';
@@ -25,14 +28,11 @@ class App extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <nav>
-          <Link to="/home">Home</Link>
-          <Link to="dashboard">Dashboard</Link>
-        </nav>
         <ErrorCatcher>
           <Router>
             <AuthPage path="/" />
-            <div path="/dashboard"></div>
+            <Home path="/home" />
+            <Home path="/trending" />
           </Router>
         </ErrorCatcher>
       </ThemeProvider>
