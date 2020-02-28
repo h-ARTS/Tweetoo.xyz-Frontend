@@ -1,7 +1,8 @@
+import { Button, Container, Grid, Paper } from '@material-ui/core';
 import React, { Component } from 'react';
-import { Container, Grid, Button, Paper } from '@material-ui/core';
-import SignupForm from './auth-page/SignupForm';
-import LoginForm from './auth-page/LoginForm';
+import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
+
 export class AuthPage extends Component {
   state = {
     is_authenticated: false,

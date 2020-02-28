@@ -12,14 +12,15 @@ import Badge from '@material-ui/core/Badge';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 // Home Components
-import Timeline from './home/Timeline';
-import { HashtagIcon } from './home/HashtagIcon';
+import Timeline from './Timeline';
+// UI Components
+import { NavLink } from '../../common/ui/NavLink';
+import { HashtagIcon } from '../../common/ui/HashtagIcon';
 // MUI Icons
 import HomeIcon from '@material-ui/icons/HomeTwoTone';
 import BellIcon from '@material-ui/icons/NotificationsTwoTone';
 import BookmarksIcon from '@material-ui/icons/BookmarksTwoTone';
 import ProfileIcon from '@material-ui/icons/AccountCircleTwoTone';
-import { NavLink } from './home/NavLink';
 
 const useStyles = makeStyles(theme => ({
   ...theme.spreadThis,

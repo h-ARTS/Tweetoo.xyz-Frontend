@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { Router } from '@reach/router';
-// Styling
-import './App.css';
-import theme from './utils/theme';
 import { MuiThemeProvider as ThemeProvider } from '@material-ui/core/styles';
-// Pages
-import { AuthPage } from './components/pages/AuthPage';
-import Home from './components/pages/Home';
-// Component
-import ErrorCatcher from './ErrorCatcher';
+import { Router } from '@reach/router';
 // JWT / Axios
-import jwtDecode from 'jwt-decode';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
+import React, { Component } from 'react';
+// Component
+import ErrorCatcher from '../common/utils/ErrorCatcher';
+// Styling
+import theme from '../common/utils/theme';
+import './App.css';
+// Pages
+import AuthPage from './auth/AuthPage';
+import Home from './home/Home';
 axios.defaults.baseURL = 'http://localhost:3000/api';
 
 const token = localStorage.token;
