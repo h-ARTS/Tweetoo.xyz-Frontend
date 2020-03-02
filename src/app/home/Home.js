@@ -12,7 +12,7 @@ import Badge from '@material-ui/core/Badge';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 // Home Components
-import Timeline from './Timeline';
+import Timeline from '../../common/ui/Timeline';
 // UI Components
 import { NavLink } from '../../common/ui/NavLink';
 import { HashtagIcon } from '../../common/ui/HashtagIcon';
