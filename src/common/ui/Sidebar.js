@@ -10,6 +10,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 // UI Components
 import { NavLink } from './NavLink';
 import { HashtagIcon } from '../../common/ui/HashtagIcon';
@@ -24,14 +25,27 @@ const useStyles = makeStyles(theme => ({
   root: {
     position: 'fixed'
   },
+  list: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  listItem: {
+    paddingLeft: '8px',
+    paddingRight: '8px'
+  },
   listItemTitle: {
     fontSize: '1rem',
     fontWeight: 700
+  },
+  listItemIconRoot: {
+    minWidth: 'auto'
   }
 }));
 
 export default function Sidebar() {
   const classes = useStyles();
+  const isMobile = useMediaQuery('(max-width: 1024px)');
+
   const links = [
     {
       to: '/home',
@@ -61,43 +75,63 @@ export default function Sidebar() {
   ];
 
   return (
-    <Grid item xs={false} sm={2} md={3}>
-      <List
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-        className={classes.root}
-        subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            Tweetoo.xyz
-          </ListSubheader>
-        }
-      >
-        {links.map(link => (
-          <ListItem button key={link.title} component={NavLink} to={link.to}>
-            <ListItemIcon>
-              {link.title === 'Notifications' ? (
-                <Badge
-                  variant="dot"
-                  overlap="circle"
-                  badgeContent=" "
-                  color="secondary"
-                >
-                  <link.icon fontSize="large" />
-                </Badge>
-              ) : (
-                <link.icon fontSize="large" />
-              )}
-            </ListItemIcon>
-            <Typography
-              variant="button"
-              display="block"
-              className={classes.listItemTitle}
+    <Grid
+      container
+      item
+      xs={false}
+      sm={1}
+      lg={2}
+      justify={isMobile ? 'center' : 'flex-start'}
+    >
+      <div className={classes.root}>
+        <List
+          component="nav"
+          aria-labelledby="nested-list-subheader"
+          className={isMobile && classes.list}
+          subheader={
+            !isMobile && (
+              <ListSubheader component="div" id="nested-list-subheader">
+                Tweetoo.xyz
+              </ListSubheader>
+            )
+          }
+        >
+          {links.map(link => (
+            <ListItem
+              button
+              key={link.title}
+              component={NavLink}
+              to={link.to}
+              className={classes.listItem}
+              disableGutters={isMobile}
             >
-              {link.title}
-            </Typography>
-          </ListItem>
-        ))}
-      </List>
+              <ListItemIcon className={isMobile && classes.listItemIconRoot}>
+                {link.title === 'Notifications' ? (
+                  <Badge
+                    variant="dot"
+                    overlap="circle"
+                    badgeContent=" "
+                    color="secondary"
+                  >
+                    <link.icon fontSize="large" />
+                  </Badge>
+                ) : (
+                  <link.icon fontSize="large" />
+                )}
+              </ListItemIcon>
+              {!isMobile && (
+                <Typography
+                  variant="button"
+                  display="block"
+                  className={classes.listItemTitle}
+                >
+                  {link.title}
+                </Typography>
+              )}
+            </ListItem>
+          ))}
+        </List>
+      </div>
     </Grid>
   );
 }

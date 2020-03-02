@@ -8,14 +8,14 @@ import Timeline from '../../common/ui/Timeline';
 
 export default function Home() {
   return (
-    <Container>
-      <Grid container>
+    <Container disableGutters>
+      <Grid container justify="space-between">
         <Sidebar />
-        <Grid container item xs={12} sm={10} md={9}>
-          <Grid item xs={12} sm={8}>
+        <Grid container item xs={12} sm={11} lg={10}>
+          <Grid item xs={12} sm={9}>
             <Timeline />
           </Grid>
-          <Grid item xs={false} sm={4} />
+          <Grid item xs={false} sm={3} />
         </Grid>
       </Grid>
     </Container>
