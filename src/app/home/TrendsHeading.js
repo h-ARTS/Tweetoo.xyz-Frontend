@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 700
   }
 }));
+
 export default function TrendsHeading() {
   const classes = useStyles();
 

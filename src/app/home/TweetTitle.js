@@ -40,19 +40,17 @@ export default function TweetTitle(props) {
 
   const { handle, fullName, time } = props;
   return (
-    <div className={classes.titleContainer}>
-      <Link to={`/${handle}`} className={classes.user}>
-        <Typography variant="body1">{fullName}</Typography>
-        <Typography variant="body2" className={classes.handle}>
-          @{handle}
-        </Typography>
-        <div className={classes.dotDivider}>
-          <span>·</span>
-        </div>
-        <div className={classes.tweetTime}>
-          <time dateTime={time}>12 Min.</time>
-        </div>
-      </Link>
-    </div>
+    <Link to={`/${handle}`} className={classes.user} component="div">
+      <Typography variant="body1">{fullName}</Typography>
+      <Typography variant="body2" className={classes.handle}>
+        @{handle}
+      </Typography>
+      <div className={classes.dotDivider}>
+        <span>·</span>
+      </div>
+      <div className={classes.tweetTime}>
+        <time dateTime={time}>12 Min.</time>
+      </div>
+    </Link>
   );
 }

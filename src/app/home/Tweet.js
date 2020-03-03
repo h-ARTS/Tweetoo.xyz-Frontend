@@ -1,32 +1,24 @@
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  Typography,
-  CardHeader,
-  Avatar,
-  IconButton,
-  CardMedia,
-  CardActions,
-  Badge,
-  CardActionArea
-} from '@material-ui/core';
-
-// MUI Theme
-import {
-  makeStyles,
-  createMuiTheme,
-  ThemeProvider,
-  withStyles
-} from '@material-ui/core/styles';
-import { red, green, blue, grey } from '@material-ui/core/colors';
-
-import { Link } from '@reach/router';
-import ToggleButton from '../../common/ui/ToggleButton';
-import TweetTitle from './TweetTitle';
-import MoreButton from './MoreButton';
+import { useNavigate } from '@reach/router';
+// Mui Components
+import Avatar from '@material-ui/core/Avatar';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+// Mui Theme
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { red, blue } from '@material-ui/core/colors';
+// Mui Icons
 import BookmarkIcon from '@material-ui/icons/BookmarkTwoTone';
+// Components
+import MoreButton from './MoreButton';
 import TweetAction from './TweetAction';
+import TweetTitle from './TweetTitle';
 
 const useStyles = makeStyles(theme => ({
   ...theme.tweetooxyz,
@@ -65,24 +57,18 @@ const BookmarkButton = withStyles(theme => ({
   }
 }))(IconButton);
 
-export default function Tweet() {
+export default function Tweet(props) {
   const classes = useStyles();
-  // Demo data
-  const tweetObj = {
-    tweetId: '48598342568723',
-    fullText:
-      'This impressive paella is a perfect party dish and a fun meal #partydish',
-    fullName: 'Mr Paki',
-    handle: 'mr_paki',
-    retweetCount: 0,
-    likeCount: 0,
-    replies: [],
-    timestamp: '2020-02-24T20:18:29.000Z'
+  const navigate = useNavigate();
+  const { handle, fullName, fullText, timestamp } = props.tweet;
+
+  const handleNavigation = () => {
+    navigate(`/${handle}`);
   };
 
   return (
     <Card className={classes.root}>
-      <CardActionArea component={Link} to={`/${tweetObj.handle}`}>
+      <CardActionArea component="div" disableRipple>
         <CardHeader
           avatar={
             <Avatar aria-label="profile" className={classes.avatar}>
@@ -91,15 +77,16 @@ export default function Tweet() {
           }
           title={
             <TweetTitle
-              handle={tweetObj.handle}
-              fullName={tweetObj.fullName}
-              time={tweetObj.timestamp}
+              handle={handle}
+              fullName={fullName}
+              time={timestamp}
+              onClick={handleNavigation}
             />
           }
           action={<MoreButton />}
         />
         <CardContent className={classes.cardContent}>
-          <Typography type="body2">{tweetObj.fullText}</Typography>
+          <Typography type="body2">{fullText}</Typography>
         </CardContent>
         <CardMedia
           title="Random"

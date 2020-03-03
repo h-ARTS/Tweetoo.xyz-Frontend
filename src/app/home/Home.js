@@ -1,16 +1,15 @@
 import React from 'react';
-import {
-  Grid,
-  List,
-  ListItem,
-  Typography,
-  ListItemText,
-  Paper,
-  Divider,
-  ListSubheader,
-  Hidden
-} from '@material-ui/core';
+// Mui Components
+import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+// Mui Theme
 import { makeStyles } from '@material-ui/core/styles';
+// Components
 import Timeline from '../../common/ui/Timeline';
 import Layout from '../../common/ui/Layout';
 import TrendsHeading from './TrendsHeading';
