@@ -6,12 +6,14 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 // Component
 import ErrorCatcher from '../common/utils/ErrorCatcher';
+import Layout from '../common/ui/Layout';
 // Styling
 import theme from '../common/utils/theme';
 import './App.css';
 // Pages
 import AuthPage from './auth/AuthPage';
 import Home from './home/Home';
+import Profile from './profile/Profile';
 
 axios.defaults.baseURL = 'http://localhost:3000/api';
 const token = localStorage.token;
@@ -32,7 +34,7 @@ class App extends Component {
           <Router>
             <AuthPage path="/" />
             <Home path="/home" />
-            <Home path="/trending" />
+            <Profile path="/profile" />
           </Router>
         </ErrorCatcher>
       </ThemeProvider>
