@@ -6,7 +6,7 @@ import { blue } from '@material-ui/core/colors';
 const useStyles = makeStyles({
   active: {
     color: blue[500],
-    '& .MuiListItemIcon-root': {
+    '& .MuiSvgIcon-root': {
       color: blue[500]
     }
   }

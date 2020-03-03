@@ -13,12 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 // UI Components
 import { NavLink } from './NavLink';
-import { HashtagIcon } from '../../common/ui/HashtagIcon';
-// MUI Icons
-import HomeIcon from '@material-ui/icons/HomeTwoTone';
-import BellIcon from '@material-ui/icons/NotificationsTwoTone';
-import BookmarksIcon from '@material-ui/icons/BookmarksTwoTone';
-import ProfileIcon from '@material-ui/icons/AccountCircleTwoTone';
+import navlinks from '../utils/navlinks';
 
 const useStyles = makeStyles(theme => ({
   ...theme.spreadThis,
@@ -46,34 +41,6 @@ export default function Sidebar() {
   const classes = useStyles();
   const isXL = useMediaQuery('(max-width: 1280px)');
 
-  const links = [
-    {
-      to: '/home',
-      title: 'Home',
-      icon: HomeIcon
-    },
-    {
-      to: '/trending',
-      title: 'Trending',
-      icon: HashtagIcon
-    },
-    {
-      to: '/notifications',
-      title: 'Notifications',
-      icon: BellIcon
-    },
-    {
-      to: '/bookmarks',
-      title: 'Bookmarks',
-      icon: BookmarksIcon
-    },
-    {
-      to: '/profile',
-      title: 'Profile',
-      icon: ProfileIcon
-    }
-  ];
-
   return (
     <Grid
       container
@@ -87,7 +54,7 @@ export default function Sidebar() {
         <List
           component="nav"
           aria-labelledby="nested-list-subheader"
-          className={isXL && classes.list}
+          className={isXL ? classes.list : ''}
           subheader={
             !isXL && (
               <ListSubheader component="div" id="nested-list-subheader">
@@ -96,7 +63,7 @@ export default function Sidebar() {
             )
           }
         >
-          {links.map(link => (
+          {navlinks.map(link => (
             <ListItem
               button
               key={link.title}
@@ -105,7 +72,7 @@ export default function Sidebar() {
               className={classes.listItem}
               disableGutters={isXL}
             >
-              <ListItemIcon className={isXL && classes.listItemIconRoot}>
+              <ListItemIcon className={isXL ? classes.listItemIconRoot : ''}>
                 {link.title === 'Notifications' ? (
                   <Badge
                     variant="dot"
