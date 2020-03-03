@@ -21,6 +21,11 @@ const useStyles = makeStyles(theme => ({
   },
   hashTag: {
     fontWeight: 600
+  },
+  rightAside: {
+    position: 'sticky',
+    top: 0,
+    right: 0
   }
 }));
 
@@ -34,7 +39,7 @@ export default function Home() {
       </Grid>
       <Hidden smDown>
         <Grid item md={4}>
-          <aside>
+          <aside className={classes.rightAside}>
             <div className="searchField"></div>
             <div className="trendsList">
               <List
