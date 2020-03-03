@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Sidebar() {
   const classes = useStyles();
-  const isMobile = useMediaQuery('(max-width: 1024px)');
+  const isXL = useMediaQuery('(max-width: 1280px)');
 
   const links = [
     {
@@ -78,18 +78,18 @@ export default function Sidebar() {
     <Grid
       container
       item
-      xs={false}
-      sm={1}
+      sm={2}
+      md={1}
       lg={2}
-      justify={isMobile ? 'center' : 'flex-start'}
+      justify={isXL ? 'center' : 'flex-start'}
     >
       <div className={classes.root}>
         <List
           component="nav"
           aria-labelledby="nested-list-subheader"
-          className={isMobile && classes.list}
+          className={isXL && classes.list}
           subheader={
-            !isMobile && (
+            !isXL && (
               <ListSubheader component="div" id="nested-list-subheader">
                 Tweetoo.xyz
               </ListSubheader>
@@ -103,9 +103,9 @@ export default function Sidebar() {
               component={NavLink}
               to={link.to}
               className={classes.listItem}
-              disableGutters={isMobile}
+              disableGutters={isXL}
             >
-              <ListItemIcon className={isMobile && classes.listItemIconRoot}>
+              <ListItemIcon className={isXL && classes.listItemIconRoot}>
                 {link.title === 'Notifications' ? (
                   <Badge
                     variant="dot"
@@ -119,7 +119,7 @@ export default function Sidebar() {
                   <link.icon fontSize="large" />
                 )}
               </ListItemIcon>
-              {!isMobile && (
+              {!isXL && (
                 <Typography
                   variant="button"
                   display="block"

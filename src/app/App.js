@@ -6,7 +6,6 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 // Component
 import ErrorCatcher from '../common/utils/ErrorCatcher';
-import Layout from '../common/ui/Layout';
 // Styling
 import theme from '../common/utils/theme';
 import './App.css';
