@@ -5,7 +5,7 @@ import {
   createMuiTheme,
   withStyles
 } from '@material-ui/core/styles';
-import { grey, red, green, blue } from '@material-ui/core/colors';
+import { grey, red, green } from '@material-ui/core/colors';
 
 // Mui Icons
 import ReplyIcon from '@material-ui/icons/ChatBubbleTwoTone';

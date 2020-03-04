@@ -49,7 +49,7 @@ const tweets = [
   {
     tweetId: '32454754654654',
     fullText:
-      'Irure est voluptate dolor quis nostrud culpa consectetur quis in consectetur est sunt. Anim velit consequat non dolore quis pariatur magna non dolore sunt sint Lorem sunt. #TuesdayThoughts',
+      'Irure est voluptate dolor quis nostrud culpa consectetur quis in consectetur est sunt. Anim velit consequat non dolore quis pariatur magna non dolore sunt sint Lorem sunt. #TuesdayThoughts #Irure_est',
     fullName: 'Super Nova',
     handle: 'supernova1',
     retweetCount: 12,

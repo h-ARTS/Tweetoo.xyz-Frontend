@@ -5,20 +5,16 @@ import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 // Mui Theme
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { red, blue } from '@material-ui/core/colors';
-// Mui Icons
-import BookmarkIcon from '@material-ui/icons/BookmarkTwoTone';
+import { makeStyles } from '@material-ui/core/styles';
+import { red } from '@material-ui/core/colors';
 // Components
 import MoreButton from './MoreButton';
 import TweetAction from './TweetAction';
 import TweetTitle from './TweetTitle';
+import TweetText from './TweetText';
 
 const useStyles = makeStyles(theme => ({
   ...theme.tweetooxyz,
@@ -48,19 +44,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BookmarkButton = withStyles(theme => ({
-  root: {
-    color: theme.palette.primary.dark,
-    '&:hover': {
-      color: blue[700]
-    }
-  }
-}))(IconButton);
-
 export default function Tweet(props) {
   const classes = useStyles();
   const navigate = useNavigate();
-  const { handle, fullName, fullText, timestamp } = props.tweet;
+  const { handle, fullName, fullText, timestamp, image } = props.tweet;
 
   const handleNavigation = () => {
     navigate(`/${handle}`);
@@ -85,22 +72,16 @@ export default function Tweet(props) {
           }
           action={<MoreButton />}
         />
-        <CardContent className={classes.cardContent}>
-          <Typography type="body2">{fullText}</Typography>
-        </CardContent>
-        <CardMedia
-          title="Random"
-          image="https://source.unsplash.com/random/470x240"
-          className={classes.media}
-        />
+        <TweetText className={classes.cardContent} fullText={fullText} />
+        {image && (
+          <CardMedia title="Random" image={image} className={classes.media} />
+        )}
       </CardActionArea>
       <CardActions className={classes.actions}>
         <TweetAction actionType="reply" />
         <TweetAction actionType="retweet" />
         <TweetAction actionType="like" />
-        <BookmarkButton color="primary" aria-label="bookmark">
-          <BookmarkIcon />
-        </BookmarkButton>
+        <TweetAction actionType="bookmark" />
       </CardActions>
     </Card>
   );
