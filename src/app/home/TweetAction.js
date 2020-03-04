@@ -15,38 +15,28 @@ import BookmarkIcon from '@material-ui/icons/BookmarkTwoTone';
 
 const like = createMuiTheme({
   palette: {
-    primary: { main: grey[500] },
-    secondary: { main: red[500] }
+    primary: { main: grey[600] },
+    secondary: { main: red[600] }
   }
 });
 
 const retweet = createMuiTheme({
   palette: {
-    primary: { main: grey[500] },
-    secondary: { main: green[500] }
+    primary: { main: grey[600] },
+    secondary: { main: green[600] }
   }
 });
 
 const defaultTheme = createMuiTheme({
   palette: {
-    primary: { main: blue[700] },
-    secondary: { main: blue[700] }
+    primary: { main: grey[600] }
   }
 });
-
-const StyledBadge = withStyles({
-  badge: {
-    color: 'inherit',
-    backgroundColor: 'transparent',
-    right: '-20px',
-    bottom: '12px'
-  }
-})(Badge);
 
 const actionButtons = isActive => ({
   reply: {
     ariaLabel: 'reply',
-    colorFactory: 'secondary',
+    colorFactory: 'primary',
     onClick: () => {},
     Icon: ReplyIcon,
     theme: defaultTheme
@@ -69,9 +59,19 @@ const actionButtons = isActive => ({
     ariaLabel: 'bookmark',
     colorFactory: 'primary',
     onClick: () => {},
-    Icon: BookmarkIcon
+    Icon: BookmarkIcon,
+    theme: defaultTheme
   }
 });
+
+const StyledBadge = withStyles({
+  badge: {
+    color: 'inherit',
+    backgroundColor: 'transparent',
+    right: '-20px',
+    bottom: '12px'
+  }
+})(Badge);
 
 export default function TweetAction({ actionType }) {
   const [active, setActive] = useState(false);
@@ -91,7 +91,7 @@ export default function TweetAction({ actionType }) {
     onClick();
   };
 
-  if (theme) {
+  if (actionType !== 'bookmark') {
     return (
       <ThemeProvider theme={theme}>
         <IconButton
@@ -111,13 +111,15 @@ export default function TweetAction({ actionType }) {
     );
   } else {
     return (
-      <IconButton
-        aria-label={ariaLabel}
-        color={colorFactory()}
-        onClick={setAction}
-      >
-        <Icon />
-      </IconButton>
+      <ThemeProvider theme={theme}>
+        <IconButton
+          aria-label={ariaLabel}
+          color={colorFactory}
+          onClick={setAction}
+        >
+          <Icon />
+        </IconButton>
+      </ThemeProvider>
     );
   }
 }

@@ -31,6 +31,7 @@ const tweets = [
     retweetCount: 0,
     likeCount: 0,
     replies: [],
+    image: 'https://source.unsplash.com/random/470x240',
     timestamp: '2020-02-24T20:18:29.000Z'
   },
   {
@@ -42,6 +43,7 @@ const tweets = [
     retweetCount: 67,
     likeCount: 89,
     replies: [],
+    image: 'https://source.unsplash.com/random/450x220',
     timestamp: '2020-02-24T20:18:29.000Z'
   },
   {

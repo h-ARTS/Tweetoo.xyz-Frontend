@@ -3,14 +3,14 @@ import { Link } from '@reach/router';
 import { makeStyles } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   active: {
-    color: blue[500],
+    color: theme.palette.secondary.main,
     '& .MuiSvgIcon-root': {
-      color: blue[500]
+      color: theme.palette.secondary.main
     }
   }
-});
+}));
 
 export const NavLink = React.forwardRef((props, ref) => {
   const classes = useStyles(props);
