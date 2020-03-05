@@ -4,18 +4,34 @@ import Typography from '@material-ui/core/Typography';
 
 export default function TweetText({ fullText }) {
   const fullTextQueryHashtagToAnchor = () => {
-    const regex = /\B\#\w\w+\b/g;
-    let matches = fullText.match(regex);
-    const fullTextWithoutHashtags = fullText.replace(regex, '');
+    // eslint-disable-next-line no-useless-escape
+    const hashtagPattern = /\B\#\w\w+\b/g;
+    // eslint-disable-next-line no-useless-escape
+    // const profilePattern = /\B\@\w\w+\b/g;
 
-    const hashTagElems = matches.map(match => (
-      <a href={`/?search=${match}`} alt={match}>
-        {match}
-      </a>
-    ));
+    const components = {
+      fullText: ({ children }) => {
+        const words = children.split(' ');
+        return words.map(word => {
+          if (word.match(hashtagPattern) != null) {
+            return (
+              <>
+                <a href={`/?search=${word}`} alt={word}>
+                  {word}
+                </a>{' '}
+              </>
+            );
+          }
+          return word + ' ';
+        });
+      }
+    };
+
+    const Paragraph = components['fullText'];
+
     return (
       <Typography type="body2">
-        {fullTextWithoutHashtags} {hashTagElems.map(hashtag => hashtag)}
+        <Paragraph>{fullText}</Paragraph>
       </Typography>
     );
   };
