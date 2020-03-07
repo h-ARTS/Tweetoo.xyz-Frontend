@@ -27,6 +27,9 @@ const useStyles = makeStyles(theme => ({
       borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
     }
   },
+  cardHeader: {
+    padding: '16px 16px 0'
+  },
   cardContent: {
     paddingTop: 0
   },
@@ -60,6 +63,7 @@ export default function Tweet(props) {
     <Card className={classes.root}>
       <CardActionArea component="div" disableRipple>
         <CardHeader
+          className={classes.cardHeader}
           avatar={
             <Avatar aria-label="profile" className={classes.avatar}>
               P
