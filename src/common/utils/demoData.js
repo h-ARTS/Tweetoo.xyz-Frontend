@@ -35,7 +35,7 @@ export default [
     timestamp: '2020-02-24T20:18:29.000Z'
   },
   {
-    tweetId: '32454754654654',
+    tweetId: '1243545436354',
     fullText:
       'Irure est voluptate dolor quis nostrud culpa consectetur quis in consectetur est sunt. Anim velit consequat non dolore quis pariatur magna non dolore sunt sint Lorem sunt. #TuesdayThoughts #Irure_est',
     fullName: 'Super Nova',
