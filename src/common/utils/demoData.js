@@ -14,7 +14,7 @@ export default [
   {
     tweetId: '5463546456453',
     fullText:
-      'Sunt ad proident esse consequat consectetur excepteur esse ut est esse ullamco sunt Lorem culpa. #TuesdayThoughts',
+      'Sunt ad @Mr_paki proident esse consequat consectetur excepteur esse ut est esse ullamco sunt Lorem culpa. #TuesdayThoughts',
     fullName: 'Henry Douglas',
     handle: 'realHenreyDouglas',
     retweetCount: 67,

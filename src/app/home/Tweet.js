@@ -15,6 +15,7 @@ import MoreButton from './MoreButton';
 import TweetAction from './TweetAction';
 import TweetTitle from './TweetTitle';
 import TweetText from './TweetText';
+import WithLinkTransformation from './WithLinkTransformation';
 
 const useStyles = makeStyles(theme => ({
   ...theme.tweetooxyz,
@@ -44,6 +45,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const TweetTextContainer = WithLinkTransformation(TweetText);
+
 export default function Tweet(props) {
   const classes = useStyles();
   const navigate = useNavigate();
@@ -72,7 +75,10 @@ export default function Tweet(props) {
           }
           action={<MoreButton />}
         />
-        <TweetText className={classes.cardContent} fullText={fullText} />
+        <TweetTextContainer
+          className={classes.cardContent}
+          fullText={fullText}
+        />
         {image && (
           <CardMedia title="Random" image={image} className={classes.media} />
         )}
