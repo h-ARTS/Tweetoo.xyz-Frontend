@@ -2,7 +2,7 @@ export default [
   {
     tweetId: '48598342568723',
     fullText:
-      'This impressive #stupid_lol paella is a perfect party dish and a fun meal #partydish',
+      'This impressive #stupid_lol paella is a perfect party dish and a fun meal http://google.com #partydish',
     fullName: 'Mr Paki',
     handle: 'mr_paki',
     retweetCount: 0,
