@@ -1,6 +1,7 @@
 import React from 'react';
 // MUI Components
-import { Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 // MUI Theme
 import { makeStyles } from '@material-ui/core/styles';
 // Router
@@ -13,10 +14,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'baseline',
     flexShrink: 1,
     fontSize: '1rem',
-    textDecoration: 'none',
-    '& .MuiTypography-body1': {
+    '& .MuiTypography-body1 > a': {
       color: theme.palette.primary.contrastText,
       fontWeight: 600,
+      textDecoration: 'none',
       '&:hover': {
         textDecoration: 'underline'
       }
@@ -40,8 +41,12 @@ export default function TweetTitle(props) {
 
   const { handle, fullName, time } = props;
   return (
-    <Link to={`/${handle}`} className={classes.user} component="div">
-      <Typography variant="body1">{fullName}</Typography>
+    <Box className={classes.user}>
+      <Typography variant="body1">
+        <Link to={`/${handle}`} alt={handle}>
+          {fullName}
+        </Link>
+      </Typography>
       <Typography variant="body2" className={classes.handle}>
         @{handle}
       </Typography>
@@ -51,6 +56,6 @@ export default function TweetTitle(props) {
       <div className={classes.tweetTime}>
         <time dateTime={time}>12 Min.</time>
       </div>
-    </Link>
+    </Box>
   );
 }

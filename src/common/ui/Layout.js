@@ -26,6 +26,7 @@ export default function Layout(props) {
           md={11}
           lg={10}
           spacing={!isMd ? 2 : 0}
+          component="main"
         >
           {props.children}
         </Grid>

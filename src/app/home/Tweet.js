@@ -53,15 +53,20 @@ const TweetTextContainer = WithLinkTransformation(TweetText);
 export default function Tweet(props) {
   const classes = useStyles();
   const navigate = useNavigate();
-  const { handle, fullName, fullText, timestamp, image } = props.tweet;
+  const { handle, fullName, fullText, timestamp, image, tweetId } = props.tweet;
 
   const handleNavigation = () => {
     navigate(`/${handle}`);
   };
 
+  const navigateToTweet = event => {
+    event.stopPropagation();
+    navigate(`/${handle}/tweet/${tweetId}`);
+  };
+
   return (
-    <Card className={classes.root}>
-      <CardActionArea component="div" disableRipple>
+    <Card className={classes.root} component="article">
+      <CardActionArea component="div" onClick={navigateToTweet} disableRipple>
         <CardHeader
           className={classes.cardHeader}
           avatar={

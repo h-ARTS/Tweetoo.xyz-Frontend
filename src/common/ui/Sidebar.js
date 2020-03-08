@@ -49,6 +49,7 @@ export default function Sidebar() {
       md={1}
       lg={2}
       justify={isXL ? 'center' : 'flex-start'}
+      component="aside"
     >
       <div className={classes.root}>
         <List
