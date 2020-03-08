@@ -2,7 +2,7 @@ export default [
   {
     tweetId: '48598342568723',
     fullText:
-      'This impressive #stupid_lol paella is a perfect party dish and a fun meal http://google.com #partydish',
+      'This impressive #stupid_lol paella is a perfect party dish and a fun meal google.com #partydish',
     fullName: 'Mr Paki',
     handle: 'mr_paki',
     retweetCount: 0,
@@ -14,13 +14,13 @@ export default [
   {
     tweetId: '5463546456453',
     fullText:
-      'Sunt ad @Mr_paki proident esse consequat consectetur excepteur esse ut est esse ullamco sunt Lorem culpa. #TuesdayThoughts',
+      'Sunt ad @Mr_paki proident http://amg4.me/efficiency-statement esse consequat consectetur excepteur esse ut est esse ullamco sunt Lorem culpa. #TuesdayThoughts',
     fullName: 'Henry Douglas',
     handle: 'realHenreyDouglas',
     retweetCount: 67,
     likeCount: 89,
     replies: [],
-    image: 'https://source.unsplash.com/random/450x220',
+    image: 'https://pbs.twimg.com/media/ESmHByaXgAE8Mtd?format=jpg&name=large',
     timestamp: '2020-02-24T20:18:29.000Z'
   },
   {
