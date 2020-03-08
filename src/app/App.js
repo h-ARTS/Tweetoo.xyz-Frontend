@@ -33,7 +33,7 @@ class App extends Component {
           <Router>
             <AuthPage path="/" />
             <Home path="/home" />
-            <Profile path="/profile" />
+            <Profile path=":userId/*" />
           </Router>
         </ErrorCatcher>
       </ThemeProvider>
