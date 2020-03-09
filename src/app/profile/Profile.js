@@ -9,6 +9,7 @@ import RightBar from '../../common/ui/RightBar';
 // MUI Components
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
+import TrendsList from '../trending/TrendsList';
 
 export default function Profile() {
   return (
@@ -20,7 +21,9 @@ export default function Profile() {
         </Router>
       </Grid>
       <Hidden smDown>
-        <RightBar />
+        <RightBar>
+          <TrendsList />
+        </RightBar>
       </Hidden>
     </Layout>
   );

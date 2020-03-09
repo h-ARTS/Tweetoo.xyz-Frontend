@@ -13,6 +13,7 @@ import './App.css';
 import AuthPage from './auth/AuthPage';
 import Home from './home/Home';
 import Profile from './profile/Profile';
+import Trending from './trending/Trending';
 
 axios.defaults.baseURL = 'http://localhost:3000/api';
 const token = localStorage.token;
@@ -32,7 +33,8 @@ class App extends Component {
         <ErrorCatcher>
           <Router>
             <AuthPage path="/" />
-            <Home path="/home" />
+            <Home path="home" />
+            <Trending path="trending" />
             <Profile path=":userId/*" />
           </Router>
         </ErrorCatcher>
