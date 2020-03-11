@@ -78,7 +78,11 @@ export default WrappedComponent => {
         if (word.match(hashtagPattern) != null) {
           return (
             <React.Fragment key={word}>
-              <Link to={`/?search=${word}`} alt={word}>
+              <Link
+                to={`/?search=${word}`}
+                alt={word}
+                aria-label={`Discover ${word}`}
+              >
                 {word}
               </Link>{' '}
             </React.Fragment>
@@ -86,7 +90,12 @@ export default WrappedComponent => {
         } else if (word.match(profilePattern) != null) {
           return (
             <React.Fragment key={word}>
-              <Link to={`/${word}`} alt={word} title={word}>
+              <Link
+                to={`/${word}`}
+                alt={word}
+                title={word}
+                aria-label={`Learn more about ${word.substring(1)}`}
+              >
                 {word}
               </Link>{' '}
             </React.Fragment>
@@ -101,6 +110,7 @@ export default WrappedComponent => {
                 target="_blank"
                 role="link"
                 rel="noopener noreferrer"
+                aria-label={`Open Link in a new tab: ${url}`}
               >
                 {this.linkFactory(word)}
               </Anchor>{' '}
