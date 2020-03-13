@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   }
 });
 
-const SearchListBoxWithSubheader = React.forwardRef((props, ref) => {
+const SearchListBoxWrapper = React.forwardRef((props, ref) => {
   const classes = useStyles();
   const { onClick } = props;
   const subheader = (
@@ -43,4 +43,4 @@ const SearchListBoxWithSubheader = React.forwardRef((props, ref) => {
   );
 });
 
-export default SearchListBoxWithSubheader;
+export default SearchListBoxWrapper;

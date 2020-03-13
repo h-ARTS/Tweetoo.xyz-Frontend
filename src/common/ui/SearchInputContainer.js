@@ -1,26 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // MUI Components
+import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
+// MUI Icons
+import CloseIcon from '@material-ui/icons/Close';
 import SearchIcon from '@material-ui/icons/SearchTwoTone';
 // MUI Lab
 import Autocomplete from '@material-ui/lab/Autocomplete';
 // MUI Styles
-import { makeStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
+import { makeStyles } from '@material-ui/core/styles';
+// Components
+import SearchListBoxWrapper from './SearchListBoxWrapper';
+import { CircularProgress } from '@material-ui/core';
 
-/// TESTING
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
-import Avatar from '@material-ui/core/Avatar';
-import SearchListBoxWithSubheader from './SearchListBoxWithSubheader';
-
-export const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(2),
     borderRadius: 0,
@@ -59,10 +60,62 @@ const lastSearched = [
 
 export default function SearchInputContainer() {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [options, setOptions] = useState([]);
+  const loading = open && options.length === 0;
+
+  useEffect(() => {
+    let active = true;
+
+    if (!loading) {
+      return undefined;
+    }
+
+    setTimeout(() => {
+      if (active) {
+        setOptions(lastSearched);
+      }
+    }, 1000);
+
+    return () => {
+      active = false;
+    };
+  }, [loading]);
+
+  useEffect(() => {
+    if (!open) {
+      setOptions([]);
+    }
+  }, [open]);
 
   const handleDelete = e => {
     e.stopPropagation();
   };
+
+  const renderListBoxComponent = React.forwardRef((props, ref) => (
+    <SearchListBoxWrapper {...props} ref={ref} onClick={handleDelete} />
+  ));
+
+  const renderLastResultOptions = params => (
+    <Box className={classes.listItem}>
+      <Box className={classes.listItemLeft}>
+        <Avatar alt={params.full_name}>{params.tag}</Avatar>
+        <Typography className={classes.listItemText} variant="body1">
+          {params.full_name}
+        </Typography>
+      </Box>
+      <Box>
+        <IconButton
+          aria-label="delete"
+          size="small"
+          color="secondary"
+          onClick={handleDelete}
+        >
+          <CloseIcon fontSize="inherit" />
+        </IconButton>
+      </Box>
+    </Box>
+  );
 
   return (
     <Box className={classes.root}>
@@ -73,35 +126,14 @@ export default function SearchInputContainer() {
         role="search"
       >
         <Autocomplete
-          options={lastSearched}
+          open={open}
+          onOpen={() => setOpen(true)}
+          onClose={() => setOpen(false)}
+          loading={loading}
+          options={options}
           getOptionLabel={option => option.full_name}
-          ListboxComponent={React.forwardRef((props, ref) => (
-            <SearchListBoxWithSubheader
-              {...props}
-              ref={ref}
-              onClick={handleDelete}
-            />
-          ))}
-          renderOption={params => (
-            <Box className={classes.listItem}>
-              <Box className={classes.listItemLeft}>
-                <Avatar alt={params.full_name}>{params.tag}</Avatar>
-                <Typography className={classes.listItemText} variant="body1">
-                  {params.full_name}
-                </Typography>
-              </Box>
-              <Box>
-                <IconButton
-                  aria-label="delete"
-                  size="small"
-                  color="secondary"
-                  onClick={handleDelete}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              </Box>
-            </Box>
-          )}
+          ListboxComponent={renderListBoxComponent}
+          renderOption={renderLastResultOptions}
           renderInput={params => (
             <>
               <InputLabel
@@ -111,7 +143,6 @@ export default function SearchInputContainer() {
               >
                 Search on Tweetoo.xyz
               </InputLabel>
-              {console.log(params)}
               <Input
                 fullWidth
                 color="secondary"
@@ -126,6 +157,13 @@ export default function SearchInputContainer() {
                   >
                     <SearchIcon />
                   </InputAdornment>
+                }
+                endAdornment={
+                  <React.Fragment>
+                    {loading ? (
+                      <CircularProgress color="secondary" size={20} />
+                    ) : null}
+                  </React.Fragment>
                 }
               />
               <FormHelperText id="search-helper-text" hidden>
