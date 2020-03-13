@@ -20,6 +20,29 @@ const useStyles = makeStyles({
   }
 });
 
+const trends = [
+  {
+    trend_title: '#CoronaOutbreak',
+    tweet_count: 200800,
+    number: 1
+  },
+  {
+    trend_title: '#TuesdayThoughts',
+    tweet_count: 38600,
+    number: 2
+  },
+  {
+    trend_title: '#Network4GServiceNoG',
+    tweet_count: 14500,
+    number: 3
+  },
+  {
+    trend_title: '#BanJangGeoMirBlackmailer',
+    tweet_count: 7760,
+    number: 4
+  }
+];
+
 export default function TrendsList() {
   const classes = useStyles();
   return (
@@ -31,40 +54,29 @@ export default function TrendsList() {
         disablePadding
         subheader={<TrendsHeading />}
       >
-        <ListItem divider dense>
-          <ListItemText
-            primary={
-              <>
-                <Typography variant="caption">1. Trend</Typography>
-                <Typography variant="body1" className={classes.hashTag}>
-                  #TuesdayThoughts
+        {trends.map(trend => (
+          <ListItem divider dense key={trend.number}>
+            <ListItemText
+              primary={
+                <>
+                  <Typography variant="caption">{`${trend.number}. Trend`}</Typography>
+                  <Typography variant="body1" className={classes.hashTag}>
+                    {trend.trend_title}
+                  </Typography>
+                </>
+              }
+              secondary={
+                <Typography
+                  component="span"
+                  variant="body2"
+                  color="textPrimary"
+                >
+                  {trend.tweet_count} Tweets
                 </Typography>
-              </>
-            }
-            secondary={
-              <Typography component="span" variant="body2" color="textPrimary">
-                36'800 Tweets
-              </Typography>
-            }
-          />
-        </ListItem>
-        <ListItem dense>
-          <ListItemText
-            primary={
-              <>
-                <Typography variant="caption">2. Trend</Typography>
-                <Typography variant="body1" className={classes.hashTag}>
-                  #Network4GServiceNoG
-                </Typography>
-              </>
-            }
-            secondary={
-              <Typography component="span" variant="body2" color="textPrimary">
-                14'500 Tweets
-              </Typography>
-            }
-          />
-        </ListItem>
+              }
+            />
+          </ListItem>
+        ))}
       </List>
     </Box>
   );
