@@ -3,15 +3,10 @@ import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
 // MUI Icons
 import CloseIcon from '@material-ui/icons/Close';
-import SearchIcon from '@material-ui/icons/SearchTwoTone';
 // MUI Lab
 import Autocomplete from '@material-ui/lab/Autocomplete';
 // MUI Styles
@@ -19,7 +14,7 @@ import { grey } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 // Components
 import SearchListBoxWrapper from './SearchListBoxWrapper';
-import { CircularProgress } from '@material-ui/core';
+import SearchInput from './SearchInput';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,9 +23,6 @@ const useStyles = makeStyles(theme => ({
     borderTop: 0,
     borderBottom: 0,
     backgroundColor: grey[100]
-  },
-  inputAdornment: {
-    color: theme.palette.primary.dark
   },
   listItem: {
     display: 'flex',
@@ -58,6 +50,8 @@ const lastSearched = [
   { full_name: 'Muhammad Irfan', tag: 'MI' }
 ];
 
+localStorage.setItem('last_searched', JSON.stringify(lastSearched));
+
 export default function SearchInputContainer() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -72,8 +66,10 @@ export default function SearchInputContainer() {
     }
 
     setTimeout(() => {
+      const result = localStorage.getItem('last_searched');
+
       if (active) {
-        setOptions(lastSearched);
+        setOptions(JSON.parse(result));
       }
     }, 1000);
 
@@ -135,41 +131,12 @@ export default function SearchInputContainer() {
           ListboxComponent={renderListBoxComponent}
           renderOption={renderLastResultOptions}
           renderInput={params => (
-            <>
-              <InputLabel
-                htmlFor="search-input"
-                color="secondary"
-                {...params.InputLabelProps}
-              >
-                Search on Tweetoo.xyz
-              </InputLabel>
-              <Input
-                fullWidth
-                color="secondary"
-                id="search-input"
-                aria-describedby="search-helper-text"
-                inputProps={params.inputProps}
-                ref={params.InputProps.ref}
-                startAdornment={
-                  <InputAdornment
-                    position="start"
-                    className={classes.inputAdornment}
-                  >
-                    <SearchIcon />
-                  </InputAdornment>
-                }
-                endAdornment={
-                  <React.Fragment>
-                    {loading ? (
-                      <CircularProgress color="secondary" size={20} />
-                    ) : null}
-                  </React.Fragment>
-                }
-              />
-              <FormHelperText id="search-helper-text" hidden>
-                Discover on Tweetoo.xyz
-              </FormHelperText>
-            </>
+            <SearchInput
+              InputLabelProps={params.InputLabelProps}
+              inputProps={params.inputProps}
+              inputRef={params.InputProps.ref}
+              loading={loading}
+            />
           )}
         />
       </FormControl>
