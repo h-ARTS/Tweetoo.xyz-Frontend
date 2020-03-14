@@ -15,6 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // Components
 import SearchListBoxWrapper from './SearchListBoxWrapper';
 import SearchInput from './SearchInput';
+import { Paper } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,6 +24,11 @@ const useStyles = makeStyles(theme => ({
     borderTop: 0,
     borderBottom: 0,
     backgroundColor: grey[100]
+  },
+  root2: {
+    padding: theme.spacing(2),
+    marginBottom: '8px',
+    backgroundColor: 'white'
   },
   listItem: {
     display: 'flex',
@@ -52,7 +58,7 @@ const lastSearched = [
 
 localStorage.setItem('last_searched', JSON.stringify(lastSearched));
 
-export default function SearchInputContainer() {
+export default function SearchInputContainer(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
@@ -114,7 +120,11 @@ export default function SearchInputContainer() {
   );
 
   return (
-    <Box className={classes.root}>
+    <Box
+      className={props.variant === 2 ? classes.root2 : classes.root}
+      component={Paper}
+      variant="outlined"
+    >
       <FormControl
         fullWidth
         aria-label="Search on Tweetoo.xyz"

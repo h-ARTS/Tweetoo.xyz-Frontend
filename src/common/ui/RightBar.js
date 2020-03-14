@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
   rightAside: {
     position: 'sticky',
-    top: 0,
+    top: 10,
     right: 0
   }
 });
