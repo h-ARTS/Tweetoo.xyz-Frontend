@@ -43,7 +43,7 @@ export default function TweetTitle(props) {
   return (
     <Box className={classes.user}>
       <Typography variant="body1">
-        <Link to={`/${handle}`} alt={handle}>
+        <Link to={`/${handle}`} alt={handle} onClick={e => e.stopPropagation()}>
           {fullName}
         </Link>
       </Typography>
