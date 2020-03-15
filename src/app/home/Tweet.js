@@ -27,6 +27,9 @@ const useStyles = makeStyles(theme => ({
       borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
     }
   },
+  cardActionArea: {
+    userSelect: 'auto'
+  },
   cardHeader: {
     padding: '16px 16px 0'
   },
@@ -55,13 +58,17 @@ export default function Tweet(props) {
   const navigate = useNavigate();
   const { handle, fullName, fullText, timestamp, image, tweetId } = props.tweet;
 
-  const handleNavigation = () => {
+  const handleNavigateToUser = () => {
     navigate(`/${handle}`);
   };
 
   const navigateToTweet = event => {
     event.stopPropagation();
     navigate(`/${handle}/tweet/${tweetId}`);
+  };
+
+  const handleStopPropagation = event => {
+    event.stopPropagation();
   };
 
   return (
@@ -79,7 +86,8 @@ export default function Tweet(props) {
               handle={handle}
               fullName={fullName}
               time={timestamp}
-              onClick={handleNavigation}
+              handleStopPropagation={handleStopPropagation}
+              onClick={handleNavigateToUser}
             />
           }
           action={<MoreButton />}

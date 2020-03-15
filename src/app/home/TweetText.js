@@ -17,10 +17,14 @@ const useStyles = makeStyles(theme => ({
 }));
 export default function TweetText(props) {
   const classes = useStyles();
-  const { fullText, hashtagTransform } = props;
+  const { fullText, hashtagTransform, handleStopPropagation } = props;
   return (
     <CardContent>
-      <Typography type="body2" className={classes.root}>
+      <Typography
+        type="body2"
+        className={classes.root}
+        onClick={handleStopPropagation}
+      >
         {hashtagTransform(fullText)}
       </Typography>
     </CardContent>

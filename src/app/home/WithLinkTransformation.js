@@ -24,6 +24,10 @@ export default WrappedComponent => {
     static displayName = `WithLinkTransformation(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 
+    handleStopPropagation = event => {
+      event.stopPropagation();
+    };
+
     getValidUrl = url => {
       let newUrl = window.decodeURIComponent(url);
       newUrl = newUrl.trim().replace(/\s/g, '');
@@ -123,6 +127,7 @@ export default WrappedComponent => {
         <WrappedComponent
           {...this.props}
           fullText={fullText}
+          handleStopPropagation={this.handleStopPropagation}
           hashtagTransform={this.hashtagTransform}
         />
       );

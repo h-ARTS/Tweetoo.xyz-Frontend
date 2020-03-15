@@ -38,12 +38,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function TweetTitle(props) {
   const classes = useStyles();
+  const { handle, fullName, time, handleStopPropagation } = props;
 
-  const { handle, fullName, time } = props;
   return (
-    <Box className={classes.user}>
+    <Box className={classes.user} onClick={handleStopPropagation}>
       <Typography variant="body1">
-        <Link to={`/${handle}`} alt={handle} onClick={e => e.stopPropagation()}>
+        <Link to={`/${handle}`} alt={handle} onClick={handleStopPropagation}>
           {fullName}
         </Link>
       </Typography>
