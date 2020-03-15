@@ -1,6 +1,4 @@
 import React from 'react';
-// MUI
-import { Paper } from '@material-ui/core';
 // MUI Theme
 import { makeStyles, styled } from '@material-ui/core/styles';
 import { compose, spacing } from '@material-ui/system';
@@ -27,11 +25,9 @@ export default function Timeline() {
 
   return (
     <Box className={classes.timeline}>
-      <Paper square>
-        {demoData.map(tweet => (
-          <Tweet tweet={tweet} key={tweet.tweetId} />
-        ))}
-      </Paper>
+      {demoData.map(tweet => (
+        <Tweet tweet={tweet} key={tweet.tweetId} />
+      ))}
     </Box>
   );
 }
