@@ -21,8 +21,6 @@ const useStyles = makeStyles(theme => ({
   ...theme.tweetooxyz,
   timeline: {},
   root: {
-    boxShadow: 'none',
-    borderRadius: 0,
     '&:not(:last-child)': {
       borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
     }
@@ -72,8 +70,16 @@ export default function Tweet(props) {
   };
 
   return (
-    <Card className={classes.root} component="article">
-      <CardActionArea component="div" onClick={navigateToTweet} disableRipple>
+    <Card className={classes.root} component="div" square varaint="outlined">
+      <CardActionArea
+        component="article"
+        role="article"
+        data-focusable="true"
+        tabindex="0"
+        onClick={navigateToTweet}
+        className={classes.cardActionArea}
+        disableRipple
+      >
         <CardHeader
           className={classes.cardHeader}
           avatar={
