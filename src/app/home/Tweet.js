@@ -75,7 +75,7 @@ export default function Tweet(props) {
         component="article"
         role="article"
         data-focusable="true"
-        tabindex="0"
+        tabIndex="0"
         onClick={navigateToTweet}
         className={classes.cardActionArea}
         disableRipple
