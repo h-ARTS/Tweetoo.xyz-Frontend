@@ -10,6 +10,8 @@ import { makeStyles } from '@material-ui/core/styles';
 // Components
 import SuggestedFollowListItem from './SuggestedFollowListItem';
 import CustomListSubheader from '../../common/ui/CustomListSubheader';
+// Hooks
+import useFakeFollowersApi from '../../common/hooks/useFakeFollowers';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,23 +25,7 @@ const useStyles = makeStyles(theme => ({
 }));
 export default function SuggestedFollowListContainer() {
   const classes = useStyles();
-  const [potentialFollow, setPotentialFollow] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchFakeUsers = async () => {
-      const response = await fetch('https://uinames.com/api/?amount=4&ext', {
-        mode: 'cors'
-      });
-
-      const potentialFollowers = await response.json();
-      setPotentialFollow(potentialFollowers);
-      setLoading(false);
-    };
-
-    fetchFakeUsers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading]);
+  const [loading, potentialFollow] = useFakeFollowersApi(4);
 
   const followUser = () => {};
 
