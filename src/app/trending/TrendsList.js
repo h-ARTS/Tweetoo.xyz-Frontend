@@ -7,18 +7,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 // Ui components
-import TrendsHeading from '../home/TrendsHeading';
+import CustomListSubheader from '../../common/ui/CustomListSubheader';
 // Mui Styles
 import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles({
-  hashTag: {
-    fontWeight: 600
-  },
-  paperRoot: {
-    borderRadius: 0
-  }
-});
 
 const trends = [
   {
@@ -43,6 +34,14 @@ const trends = [
   }
 ];
 
+const useStyles = makeStyles({
+  hashTag: {
+    fontWeight: 600
+  },
+  paperRoot: {
+    borderRadius: 0
+  }
+});
 export default function TrendsList() {
   const classes = useStyles();
   return (
@@ -52,7 +51,7 @@ export default function TrendsList() {
         component={Paper}
         variant="outlined"
         disablePadding
-        subheader={<TrendsHeading />}
+        subheader={<CustomListSubheader title="Trends: Pakistan" divider />}
       >
         {trends.map(trend => (
           <ListItem divider dense key={trend.number}>

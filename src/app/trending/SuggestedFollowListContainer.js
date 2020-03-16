@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 // Mui Components
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
@@ -29,10 +29,13 @@ export default function SuggestedFollowListContainer() {
 
   const followUser = () => {};
 
-  const subheader = <CustomListSubheader title="You might follow them?" />;
-
   return (
-    <List component={Paper} subheader={subheader} variant="outlined" square>
+    <List
+      component={Paper}
+      subheader={<CustomListSubheader title="You might follow them?" />}
+      variant="outlined"
+      square
+    >
       {loading ? (
         <ListItem className={classes.loading}>
           <CircularProgress color="secondary" size={30} />
