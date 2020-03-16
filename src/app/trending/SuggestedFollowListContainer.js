@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 }));
 export default function SuggestedFollowListContainer() {
   const classes = useStyles();
-  const [loading, potentialFollow] = useFakeFollowersApi(4);
+  const [loading, usersToFollow] = useFakeFollowersApi(4);
 
   const followUser = () => {};
 
@@ -38,13 +38,13 @@ export default function SuggestedFollowListContainer() {
           <CircularProgress color="secondary" size={30} />
         </ListItem>
       ) : (
-        potentialFollow.map(user => (
+        usersToFollow.map(user => (
           <React.Fragment key={`${user.name}-${user.surname}`}>
             <SuggestedFollowListItem
               user={user}
               handleFollowUser={followUser}
             />
-            {potentialFollow[potentialFollow.length - 1] !== user ? (
+            {usersToFollow[usersToFollow.length - 1] !== user ? (
               <Divider variant="inset" />
             ) : null}
           </React.Fragment>

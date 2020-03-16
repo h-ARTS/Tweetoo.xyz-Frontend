@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const useFakeFollowersApi = amount => {
-  const [potentialFollow, setPotentialFollow] = useState([]);
+  const [usersToFollow, setPotentialUserToFollow] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -13,8 +13,8 @@ const useFakeFollowersApi = amount => {
         }
       );
 
-      const potentialFollowers = await response.json();
-      setPotentialFollow(potentialFollowers);
+      const potentialUsersToFollow = await response.json();
+      setPotentialUserToFollow(potentialUsersToFollow);
       setLoading(false);
     };
 
@@ -22,7 +22,7 @@ const useFakeFollowersApi = amount => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
 
-  return [loading, potentialFollow];
+  return [loading, usersToFollow];
 };
 
 export default useFakeFollowersApi;
