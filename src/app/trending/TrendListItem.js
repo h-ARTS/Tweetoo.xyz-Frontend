@@ -1,16 +1,20 @@
-import React from 'react';
-import { Link } from '@reach/router';
+import React, { useState } from 'react';
 // Mui Components
 import Box from '@material-ui/core/Box';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfiedTwoTone';
 // Mui Styles
 import { makeStyles } from '@material-ui/core/styles';
+import GenericPopover from '../../common/ui/GenericPopover';
 
 const useStyles = makeStyles(theme => ({
   trendNumber: {
@@ -50,6 +54,7 @@ const useStyles = makeStyles(theme => ({
 }));
 export default function TrendListItem({ trend, divider, handleNavigate }) {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const onNavigate = event => {
     event.stopPropagation();
@@ -58,47 +63,106 @@ export default function TrendListItem({ trend, divider, handleNavigate }) {
 
   const handleMore = event => {
     event.stopPropagation();
+
+    setAnchorEl(event.currentTarget);
   };
 
+  const handleClose = event => {
+    event.stopPropagation();
+    setAnchorEl(null);
+  };
+
+  const listItems = [
+    {
+      title: 'This trend is spam',
+      divider: true,
+      callback: e => {
+        setAnchorEl(null);
+        console.log(e.target);
+      }
+    },
+    {
+      title: 'This trend is abusive or harmful',
+      divider: true,
+      callback: e => {
+        setAnchorEl(null);
+        console.log(e.target);
+      }
+    },
+    {
+      title: 'This trend is duplicate',
+      divider: true,
+      callback: e => {
+        setAnchorEl(null);
+        console.log(e.target);
+      }
+    },
+    {
+      title: 'This trend is low quality',
+      divider: false,
+      callback: e => {
+        setAnchorEl(null);
+        console.log(e.target);
+      }
+    }
+  ];
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'more-popover' : undefined;
+
   return (
-    <ButtonBase
-      divider={divider}
-      className={classes.listItem}
-      component={ListItem}
-      onClick={onNavigate}
-      dense
-      focusRipple
-      disableRipple
-    >
-      <ListItemText
-        primary={
-          <>
+    <>
+      <ListItem
+        divider={divider}
+        className={classes.listItem}
+        onClick={onNavigate}
+        button
+        dense
+        focusRipple
+        disableRipple
+      >
+        <ListItemText
+          primary={
+            <>
+              <Typography
+                variant="caption"
+                className={classes.trendNumber}
+              >{`${trend.number}. Trend`}</Typography>
+              <Typography variant="body1" className={classes.hashTag}>
+                {trend.trend_title}
+              </Typography>
+            </>
+          }
+          secondary={
             <Typography
-              variant="caption"
-              className={classes.trendNumber}
-            >{`${trend.number}. Trend`}</Typography>
-            <Typography variant="body1" className={classes.hashTag}>
-              {trend.trend_title}
+              component="span"
+              variant="body2"
+              color="textPrimary"
+              className={classes.tweetCount}
+            >
+              {trend.tweet_count} Tweets
             </Typography>
-          </>
-        }
-        secondary={
-          <Typography
-            component="span"
-            variant="body2"
-            color="textPrimary"
-            className={classes.tweetCount}
+          }
+        />
+        <ListItemSecondaryAction className={classes.listItemSecondaryAction}>
+          <IconButton
+            aria-label="more"
+            size="small"
+            onClick={handleMore}
+            aria-describedby={id}
           >
-            {trend.tweet_count} Tweets
-          </Typography>
-        }
+            <MoreVertIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+        <Box component="span" className={classes.focusHighlight}></Box>
+      </ListItem>
+      <GenericPopover
+        items={listItems}
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
       />
-      <ListItemSecondaryAction className={classes.listItemSecondaryAction}>
-        <IconButton aria-label="more" size="small" onClick={handleMore}>
-          <MoreVertIcon />
-        </IconButton>
-      </ListItemSecondaryAction>
-      <Box component="span" className={classes.focusHighlight}></Box>
-    </ButtonBase>
+    </>
   );
 }

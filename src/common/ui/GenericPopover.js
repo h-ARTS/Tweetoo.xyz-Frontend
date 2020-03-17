@@ -42,7 +42,7 @@ export default function GenericPopover({ items, id, open, anchorEl, onClose }) {
     >
       <List disablePadding>
         {items.map(item => (
-          <ListItem button divider={item.divider}>
+          <ListItem button divider={item.divider} onClick={item.callback}>
             <ListItemIcon className={classes.listItemIcon}>
               <SentimentVeryDissatisfiedIcon />
             </ListItemIcon>
