@@ -76,34 +76,22 @@ export default function TrendListItem({ trend, divider, handleNavigate }) {
     {
       title: 'This trend is spam',
       divider: true,
-      callback: e => {
-        setAnchorEl(null);
-        console.log(e.target);
-      }
+      callback: null
     },
     {
       title: 'This trend is abusive or harmful',
       divider: true,
-      callback: e => {
-        setAnchorEl(null);
-        console.log(e.target);
-      }
+      callback: null
     },
     {
       title: 'This trend is duplicate',
       divider: true,
-      callback: e => {
-        setAnchorEl(null);
-        console.log(e.target);
-      }
+      callback: null
     },
     {
       title: 'This trend is low quality',
       divider: false,
-      callback: e => {
-        setAnchorEl(null);
-        console.log(e.target);
-      }
+      callback: null
     }
   ];
 
@@ -134,14 +122,17 @@ export default function TrendListItem({ trend, divider, handleNavigate }) {
             </>
           }
           secondary={
-            <Typography
-              component="span"
-              variant="body2"
-              color="textPrimary"
-              className={classes.tweetCount}
-            >
-              {trend.tweet_count} Tweets
-            </Typography>
+            <>
+              <Typography
+                component="span"
+                variant="body2"
+                color="textPrimary"
+                className={classes.tweetCount}
+              >
+                {trend.tweet_count} Tweets
+              </Typography>
+              <Box component="span" className={classes.focusHighlight}></Box>
+            </>
           }
         />
         <ListItemSecondaryAction className={classes.listItemSecondaryAction}>
@@ -154,7 +145,6 @@ export default function TrendListItem({ trend, divider, handleNavigate }) {
             <MoreVertIcon />
           </IconButton>
         </ListItemSecondaryAction>
-        <Box component="span" className={classes.focusHighlight}></Box>
       </ListItem>
       <GenericPopover
         items={listItems}
