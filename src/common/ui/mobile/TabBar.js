@@ -1,15 +1,12 @@
 import React from 'react';
 // Mui Components
-import AppBar from '@material-ui/core/AppBar';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Fab from '@material-ui/core/Fab';
 // Mui Icons
 import CreateIcon from '@material-ui/icons/CreateTwoTone';
-// Mui Theme
+// Mui Styles
 import { makeStyles } from '@material-ui/core/styles';
-// Utils
-import navlinks from '../../utils/navlinks';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,10 +14,6 @@ const useStyles = makeStyles(theme => ({
     '& .Mui-selected': {
       color: theme.palette.secondary.main
     }
-  },
-  appBar: {
-    top: 'auto',
-    bottom: 0
   },
   fabButton: {
     position: 'absolute',
@@ -32,35 +25,28 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function TabBar() {
+export default function TabBar({ path, navlinks, handlePath }) {
   const classes = useStyles();
-  const handleNavigation = (e, to) => {};
 
   return (
-    <AppBar
-      position="fixed"
-      color="primary"
-      className={classes.appBar}
-      variant="outlined"
+    <BottomNavigation
+      className={classes.root}
+      onChange={handlePath}
+      value={path}
     >
-      <BottomNavigation
-        value="Home"
-        onChnage={handleNavigation}
-        className={classes.root}
-      >
-        {navlinks
-          .filter(link => link.title !== 'Profile')
-          .map(link => (
-            <BottomNavigationAction
-              value={link.title}
-              icon={<link.icon />}
-              label={link.title}
-            />
-          ))}
-        <Fab color="secondary" aria-label="add" className={classes.fabButton}>
-          <CreateIcon />
-        </Fab>
-      </BottomNavigation>
-    </AppBar>
+      {navlinks
+        .filter(link => link.title !== 'Profile')
+        .map(link => (
+          <BottomNavigationAction
+            key={link.title}
+            value={link.to}
+            icon={<link.icon />}
+            label={link.title}
+          />
+        ))}
+      <Fab color="secondary" aria-label="add" className={classes.fabButton}>
+        <CreateIcon />
+      </Fab>
+    </BottomNavigation>
   );
 }
