@@ -13,7 +13,7 @@ import TrendsList from '../trending/TrendsList';
 
 export default function Profile() {
   return (
-    <Layout>
+    <>
       <Grid item xs={12} md={8}>
         <Router>
           <ProfileHome path="/" />
@@ -25,6 +25,6 @@ export default function Profile() {
           <TrendsList />
         </RightBar>
       </Hidden>
-    </Layout>
+    </>
   );
 }

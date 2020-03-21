@@ -11,7 +11,7 @@ import SearchInputContainer from '../../common/ui/SearchInputContainer';
 
 export default function Home() {
   return (
-    <Layout>
+    <>
       <Grid item xs={12} md={8}>
         <Timeline />
       </Grid>
@@ -21,6 +21,6 @@ export default function Home() {
           <TrendsList />
         </RightBar>
       </Hidden>
-    </Layout>
+    </>
   );
 }
