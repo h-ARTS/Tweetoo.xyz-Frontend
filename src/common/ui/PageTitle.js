@@ -15,7 +15,11 @@ const useStyles = makeStyles(theme => ({
     height: '49px',
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
-    borderTop: 0
+    borderTop: 0,
+    position: 'sticky',
+    top: 0,
+    right: 0,
+    zIndex: 1
   },
   pageBack: {
     marginRight: theme.spacing(2)

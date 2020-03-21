@@ -8,6 +8,7 @@ import jwtDecode from 'jwt-decode';
 import ErrorCatcher from '../common/utils/ErrorCatcher';
 // Styling
 import theme from '../common/utils/theme';
+import './App.css';
 // Pages
 import AuthPage from './auth/AuthPage';
 import Home from './home/Home';
