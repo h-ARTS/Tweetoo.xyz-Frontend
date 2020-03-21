@@ -3,7 +3,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 // Components
-import Layout from '../../common/ui/Layout';
 import RightBar from '../../common/ui/RightBar';
 import Timeline from '../../common/ui/Timeline';
 import TrendsList from '../trending/TrendsList';
