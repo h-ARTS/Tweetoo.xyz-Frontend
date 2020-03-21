@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import { navigate, useLocation } from '@reach/router';
-import useFunctionCalls from '../../hooks/useFunctionCalls';
 // Mui Components
 import AppBar from '@material-ui/core/AppBar';
 // Mui Theme
