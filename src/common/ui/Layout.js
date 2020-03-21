@@ -8,12 +8,12 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Sidebar from './Sidebar';
 import TabBarContainer from './mobile/TabBarContainer';
 
-export default function Layout(props) {
+const Layout = React.forwardRef((props, ref) => {
   const isLg = useMediaQuery('(max-width: 1024px)');
   const isMd = useMediaQuery('(max-width: 960px)');
 
   return (
-    <Container disableGutters={isLg}>
+    <Container disableGutters={isLg} ref={ref}>
       <Grid container justify={!isLg ? 'space-between' : 'flex-start'}>
         <Hidden xsDown>
           <Sidebar />
@@ -38,4 +38,6 @@ export default function Layout(props) {
       </Grid>
     </Container>
   );
-}
+});
+
+export default Layout;
