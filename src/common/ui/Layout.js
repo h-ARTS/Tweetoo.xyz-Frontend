@@ -6,7 +6,7 @@ import Hidden from '@material-ui/core/Hidden';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 // Home Components
 import Sidebar from './Sidebar';
-import TabBar from './mobile/TabBar';
+import TabBarContainer from './mobile/TabBarContainer';
 
 export default function Layout(props) {
   const isLg = useMediaQuery('(max-width: 1024px)');
@@ -32,7 +32,7 @@ export default function Layout(props) {
         </Grid>
         <Hidden smUp>
           <Grid item xs>
-            <TabBar />
+            <TabBarContainer />
           </Grid>
         </Hidden>
       </Grid>
