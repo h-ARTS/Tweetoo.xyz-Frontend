@@ -6,9 +6,9 @@ import { compose, spacing } from '@material-ui/system';
 import Tweet from '../../app/home/Tweet';
 // Demo data
 import demoData from '../utils/demoData';
+import NewTweetFormContainer from '../../app/home/NewTweetFormContainer';
 
 const Box = styled('div')(compose(spacing));
-
 const useStyles = makeStyles(theme => ({
   ...theme.tweetooxyz,
   timeline: {
@@ -22,9 +22,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function Timeline() {
   const classes = useStyles();
-
   return (
     <Box className={classes.timeline}>
+      <NewTweetFormContainer />
       {demoData.map(tweet => (
         <Tweet tweet={tweet} key={tweet.tweetId} />
       ))}
