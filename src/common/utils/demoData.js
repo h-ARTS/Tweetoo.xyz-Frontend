@@ -32,6 +32,7 @@ export default [
     retweetCount: 12,
     likeCount: 33,
     replies: [],
+    retweet: true,
     timestamp: '2020-02-24T20:18:29.000Z'
   },
   {

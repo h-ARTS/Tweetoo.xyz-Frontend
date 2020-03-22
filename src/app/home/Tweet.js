@@ -11,6 +11,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 // Components
+import CardHeaderRetweeted from './CardHeaderRetweeted';
 import MoreButton from './MoreButton';
 import TweetAction from './TweetAction';
 import TweetTitle from './TweetTitle';
@@ -54,7 +55,15 @@ const TweetTextContainer = WithLinkTransformation(TweetText);
 export default function Tweet(props) {
   const classes = useStyles();
   const navigate = useNavigate();
-  const { handle, fullName, fullText, timestamp, image, tweetId } = props.tweet;
+  const {
+    handle,
+    fullName,
+    fullText,
+    timestamp,
+    image,
+    tweetId,
+    retweet
+  } = props.tweet;
 
   const handleNavigateToUser = () => {
     navigate(`/${handle}`);
@@ -80,6 +89,7 @@ export default function Tweet(props) {
         className={classes.cardActionArea}
         disableRipple
       >
+        {retweet && <CardHeaderRetweeted handle={handle} />}
         <CardHeader
           className={classes.cardHeader}
           avatar={
