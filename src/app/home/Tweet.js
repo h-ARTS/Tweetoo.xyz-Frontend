@@ -11,7 +11,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 // Components
-import CardHeaderRetweeted from './CardHeaderRetweeted';
+import TweetSubheader from './TweetSubheader';
 import MoreButton from './MoreButton';
 import TweetAction from './TweetAction';
 import TweetTitle from './TweetTitle';
@@ -89,7 +89,7 @@ export default function Tweet(props) {
         className={classes.cardActionArea}
         disableRipple
       >
-        {retweet && <CardHeaderRetweeted handle={handle} />}
+        {retweet && <TweetSubheader handle={handle} />}
         <CardHeader
           className={classes.cardHeader}
           avatar={
