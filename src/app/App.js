@@ -7,6 +7,7 @@ import jwtDecode from 'jwt-decode';
 // Redux
 import store from '../redux/store';
 import { SET_AUTHENTICATED } from '../redux/types';
+import { logoutUser } from '../redux/actions/user.actions';
 import { fetchAllData } from '../redux/actions/ui.actions';
 // Component
 import ErrorCatcher from '../common/utils/ErrorCatcher';
@@ -26,6 +27,7 @@ const token = localStorage.token;
 if (token) {
   const decoded = jwtDecode(token);
   if (decoded.exp * 1000 < Date.now()) {
+    store.dispatch(logoutUser());
     navigate('/');
   } else {
     axios.defaults.headers.common['Authorization'] = token;

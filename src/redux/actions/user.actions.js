@@ -8,6 +8,13 @@ import {
 import { fetchAllData } from './data.actions';
 import { navigate } from '@reach/router';
 
+export const logoutUser = () => dispatch => {
+  localStorage.removeItem('token');
+  delete axios.defaults.headers.common['Authorization'];
+  dispatch({ type: SET_UNAUTHENTICATED });
+  navigate('/');
+};
+
 export const signinUser = userData => dispatch => {
   dispatch({ type: LOADING_UI });
   axios
