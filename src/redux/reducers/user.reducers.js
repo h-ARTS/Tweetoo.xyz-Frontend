@@ -1,8 +1,13 @@
 import {
+  SET_AUTHENTICATED_USER,
   SET_UNAUTHENTICATED,
   SET_AUTHENTICATED
 } from '../types';
+
 export default function(state = {}, action) {
+  if (action.type === SET_AUTHENTICATED_USER) {
+    return action.user;
+  }
 
   if (action.type === SET_UNAUTHENTICATED) {
     return state;
@@ -14,5 +19,6 @@ export default function(state = {}, action) {
       authenticated: true
     };
   }
+
   return state;
 }

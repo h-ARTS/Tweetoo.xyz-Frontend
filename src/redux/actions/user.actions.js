@@ -28,7 +28,7 @@ export const signinUser = userData => dispatch => {
     .catch(err => {
       dispatch({
         type: SET_ERRORS,
-        action: err.response.data
+        action: err.response
       });
     });
 };
