@@ -9,17 +9,33 @@ import RightBar from '../../common/ui/RightBar';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import TrendsList from '../trending/TrendsList';
-import { Typography } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
+import { useStore } from 'react-redux';
+import { logoutUser } from '../../redux/actions/user.actions';
 
 export default function Profile() {
+  const store = useStore();
+
+  const handleLogout = () => {
+    store.dispatch(logoutUser());
+  };
+
   return (
     <>
       <Grid item xs={12} md={8}>
         <Router>
           <ProfileHome path="/" />
-          <Typography variant="h1">My Profile</Typography>
           <TweetPage path="tweet/:tweetId" />
         </Router>
+        <Typography variant="h1">My Profile</Typography>
+        <Button
+          onClick={handleLogout}
+          variant="contained"
+          color="secondary"
+          disableElevation
+        >
+          Logout
+        </Button>
       </Grid>
       <Hidden smDown>
         <RightBar>
