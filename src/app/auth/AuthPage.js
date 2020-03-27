@@ -64,6 +64,7 @@ export default function AuthPage() {
   const classes = useStyles();
   const store = useStore();
   const [open, setOpen] = useState(false);
+  const [openSignUpDialog, setOpenSignUpDialog] = useState(false);
   const [userData, setUserData] = useState({
     email: '',
     password: '',
@@ -75,6 +76,10 @@ export default function AuthPage() {
     setOpen(true);
     event.preventDefault();
     store.dispatch(signinUser(userData));
+  };
+
+  const handleCloseDialog = () => {
+    setOpenSignUpDialog(false);
   };
 
   return (
@@ -167,10 +172,12 @@ export default function AuthPage() {
                 variant="outlined"
                 color="secondary"
                 size="large"
+                onClick={e => setOpenSignUpDialog(true)}
                 disableElevation
               >
                 Sign up
               </Button>
+              <SignupForm open={openSignUpDialog} onClick={handleCloseDialog} />
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
