@@ -8,7 +8,7 @@ import jwtDecode from 'jwt-decode';
 import store from '../redux/store';
 import { SET_AUTHENTICATED } from '../redux/types';
 import { logoutUser } from '../redux/actions/user.actions';
-import { fetchAllData } from '../redux/actions/ui.actions';
+import { fetchAllData } from '../redux/actions/data.actions';
 // Component
 import ErrorCatcher from '../common/utils/ErrorCatcher';
 // Styling
@@ -31,7 +31,6 @@ if (token) {
     navigate('/');
   } else {
     axios.defaults.headers.common['Authorization'] = token;
-    store.dispatch({ type: SET_AUTHENTICATED });
     store.dispatch(fetchAllData());
     navigate('/home');
   }
