@@ -11,6 +11,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import NameEmailForm from './signup/NameEmailForm';
 import UsernamePasswordForm from './signup/UsernamePasswordForm';
 import ImageBioForm from './signup/ImageBioForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateFormData } from '../../redux/actions/signup.actions';
 
 const useStyles = makeStyles(theme => ({
   dialogTitle: {
@@ -19,26 +21,58 @@ const useStyles = makeStyles(theme => ({
   },
   dialogTitleH2: {
     fontWeight: 800
+  },
+  dialogActions: {
+    justifyContent: 'space-between',
+    padding: theme.spacing(2, 3)
   }
 }));
-export default function SignupForm({ open, onClick }) {
+export default function SignupForm({ open, closeDialog }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
+  const {
+    email,
+    fullName,
+    password,
+    handle,
+    bio,
+    website,
+    location,
+    userImage
+  } = useSelector(state => state.signup_form);
+
+  const handleDataChange = data => {
+    dispatch(updateFormData(data));
+  };
 
   const getCurrentStep = Step => {
-    // const Component = {
-    //   '0': NameEmailForm,
-    //   '1': UsernamePasswordForm,
-    //   '2': ImageBioForm
-    // };
-    // return <Component.Step />;
     switch (Step) {
       case 0:
-        return <NameEmailForm />;
+        return (
+          <NameEmailForm
+            email={email}
+            fullName={fullName}
+            onDataChange={handleDataChange}
+          />
+        );
       case 1:
-        return <UsernamePasswordForm />;
+        return (
+          <UsernamePasswordForm
+            handle={handle}
+            password={password}
+            onDataChange={handleDataChange}
+          />
+        );
       case 2:
-        return <ImageBioForm />;
+        return (
+          <ImageBioForm
+            bio={bio}
+            location={location}
+            website={website}
+            onDataChange={handleDataChange}
+          />
+        );
       default:
         throw new Error('No Component defined!');
     }
@@ -52,12 +86,16 @@ export default function SignupForm({ open, onClick }) {
     setActiveStep(activeStep - 1);
   };
 
+  const handleSubmit = event => {
+    event.preventDefault();
+  };
+
   return (
     <Dialog
       open={open}
       color="secondary"
       aria-labelledby="signup-form-title"
-      onClose={onClick}
+      onClose={closeDialog}
       PaperProps={{ elevation: 0 }}
       fullWidth
     >
@@ -74,10 +112,14 @@ export default function SignupForm({ open, onClick }) {
           Tweetoo.xyz
         </Typography>
       </DialogTitle>
-      <DialogContent>{getCurrentStep(activeStep)}</DialogContent>
-      <DialogActions>
+      <DialogContent>
+        {getCurrentStep(activeStep)}
+        {/* <form onSubmit={handleSubmit} encType="multipart/form-data">
+        </form> */}
+      </DialogContent>
+      <DialogActions className={classes.dialogActions}>
         {activeStep === 0 ? (
-          <Button onClick={''} color="secondary">
+          <Button onClick={closeDialog} color="secondary">
             Cancel
           </Button>
         ) : (
@@ -85,9 +127,20 @@ export default function SignupForm({ open, onClick }) {
             <ArrowBackIcon />
           </IconButton>
         )}
-        <Button color="secondary" onClick={handleNext}>
-          Next
-        </Button>
+        {activeStep === 2 ? (
+          <Button
+            color="secondary"
+            type="submit"
+            variant="contained"
+            disableElevation
+          >
+            Finish
+          </Button>
+        ) : (
+          <Button color="secondary" onClick={handleNext}>
+            Next
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );

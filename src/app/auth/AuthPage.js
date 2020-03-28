@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+// Redux
+import { useDispatch } from 'react-redux';
+import { signinUser } from '../../redux/actions/user.actions';
+import { RESET_SIGNUP_FORM } from '../../redux/types';
 // MUI Components
 import Backdrop from '@material-ui/core/Backdrop';
 import Box from '@material-ui/core/Box';
@@ -17,8 +21,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import Copyright from './Copyright';
-import { useStore } from 'react-redux';
-import { signinUser } from '../../redux/actions/user.actions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,7 +64,7 @@ const useStyles = makeStyles(theme => ({
 }));
 export default function AuthPage() {
   const classes = useStyles();
-  const store = useStore();
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openSignUpDialog, setOpenSignUpDialog] = useState(false);
   const [userData, setUserData] = useState({
@@ -75,11 +77,12 @@ export default function AuthPage() {
   const handleSignin = event => {
     setOpen(true);
     event.preventDefault();
-    store.dispatch(signinUser(userData));
+    dispatch(signinUser(userData));
   };
 
   const handleCloseDialog = () => {
     setOpenSignUpDialog(false);
+    dispatch({ type: RESET_SIGNUP_FORM });
   };
 
   return (
@@ -106,12 +109,7 @@ export default function AuthPage() {
             <Typography component="h2" variant="h6">
               Sign in
             </Typography>
-            <form
-              className={classes.form}
-              noValidate
-              onSubmit={handleSignin}
-              encType="multipart/form-data"
-            >
+            <form className={classes.form} noValidate onSubmit={handleSignin}>
               <TextField
                 color="secondary"
                 variant="outlined"
@@ -177,7 +175,10 @@ export default function AuthPage() {
               >
                 Sign up
               </Button>
-              <SignupForm open={openSignUpDialog} onClick={handleCloseDialog} />
+              <SignupForm
+                open={openSignUpDialog}
+                closeDialog={handleCloseDialog}
+              />
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
