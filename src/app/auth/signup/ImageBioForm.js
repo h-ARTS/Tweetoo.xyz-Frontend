@@ -6,8 +6,6 @@ import TextField from '@material-ui/core/TextField';
 import FileUploadButton from './FileUploadButton';
 import { makeStyles } from '@material-ui/core/styles';
 
-// bio: String,
-// birthday: Date,
 const useStyles = makeStyles(theme => ({
   dialogText: {
     textAlign: 'center',
@@ -17,8 +15,15 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center'
   }
 }));
-export default function ImageBioForm() {
+export default function ImageBioForm({ bio, location, website, onDataChange }) {
   const classes = useStyles();
+
+  const handleDataChange = event => {
+    onDataChange({
+      [event.target.id]: event.target.value
+    });
+  };
+
   return (
     <>
       <DialogContentText className={classes.dialogText}>
@@ -31,40 +36,43 @@ export default function ImageBioForm() {
         <Grid item xs={12} sm={6}>
           <TextField
             autoComplete="location"
-            name="location"
             color="secondary"
-            variant="filled"
+            name="location"
             required
-            fullWidth
             id="location"
             label="Where do you live?"
-            dense
+            variant="filled"
+            fullWidth
+            value={location}
+            onChange={handleDataChange}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
             autoComplete="website"
-            name="website"
             color="secondary"
-            variant="filled"
-            fullWidth
+            name="website"
+            type="url"
             id="website"
             label="Website"
-            type="url"
-            dense
+            variant="filled"
+            fullWidth
+            value={website}
+            onChange={handleDataChange}
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
             autoComplete="bio"
-            name="bio"
             color="secondary"
-            variant="filled"
-            fullWidth
+            name="bio"
             id="bio"
             label="Bio"
+            variant="filled"
             multiline
-            dense
+            fullWidth
+            value={bio}
+            onChange={handleDataChange}
           />
         </Grid>
       </Grid>

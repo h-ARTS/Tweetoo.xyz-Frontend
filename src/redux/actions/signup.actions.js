@@ -13,21 +13,26 @@ export const updateFormData = data => dispatch => {
   });
 };
 
+
 export const uploadCachedProfileImage = data => dispatch => {
   dispatch({ type: LOADING_UI });
   const formData = new FormData();
   formData.append('image', data.file);
-  formData.append('handle', data.handle);
+  formData.append('handle', data.userHandle);
   formData.append('dimension', 'userImage');
   const config = {
     headers: {
       'content-type': `multipart/form-data; boundary=${formData._boundary}`
     }
   };
-  axios.post(`/api/cached/newuser`, formData, config).then(res => {
+  axios
+    .post('/media/cached/newuser', formData, config)
+    .then(res => {
+      console.log(res);
     dispatch({
       type: UPLOAD_USER_IMAGE_FORM_DATA,
-      userImage: res.data.cached
-    });
+        userImage: res.data.cached.path
   });
+    })
+    .catch(err => console.error(err));
 };

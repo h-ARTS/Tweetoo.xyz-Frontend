@@ -6,7 +6,6 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 // Redux
 import store from '../redux/store';
-import { SET_AUTHENTICATED } from '../redux/types';
 import { logoutUser } from '../redux/actions/user.actions';
 import { fetchAllData } from '../redux/actions/data.actions';
 // Component

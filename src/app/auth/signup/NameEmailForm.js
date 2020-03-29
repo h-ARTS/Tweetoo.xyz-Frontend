@@ -11,8 +11,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function NameEmailForm() {
+export default function NameEmailForm({ fullName, email, onDataChange }) {
   const classes = useStyles();
+
+  const handleDataChange = event => {
+    onDataChange({
+      [event.target.id]: event.target.value
+    });
+  };
 
   return (
     <>
@@ -22,7 +28,7 @@ export default function NameEmailForm() {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
-            autoComplete="fname"
+            autoComplete="fullname"
             name="fullName"
             color="secondary"
             variant="filled"
@@ -30,8 +36,9 @@ export default function NameEmailForm() {
             fullWidth
             id="fullName"
             label="Name"
-            dense
             autoFocus
+            value={fullName}
+            onChange={handleDataChange}
           />
         </Grid>
         <Grid item xs={12}>
@@ -41,8 +48,9 @@ export default function NameEmailForm() {
             id="email"
             label="Email Address"
             type="email"
-            dense
             fullWidth
+            value={email}
+            onChange={handleDataChange}
           />
         </Grid>
       </Grid>

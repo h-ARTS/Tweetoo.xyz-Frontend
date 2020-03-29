@@ -30,7 +30,7 @@ export default function(state = initialState, action) {
   if (action.type === UPLOAD_USER_IMAGE_FORM_DATA) {
     return {
       ...state,
-      userImage: action.image
+      userImage: action.userImage
     };
   }
 
