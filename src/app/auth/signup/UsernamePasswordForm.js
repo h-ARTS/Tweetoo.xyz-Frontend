@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 // Mui Components
+import DialogContentText from '@material-ui/core/DialogContentText';
 import FormControl from '@material-ui/core/FormControl';
 import FilledInput from '@material-ui/core/FilledInput';
 import Grid from '@material-ui/core/Grid';
@@ -30,47 +31,55 @@ const UsernamePasswordForm = React.forwardRef(
     };
 
     return (
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <FormControl fullWidth variant="filled">
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <FilledInput
-              autoComplete="current-password"
+      <>
+        <DialogContentText>Choose a strong password!</DialogContentText>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <FormControl fullWidth variant="filled" required>
+              <InputLabel htmlFor="password" color="secondary">
+                Password
+              </InputLabel>
+              <FilledInput
+                autoFocus
+                autoComplete="current-password"
+                color="secondary"
+                id="password"
+                label="Password"
+                required
+                value={password}
+                onChange={handleDataChange}
+                type={showPassword ? 'text' : 'password'}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      ref={ref}
+                      aria-label="toggle password visibility"
+                      onClick={handleShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              autoComplete="username"
               color="secondary"
-              id="password"
-              label="Password"
-              value={password}
+              variant="filled"
+              id="userHandle"
+              label="User name"
+              required
+              type="text"
+              value={handle}
               onChange={handleDataChange}
-              type={showPassword ? 'text' : 'password'}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    ref={ref}
-                    aria-label="toggle password visibility"
-                    onClick={handleShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
+              fullWidth
             />
-          </FormControl>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <TextField
-            autoComplete="username"
-            color="secondary"
-            variant="filled"
-            id="userHandle"
-            label="User name"
-            type="text"
-            value={handle}
-            onChange={handleDataChange}
-            fullWidth
-          />
-        </Grid>
-      </Grid>
+      </>
     );
   }
 );

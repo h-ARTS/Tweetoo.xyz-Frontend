@@ -3,17 +3,8 @@ import React from 'react';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles(theme => ({
-  dialogText: {
-    marginBottom: theme.spacing(3)
-  }
-}));
 
 export default function NameEmailForm({ fullName, email, onDataChange }) {
-  const classes = useStyles();
-
   const handleDataChange = event => {
     onDataChange({
       [event.target.id]: event.target.value
@@ -22,8 +13,8 @@ export default function NameEmailForm({ fullName, email, onDataChange }) {
 
   return (
     <>
-      <DialogContentText className={classes.dialogText}>
-        Create new account and discover what's happening!
+      <DialogContentText>
+        Create a new account and discover what's happening!
       </DialogContentText>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -47,7 +38,9 @@ export default function NameEmailForm({ fullName, email, onDataChange }) {
             variant="filled"
             id="email"
             label="Email Address"
+            required
             type="email"
+            name="email"
             fullWidth
             value={email}
             onChange={handleDataChange}
