@@ -38,7 +38,6 @@ export default function ImageBioForm({ bio, location, website, onDataChange }) {
             autoComplete="location"
             color="secondary"
             name="location"
-            required
             id="location"
             label="Where do you live?"
             variant="filled"

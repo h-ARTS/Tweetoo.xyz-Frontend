@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { uploadCachedProfileImage } from '../../../redux/actions/signup.actions';
 // Mui Components
@@ -22,19 +22,18 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'transparent',
     border: `1px solid ${theme.palette.secondary.main}`
   },
-  fileInput: {
-    height: '100%',
-    width: '100%',
-    top: 0,
-    left: 0,
+  fileInputBase: {
+    height: 0.1,
+    width: 0.1,
     opacity: 0,
-    outline: 0,
+    overflow: 'hidden',
     position: 'absolute',
-    cursor: 'pointer'
+    zIndex: '-1'
   }
 }));
 export default function FileUploadButton() {
   const classes = useStyles();
+  const fileInputEl = useRef(null);
   const dispatch = useDispatch();
   const { userHandle } = useSelector(state => state.signup_form);
 
@@ -43,14 +42,33 @@ export default function FileUploadButton() {
     dispatch(uploadCachedProfileImage({ file, userHandle }));
   };
 
+  const onButtonClick = () => {
+    fileInputEl.current.click();
+  };
+
   return (
-    <ButtonBase className={classes.root} color="secondary">
-      <Avatar className={classes.avatar} component="label">
+    <ButtonBase
+      autoFocus
+      className={classes.root}
+      color="secondary"
+      data-focusable="true"
+      aria-haspopup="false"
+      aria-label="Add Avatar photo"
+      role="button"
+      tabIndex="0"
+      onClick={onButtonClick}
+    >
+      <Avatar className={classes.avatar}>
         <UploadIcon fontSize="large" />
         <InputBase
           type="file"
-          className={classes.fileInput}
-          inputProps={{ accept: 'image/png, image/jpeg, image/webp' }}
+          className={classes.fileInputBase}
+          inputProps={{
+            accept: 'image/png, image/jpeg, image/webp',
+            tabIndex: '-1',
+            'data-focusable': true,
+            ref: fileInputEl
+          }}
           onChange={handleFileUpload}
         />
       </Avatar>
