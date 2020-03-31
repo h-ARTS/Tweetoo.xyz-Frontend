@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/VisibilityTwoTone';
 import VisibilityOff from '@material-ui/icons/VisibilityOffTwoTone';
+import PasswordStrengthBar from './PasswordStrengthBar';
 // import { makeStyles } from '@material-ui/core/styles';
 
 const UsernamePasswordForm = React.forwardRef(
@@ -63,6 +64,7 @@ const UsernamePasswordForm = React.forwardRef(
                 }
               />
             </FormControl>
+            <PasswordStrengthBar password={password} />
           </Grid>
           <Grid item xs={12}>
             <TextField
