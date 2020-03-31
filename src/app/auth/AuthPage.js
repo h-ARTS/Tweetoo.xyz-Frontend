@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 // Redux
 import { useDispatch } from 'react-redux';
 import { signinUser } from '../../redux/actions/user.actions';
-import { RESET_SIGNUP_FORM } from '../../redux/types';
 // MUI Components
 import Backdrop from '@material-ui/core/Backdrop';
 import Box from '@material-ui/core/Box';
@@ -18,7 +17,6 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import Copyright from './Copyright';
 
@@ -65,29 +63,28 @@ const useStyles = makeStyles(theme => ({
 export default function AuthPage() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
+  const [openLoadingSpinner, setOpenLoadingSpinner] = useState(false);
   const [openSignUpDialog, setOpenSignUpDialog] = useState(false);
   const [userData, setUserData] = useState({
     email: '',
     password: '',
     persist: false
   });
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
 
   const handleSignin = event => {
-    setOpen(true);
     event.preventDefault();
+    setOpenLoadingSpinner(true);
     dispatch(signinUser(userData));
   };
 
   const handleCloseDialog = () => {
     setOpenSignUpDialog(false);
-    dispatch({ type: RESET_SIGNUP_FORM });
   };
 
   return (
     <>
-      <Backdrop open={open} className={classes.backdrop}>
+      <Backdrop open={openLoadingSpinner} className={classes.backdrop}>
         <CircularProgress />
       </Backdrop>
       <Grid container component="main" className={classes.root}>
@@ -103,7 +100,12 @@ export default function AuthPage() {
           eleviation={0}
         >
           <div className={classes.paper}>
-            <Typography component="h1" variant="h4" className={classes.logo}>
+            <Typography
+              component="h1"
+              variant="h4"
+              className={classes.logo}
+              aria-label="tweetoo dot x y z"
+            >
               Tweetoo.xyz
             </Typography>
             <Typography component="h2" variant="h6">
@@ -170,24 +172,19 @@ export default function AuthPage() {
                 variant="outlined"
                 color="secondary"
                 size="large"
-                onClick={e => setOpenSignUpDialog(true)}
+                onClick={() => setOpenSignUpDialog(true)}
                 disableElevation
               >
                 Sign up
               </Button>
               <SignupForm
                 open={openSignUpDialog}
-                closeDialog={handleCloseDialog}
+                handleCloseDialog={handleCloseDialog}
               />
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link href="#" variant="body2" color="secondary">
                     Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
               </Grid>

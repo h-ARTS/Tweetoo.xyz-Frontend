@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 // Redux
+import { RESET_SIGNUP_FORM } from '../../redux/types';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { updateFormData } from '../../redux/actions/signup.actions';
 // Mui Components
@@ -32,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 3)
   }
 }));
-export default function SignupForm({ open, closeDialog }) {
+export default function SignupForm({ open, handleCloseDialog }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
@@ -50,8 +51,8 @@ export default function SignupForm({ open, closeDialog }) {
     dispatch(updateFormData(data));
   };
 
-  const getCurrentStep = Step => {
-    switch (Step) {
+  const getCurrentStep = step => {
+    switch (step) {
       case 0:
         return (
           <NameEmailForm
@@ -90,6 +91,12 @@ export default function SignupForm({ open, closeDialog }) {
     setActiveStep(activeStep - 1);
   };
 
+  const closeDialog = () => {
+    setActiveStep(0);
+    dispatch({ type: RESET_SIGNUP_FORM });
+    handleCloseDialog();
+  };
+
   // const handleSubmit = event => {
   //   event.preventDefault();
   // };
@@ -107,6 +114,7 @@ export default function SignupForm({ open, closeDialog }) {
         id="signup-form-title"
         className={classes.dialogTitle}
         disableTypography
+        aria-label="Tweetoo dot x y z signup"
       >
         <Typography
           component="h2"
@@ -127,7 +135,7 @@ export default function SignupForm({ open, closeDialog }) {
             Cancel
           </Button>
         ) : (
-          <IconButton color="secondary" onClick={handleBack}>
+          <IconButton color="secondary" onClick={handleBack} aria-label="Back">
             <ArrowBackIcon />
           </IconButton>
         )}
