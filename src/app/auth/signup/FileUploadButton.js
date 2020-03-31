@@ -55,7 +55,7 @@ export default function FileUploadButton() {
       aria-haspopup="false"
       aria-label="Add Avatar photo"
       role="button"
-      tabIndex="0"
+      focusRipple
       onClick={onButtonClick}
     >
       <Avatar className={classes.avatar}>
