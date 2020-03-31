@@ -1,16 +1,6 @@
-import { makeStyles, lighten, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import { red, orange, green } from '@material-ui/core/colors';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    marginTop: theme.spacing(1),
-    height: 20,
-    backgroundColor: props => lighten(props.color, 0.5),
-    '& .MuiLinearProgress-barColorPrimary': {
-      backgroundColor: props => props.color
-    }
-  }
-}));
 const usePasswordStrengthMeter = password => {
   const theme = useTheme();
   let points = 0;
@@ -50,7 +40,7 @@ const usePasswordStrengthMeter = password => {
     '3': {
       value: 48,
       label: 'Weak',
-      color: red[400]
+      color: red[500]
     },
     '4': {
       value: 64,
@@ -60,7 +50,7 @@ const usePasswordStrengthMeter = password => {
     '5': {
       value: 80,
       label: 'Good',
-      color: green[400]
+      color: green[500]
     },
     '6': {
       value: 100,
@@ -71,11 +61,10 @@ const usePasswordStrengthMeter = password => {
 
   console.log(points);
   const color = levels[points].color;
-  const styles = useStyles({ color });
   const label = levels[points].label;
   const value = levels[points].value;
 
-  return [label, styles, value, color];
+  return [label, value, color];
 };
 
 export default usePasswordStrengthMeter;
