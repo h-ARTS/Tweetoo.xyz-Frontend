@@ -52,8 +52,11 @@ const useStyles = makeStyles(theme => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1)
   },
-  submit: {
+  submitButton: {
     margin: theme.spacing(3, 0, 2)
+  },
+  signupButton: {
+    marginBottom: theme.spacing(1)
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -161,7 +164,7 @@ export default function AuthPage() {
                 fullWidth
                 variant="contained"
                 color="secondary"
-                className={classes.submit}
+                className={classes.submitButton}
                 size="large"
                 disableElevation
               >
@@ -171,9 +174,10 @@ export default function AuthPage() {
                 fullWidth
                 variant="outlined"
                 color="secondary"
+                className={classes.signupButton}
                 size="large"
-                onClick={() => setOpenSignUpDialog(true)}
                 disableElevation
+                onClick={() => setOpenSignUpDialog(true)}
               >
                 Sign up
               </Button>
