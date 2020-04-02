@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 // Redux
 import { RESET_SIGNUP_FORM } from '../../redux/types';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { updateFormData } from '../../redux/actions/signup.actions';
+import {
+  updateFormData,
+  submitSignupForm
+} from '../../redux/actions/signup.actions';
 // Mui Components
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -52,6 +55,44 @@ export default function SignupForm({ open, handleCloseDialog }) {
     dispatch(updateFormData(data));
   };
 
+  const handleNext = event => {
+    event.preventDefault();
+    if (activeStep === 1 && passwordStrength < 50) {
+      return window.confirm(
+        'Are you sure you want to proceed with a weak password?'
+      )
+        ? setActiveStep(activeStep + 1)
+        : null;
+    }
+    setActiveStep(activeStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep(activeStep - 1);
+  };
+
+  const closeDialog = () => {
+    setActiveStep(0);
+    dispatch({ type: RESET_SIGNUP_FORM });
+    handleCloseDialog();
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    dispatch(
+      submitSignupForm({
+        email,
+        fullName,
+        password,
+        handle: userHandle,
+        bio,
+        website,
+        location
+      })
+    );
+    closeDialog();
+  };
+
   const getCurrentStep = step => {
     switch (step) {
       case 0:
@@ -84,31 +125,6 @@ export default function SignupForm({ open, handleCloseDialog }) {
     }
   };
 
-  const handleNext = () => {
-    if (activeStep === 1 && passwordStrength < 50) {
-      return window.confirm(
-        'Are you sure you want to proceed with a weak password?'
-      )
-        ? setActiveStep(activeStep + 1)
-        : null;
-    }
-    setActiveStep(activeStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
-
-  const closeDialog = () => {
-    setActiveStep(0);
-    dispatch({ type: RESET_SIGNUP_FORM });
-    handleCloseDialog();
-  };
-
-  // const handleSubmit = event => {
-  //   event.preventDefault();
-  // };
-
   return (
     <Dialog
       open={open}
@@ -118,50 +134,52 @@ export default function SignupForm({ open, handleCloseDialog }) {
       PaperProps={{ elevation: 0 }}
       fullWidth
     >
-      <DialogTitle
-        id="signup-form-title"
-        className={classes.dialogTitle}
-        disableTypography
-        aria-label="Tweetoo dot x y z signup"
-      >
-        <Typography
-          component="h2"
-          variant="h5"
-          className={classes.dialogTitleH2}
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <DialogTitle
+          id="signup-form-title"
+          className={classes.dialogTitle}
+          disableTypography
+          aria-label="Tweetoo dot x y z signup"
         >
-          Tweetoo.xyz
-        </Typography>
-      </DialogTitle>
-      <DialogContent>
-        {getCurrentStep(activeStep)}
-        {/* <form onSubmit={handleSubmit} encType="multipart/form-data">
-        </form> */}
-      </DialogContent>
-      <DialogActions className={classes.dialogActions}>
-        {activeStep === 0 ? (
-          <Button onClick={closeDialog} color="secondary">
-            Cancel
-          </Button>
-        ) : (
-          <IconButton color="secondary" onClick={handleBack} aria-label="Back">
-            <ArrowBackIcon />
-          </IconButton>
-        )}
-        {activeStep === 2 ? (
-          <Button
-            color="secondary"
-            type="submit"
-            variant="contained"
-            disableElevation
+          <Typography
+            component="h2"
+            variant="h5"
+            className={classes.dialogTitleH2}
           >
-            Finish
-          </Button>
-        ) : (
-          <Button color="secondary" onClick={handleNext}>
-            Next
-          </Button>
-        )}
-      </DialogActions>
+            Tweetoo.xyz
+          </Typography>
+        </DialogTitle>
+        <DialogContent>{getCurrentStep(activeStep)}</DialogContent>
+        <DialogActions className={classes.dialogActions}>
+          {activeStep === 0 ? (
+            <Button onClick={closeDialog} color="secondary">
+              Cancel
+            </Button>
+          ) : (
+            <IconButton
+              color="secondary"
+              onClick={handleBack}
+              aria-label="Back"
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          )}
+          {activeStep === 2 ? (
+            <Button
+              color="secondary"
+              type="submit"
+              variant="contained"
+              disableElevation
+            >
+              Finish
+            </Button>
+          ) : (
+            <Button color="secondary" onClick={handleNext}>
+              Next
+            </Button>
+          )}
+        </DialogActions>
+      </form>
     </Dialog>
   );
 }

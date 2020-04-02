@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { navigate } from '@reach/router';
+import setAuthorizationHeader from '../../common/utils/setAuthorizationHeader';
 import {
   CLEAR_ERRORS,
   LOADING_UI,
@@ -6,6 +8,7 @@ import {
   UPLOAD_USER_IMAGE_FORM_DATA,
   UPDATE_PASSWORD_STRENGTH
 } from '../types';
+import { fetchAllData } from './data.actions';
 
 export const updateFormData = data => dispatch => {
   dispatch({
@@ -14,6 +17,18 @@ export const updateFormData = data => dispatch => {
   });
 };
 
+export const submitSignupForm = data => dispatch => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .post('/signup', data)
+    .then(res => {
+      setAuthorizationHeader(res.data);
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch(fetchAllData());
+      navigate('/home');
+    })
+    .catch(err => console.error(err));
+};
 
 export const uploadCachedProfileImage = data => dispatch => {
   dispatch({ type: LOADING_UI });
@@ -29,11 +44,10 @@ export const uploadCachedProfileImage = data => dispatch => {
   axios
     .post('/media/cached/newuser', formData, config)
     .then(res => {
-      console.log(res);
-    dispatch({
-      type: UPLOAD_USER_IMAGE_FORM_DATA,
+      dispatch({
+        type: UPLOAD_USER_IMAGE_FORM_DATA,
         userImage: res.data.cached.path
-  });
+      });
     })
     .catch(err => console.error(err));
 };

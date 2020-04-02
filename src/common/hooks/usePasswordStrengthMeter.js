@@ -59,7 +59,6 @@ const usePasswordStrengthMeter = password => {
     }
   };
 
-  console.log(points);
   const color = levels[points].color;
   const label = levels[points].label;
   const value = levels[points].value;

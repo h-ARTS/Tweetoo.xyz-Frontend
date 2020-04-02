@@ -181,10 +181,6 @@ export default function AuthPage() {
               >
                 Sign up
               </Button>
-              <SignupForm
-                open={openSignUpDialog}
-                handleCloseDialog={handleCloseDialog}
-              />
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2" color="secondary">
@@ -196,6 +192,10 @@ export default function AuthPage() {
                 <Copyright />
               </Box>
             </form>
+            <SignupForm
+              open={openSignUpDialog}
+              handleCloseDialog={handleCloseDialog}
+            />
           </div>
         </Grid>
       </Grid>
