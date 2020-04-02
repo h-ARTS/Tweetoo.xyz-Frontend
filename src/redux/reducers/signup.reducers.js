@@ -2,7 +2,8 @@ import {
   UPDATE_SIGNUP_FORM_DATA,
   SUBMIT_SIGNUP_FORM_DATA,
   UPLOAD_USER_IMAGE_FORM_DATA,
-  RESET_SIGNUP_FORM
+  RESET_SIGNUP_FORM,
+  UPDATE_PASSWORD_STRENGTH
 } from '../types';
 
 const initialState = {
@@ -13,7 +14,8 @@ const initialState = {
   bio: '',
   website: '',
   location: '',
-  userImage: null
+  userImage: null,
+  passwordStrength: 0
 };
 export default function(state = initialState, action) {
   if (action.type === UPDATE_SIGNUP_FORM_DATA) {
@@ -32,6 +34,15 @@ export default function(state = initialState, action) {
       ...state,
       userImage: action.userImage
     };
+  }
+
+  if (action.type === UPDATE_PASSWORD_STRENGTH) {
+    if (state.passwordStrength !== action.value) {
+      return {
+        ...state,
+        passwordStrength: action.value
+      };
+    }
   }
 
   if (action.type === RESET_SIGNUP_FORM) {

@@ -1,10 +1,11 @@
-import {
-  UPDATE_SIGNUP_FORM_DATA,
-  LOADING_UI,
-  CLEAR_ERRORS,
-  UPLOAD_USER_IMAGE_FORM_DATA
-} from '../types';
 import axios from 'axios';
+import {
+  CLEAR_ERRORS,
+  LOADING_UI,
+  UPDATE_SIGNUP_FORM_DATA,
+  UPLOAD_USER_IMAGE_FORM_DATA,
+  UPDATE_PASSWORD_STRENGTH
+} from '../types';
 
 export const updateFormData = data => dispatch => {
   dispatch({
@@ -36,3 +37,8 @@ export const uploadCachedProfileImage = data => dispatch => {
     })
     .catch(err => console.error(err));
 };
+
+export const updatePasswordStrength = value => ({
+  type: UPDATE_PASSWORD_STRENGTH,
+  value
+});
