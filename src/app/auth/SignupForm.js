@@ -44,7 +44,8 @@ export default function SignupForm({ open, handleCloseDialog }) {
     userHandle,
     bio,
     website,
-    location
+    location,
+    passwordStrength
   } = useSelector(state => state.signup_form, shallowEqual);
 
   const handleDataChange = data => {
@@ -84,6 +85,13 @@ export default function SignupForm({ open, handleCloseDialog }) {
   };
 
   const handleNext = () => {
+    if (activeStep === 1 && passwordStrength < 50) {
+      return window.confirm(
+        'Are you sure you want to proceed with a weak password?'
+      )
+        ? setActiveStep(activeStep + 1)
+        : null;
+    }
     setActiveStep(activeStep + 1);
   };
 

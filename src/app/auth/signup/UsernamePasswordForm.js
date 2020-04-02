@@ -10,8 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/VisibilityTwoTone';
 import VisibilityOff from '@material-ui/icons/VisibilityOffTwoTone';
+// Components
 import PasswordStrengthBar from './PasswordStrengthBar';
-// import { makeStyles } from '@material-ui/core/styles';
 
 const UsernamePasswordForm = React.forwardRef(
   ({ password, handle, onDataChange }, ref) => {

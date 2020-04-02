@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import usePasswordStrengthMeter from '../../../common/hooks/usePasswordStrengthMeter';
 // Mui Components
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 // Mui styles
 import { makeStyles, lighten } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
+import { updatePasswordStrength } from '../../../redux/actions/signup.actions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,8 +28,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 export default function PasswordStrengthBar({ password }) {
+  const dispatch = useDispatch();
   const [label, value, color] = usePasswordStrengthMeter(password);
   const classes = useStyles({ color });
+
+  useEffect(() => {
+    dispatch(updatePasswordStrength(value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   return (
     <Box position="relative">
