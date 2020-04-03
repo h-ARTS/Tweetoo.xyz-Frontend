@@ -19,12 +19,16 @@ export const updateFormData = data => dispatch => {
 
 export const submitSignupForm = data => dispatch => {
   dispatch({ type: LOADING_UI });
+  const signupApiCall = () => axios.post('/signup', data);
+  const assignUserImageApiCall = () => axios.put('/media/cached', data);
   axios
-    .post('/signup', data)
+    .all([signupApiCall(), assignUserImageApiCall()])
     .then(res => {
       setAuthorizationHeader(res.data);
+    })
+    .then(res => {
+      dispatch(fetchAllData(res.data.user));
       dispatch({ type: CLEAR_ERRORS });
-      dispatch(fetchAllData());
       navigate('/home');
     })
     .catch(err => console.error(err));

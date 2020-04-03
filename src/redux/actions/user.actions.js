@@ -33,8 +33,4 @@ export const signinUser = userData => dispatch => {
     });
 };
 
-const setAuthorizationHeader = token => {
-  const bToken = `Bearer ${token}`;
-  localStorage.setItem('token', bToken);
-  axios.defaults.headers.common['Authorization'] = bToken;
 };
