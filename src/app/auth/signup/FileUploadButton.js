@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { uploadCachedProfileImage } from '../../../redux/actions/signup.actions';
 // Mui Components
 import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
 import InputBase from '@material-ui/core/InputBase';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import UploadIcon from '@material-ui/icons/CloudUploadTwoTone';
@@ -29,13 +30,23 @@ const useStyles = makeStyles(theme => ({
     overflow: 'hidden',
     position: 'absolute',
     zIndex: '-1'
+  },
+  profileImage: {
+    position: 'absolute',
+    backgroundImage: props => `url(http://localhost:6500/${props.userImage})`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
   }
 }));
 export default function FileUploadButton() {
-  const classes = useStyles();
   const fileInputEl = useRef(null);
   const dispatch = useDispatch();
-  const { userHandle } = useSelector(state => state.signup_form);
+  const { userHandle, userImage } = useSelector(state => state.signup_form);
+  const classes = useStyles({ userImage });
 
   const handleFileUpload = event => {
     const file = event.target.files[0];
@@ -59,6 +70,7 @@ export default function FileUploadButton() {
       onClick={onButtonClick}
     >
       <Avatar className={classes.avatar}>
+        <Box className={classes.profileImage} />
         <UploadIcon fontSize="large" />
         <InputBase
           type="file"
