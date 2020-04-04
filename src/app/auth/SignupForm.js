@@ -48,7 +48,8 @@ export default function SignupForm({ open, handleCloseDialog }) {
     bio,
     website,
     location,
-    passwordStrength
+    passwordStrength,
+    uniqueImageId
   } = useSelector(state => state.signup_form, shallowEqual);
 
   const handleDataChange = data => {
@@ -87,7 +88,8 @@ export default function SignupForm({ open, handleCloseDialog }) {
         handle: userHandle,
         bio,
         website,
-        location
+        location,
+        uniqueImageId
       })
     );
     closeDialog();

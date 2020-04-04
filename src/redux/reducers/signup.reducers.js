@@ -3,7 +3,8 @@ import {
   SUBMIT_SIGNUP_FORM_DATA,
   UPLOAD_USER_IMAGE_FORM_DATA,
   RESET_SIGNUP_FORM,
-  UPDATE_PASSWORD_STRENGTH
+  UPDATE_PASSWORD_STRENGTH,
+  SAVE_UNIQUE_IMAGE_ID
 } from '../types';
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   website: '',
   location: '',
   userImage: null,
+  uniqueImageId: null,
   passwordStrength: 0
 };
 export default function(state = initialState, action) {
@@ -43,6 +45,13 @@ export default function(state = initialState, action) {
         passwordStrength: action.value
       };
     }
+  }
+
+  if (action.type === SAVE_UNIQUE_IMAGE_ID) {
+    return {
+      ...state,
+      uniqueImageId: action.uniqueImageId
+    };
   }
 
   if (action.type === RESET_SIGNUP_FORM) {

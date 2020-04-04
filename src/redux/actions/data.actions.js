@@ -8,13 +8,13 @@ import {
   DATA_FETCH_COMPLETED
 } from '../types';
 
-export const fetchAllData = user => dispatch => {
+export const fetchAllData = () => dispatch => {
   dispatch({
     type: LOADING_UI
   });
   const getAllTweets = () => axios.get('/api/tweets');
   const getAllReplies = () => axios.get('/api/replies');
-  const getCurrentUser = () => axios.get(`/api/user/${user.handle}`);
+  const getCurrentUser = () => axios.get(`/api/user`);
   axios.all([getCurrentUser(), getAllTweets(), getAllReplies()]).then(
     axios.spread((currentUser, tweets, replies) => {
       dispatch({
