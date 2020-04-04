@@ -6,7 +6,8 @@ import {
   LOADING_UI,
   UPDATE_SIGNUP_FORM_DATA,
   UPLOAD_USER_IMAGE_FORM_DATA,
-  UPDATE_PASSWORD_STRENGTH
+  UPDATE_PASSWORD_STRENGTH,
+  SAVE_UNIQUE_IMAGE_ID
 } from '../types';
 import { fetchAllData } from './data.actions';
 
@@ -17,21 +18,44 @@ export const updateFormData = data => dispatch => {
   });
 };
 
-export const submitSignupForm = data => dispatch => {
+export const submitSignupForm = data => async dispatch => {
   dispatch({ type: LOADING_UI });
-  const signupApiCall = () => axios.post('/signup', data);
-  const assignUserImageApiCall = () => axios.put('/media/cached', data);
-  axios
-    .all([signupApiCall(), assignUserImageApiCall()])
-    .then(res => {
-      setAuthorizationHeader(res.data);
-    })
-    .then(res => {
-      dispatch(fetchAllData(res.data.user));
+  const userImageBody = {
+    handle: data.handle,
+    uniqueImageId: data.uniqueImageId
+  };
+  try {
+    const signUpResponse = await axios.post('/signup', data);
+    if (!signUpResponse) {
+      throw new Error(signUpResponse);
+    } else {
+      setAuthorizationHeader(signUpResponse.data);
+    }
+
+    const createNewUserDirResponse = await axios.get(
+      `/media/user/${data.handle}`
+    );
+    if (!createNewUserDirResponse) {
+      throw new Error(createNewUserDirResponse);
+    } else {
+      console.log(createNewUserDirResponse);
+    }
+
+    const assignUserImageResponse = await axios.put(
+      '/media/cached',
+      userImageBody
+    );
+    if (!assignUserImageResponse) {
+      throw new Error(assignUserImageResponse);
+    } else {
+      console.log(assignUserImageResponse);
+      dispatch(fetchAllData());
       dispatch({ type: CLEAR_ERRORS });
       navigate('/home');
-    })
-    .catch(err => console.error(err));
+    }
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const uploadCachedProfileImage = data => dispatch => {
@@ -51,6 +75,10 @@ export const uploadCachedProfileImage = data => dispatch => {
       dispatch({
         type: UPLOAD_USER_IMAGE_FORM_DATA,
         userImage: res.data.cached.path
+      });
+      dispatch({
+        type: SAVE_UNIQUE_IMAGE_ID,
+        uniqueImageId: res.data.cached._id
       });
     })
     .catch(err => console.error(err));
