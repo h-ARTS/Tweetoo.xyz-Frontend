@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router } from '@reach/router';
 // Pages
-import ProfileHome from './ProfileHome';
+import ProfileHomeContainer from './ProfileHomeContainer';
 import TweetPage from './TweetPage';
 // UI Components
 import RightBar from '../../common/ui/RightBar';
@@ -9,9 +9,9 @@ import RightBar from '../../common/ui/RightBar';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import TrendsList from '../trending/TrendsList';
-import { Typography, Button } from '@material-ui/core';
+import { Typography, Button, InputBase } from '@material-ui/core';
 import { useStore } from 'react-redux';
-import { logoutUser } from '../../redux/actions/user.actions';
+import { logoutUser, imageUpload } from '../../redux/actions/user.actions';
 
 export default function Profile() {
   const store = useStore();
@@ -20,11 +20,18 @@ export default function Profile() {
     store.dispatch(logoutUser());
   };
 
+  const handleUpload = event => {
+    const file = event.target.files[0];
+    store.dispatch(
+      imageUpload({ file, handle: 'paki', dimension: 'userImage' })
+    );
+  };
+
   return (
     <>
       <Grid item xs={12} md={8}>
         <Router>
-          <ProfileHome path="/" />
+          <ProfileHomeContainer path="/" />
           <TweetPage path="tweet/:tweetId" />
         </Router>
         <Typography variant="h1">My Profile</Typography>
@@ -36,6 +43,7 @@ export default function Profile() {
         >
           Logout
         </Button>
+        <InputBase type="file" onChange={handleUpload} />
       </Grid>
       <Hidden smDown>
         <RightBar>

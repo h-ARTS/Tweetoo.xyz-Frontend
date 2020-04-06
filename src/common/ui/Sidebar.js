@@ -86,7 +86,7 @@ export default function Sidebar() {
               className={classes.listItem}
               disableGutters={isXL}
             >
-              {userImage.url && link.title === 'Profile' ? (
+              {!userImage.url && link.title === 'Profile' ? (
                 <Box className={classes.avatarContainer}>
                   <Avatar
                     src={`http://localhost:6500/${userImage.url}`}

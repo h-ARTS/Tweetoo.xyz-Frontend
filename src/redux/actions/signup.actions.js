@@ -37,8 +37,6 @@ export const submitSignupForm = data => async dispatch => {
     );
     if (!createNewUserDirResponse) {
       throw new Error(createNewUserDirResponse);
-    } else {
-      console.log(createNewUserDirResponse);
     }
 
     const assignUserImageResponse = await axios.put(
@@ -48,7 +46,6 @@ export const submitSignupForm = data => async dispatch => {
     if (!assignUserImageResponse) {
       throw new Error(assignUserImageResponse);
     } else {
-      console.log(assignUserImageResponse);
       dispatch(fetchAllData());
       dispatch({ type: CLEAR_ERRORS });
       navigate('/home');
