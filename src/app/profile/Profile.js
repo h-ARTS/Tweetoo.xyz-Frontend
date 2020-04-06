@@ -1,17 +1,19 @@
 import React from 'react';
 import { Router } from '@reach/router';
+// Redux
+import { useStore } from 'react-redux';
+import { logoutUser, imageUpload } from '../../redux/actions/user.actions';
 // Pages
 import ProfileHomeContainer from './ProfileHomeContainer';
 import TweetPage from './TweetPage';
 // UI Components
 import RightBar from '../../common/ui/RightBar';
 // MUI Components
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
+import InputBase from '@material-ui/core/InputBase';
 import TrendsList from '../trending/TrendsList';
-import { Typography, Button, InputBase } from '@material-ui/core';
-import { useStore } from 'react-redux';
-import { logoutUser, imageUpload } from '../../redux/actions/user.actions';
 
 export default function Profile() {
   const store = useStore();
@@ -34,7 +36,6 @@ export default function Profile() {
           <ProfileHomeContainer path="/" />
           <TweetPage path="tweet/:tweetId" />
         </Router>
-        <Typography variant="h1">My Profile</Typography>
         <Button
           onClick={handleLogout}
           variant="contained"

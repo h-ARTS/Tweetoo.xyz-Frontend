@@ -9,7 +9,7 @@ import demoData from '../utils/demoData';
 import NewTweetFormContainer from '../../app/home/NewTweetFormContainer';
 
 const Box = styled('div')(compose(spacing));
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   timeline: {
     display: 'flex',
     alignItems: 'stretch',
@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
     borderRight: '1px solid rgba(0, 0, 0, 0.12)'
   }
-}));
+});
 
 export default function Timeline() {
   const classes = useStyles();
