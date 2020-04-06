@@ -58,7 +58,7 @@ export const submitSignupForm = data => async dispatch => {
   }
 };
 
-export const uploadCachedProfileImage = data => dispatch => {
+export const uploadCachedProfileImage = data => async dispatch => {
   dispatch({ type: LOADING_UI });
   const formData = new FormData();
   formData.append('image', data.file);
@@ -69,19 +69,29 @@ export const uploadCachedProfileImage = data => dispatch => {
       'content-type': `multipart/form-data; boundary=${formData._boundary}`
     }
   };
-  axios
-    .post('/media/cached/newuser', formData, config)
-    .then(res => {
-      dispatch({
-        type: UPLOAD_USER_IMAGE_FORM_DATA,
-        userImage: res.data.cached.path
-      });
-      dispatch({
-        type: SAVE_UNIQUE_IMAGE_ID,
-        uniqueImageId: res.data.cached._id
-      });
-    })
-    .catch(err => console.error(err));
+  try {
+    const cachedImageApiResponse = await axios.post(
+      '/media/cached/newuser',
+      formData,
+      config
+    );
+
+    if (!cachedImageApiResponse) {
+      throw new Error(cachedImageApiResponse);
+    }
+
+    const { data } = cachedImageApiResponse;
+    dispatch({
+      type: UPLOAD_USER_IMAGE_FORM_DATA,
+      userImage: data.cached.path
+    });
+    dispatch({
+      type: SAVE_UNIQUE_IMAGE_ID,
+      uniqueImageId: data.cached._id
+    });
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const updatePasswordStrength = value => ({
