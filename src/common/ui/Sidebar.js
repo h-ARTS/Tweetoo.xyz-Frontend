@@ -1,14 +1,17 @@
 import React from 'react';
+// Redux
+import { useSelector } from 'react-redux';
 // MUI
-import {
-  Grid,
-  List,
-  ListSubheader,
-  ListItem,
-  ListItemIcon,
-  Badge,
-  Typography
-} from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
+import Badge from '@material-ui/core/Badge';
+import Grid from '@material-ui/core/Grid';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import Typography from '@material-ui/core/Typography';
+// Mui Styles
 import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 // UI Components
@@ -16,7 +19,6 @@ import { NavLink } from './NavLink';
 import navlinks from '../utils/navlinks';
 
 const useStyles = makeStyles(theme => ({
-  ...theme.spreadThis,
   root: {
     position: 'fixed'
   },
@@ -34,12 +36,23 @@ const useStyles = makeStyles(theme => ({
   },
   listItemIconRoot: {
     minWidth: 'auto'
+  },
+  avatarContainer: {
+    display: 'inline-flex',
+    minWidth: 56,
+    flexShrink: 0
+  },
+  avatar: {
+    border: `1px solid ${theme.palette.secondary.main}`,
+    width: theme.spacing(4.35),
+    height: theme.spacing(4.35)
   }
 }));
 
 export default function Sidebar() {
   const classes = useStyles();
   const isXL = useMediaQuery('(max-width: 1280px)');
+  const { userImage } = useSelector(state => state.currentUser);
 
   return (
     <Grid
@@ -73,20 +86,29 @@ export default function Sidebar() {
               className={classes.listItem}
               disableGutters={isXL}
             >
-              <ListItemIcon className={isXL ? classes.listItemIconRoot : ''}>
-                {link.title === 'Notifications' ? (
-                  <Badge
-                    variant="dot"
-                    overlap="circle"
-                    badgeContent=" "
-                    color="secondary"
-                  >
+              {userImage.url && link.title === 'Profile' ? (
+                <Box className={classes.avatarContainer}>
+                  <Avatar
+                    src={`http://localhost:6500/${userImage.url}`}
+                    className={classes.avatar}
+                  />
+                </Box>
+              ) : (
+                <ListItemIcon className={isXL ? classes.listItemIconRoot : ''}>
+                  {link.title === 'Notifications' ? (
+                    <Badge
+                      variant="dot"
+                      overlap="circle"
+                      badgeContent=" "
+                      color="secondary"
+                    >
+                      <link.icon fontSize="large" />
+                    </Badge>
+                  ) : (
                     <link.icon fontSize="large" />
-                  </Badge>
-                ) : (
-                  <link.icon fontSize="large" />
-                )}
-              </ListItemIcon>
+                  )}
+                </ListItemIcon>
+              )}
               {!isXL && (
                 <Typography
                   variant="button"

@@ -1,6 +1,9 @@
 export default {
   currentUser: {
-    authenticated: false
+    authenticated: false,
+    userImage: {
+      url: ''
+    }
   },
   ui: {
     loading: false
