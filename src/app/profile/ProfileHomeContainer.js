@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 // Mui
@@ -6,6 +6,8 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
 // Mui Styles
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,6 +19,7 @@ import CalendarIcon from '@material-ui/icons/CalendarTodayTwoTone';
 import CoverImage from './CoverImage';
 import PageTitle from '../../common/ui/PageTitle';
 import ProfileImage from './ProfileImage';
+import ProfileTabPanel from './ProfileTabPanel';
 
 const useStyles = makeStyles(theme => ({
   firstLayer: {
@@ -35,10 +38,14 @@ const useStyles = makeStyles(theme => ({
   },
   handle: {
     color: grey[600]
+  },
+  tabs: {
+    borderBottom: `1px solid ${theme.palette.primary.dark}`
   }
 }));
 export default function ProfileHomeContainer() {
   const classes = useStyles();
+  const [value, setValue] = useState(0);
   const {
     handle,
     userImage,
@@ -51,6 +58,17 @@ export default function ProfileHomeContainer() {
     tweets
   } = useSelector(state => state.currentUser);
   const date = dayjs(createdAt).format('MMMM YYYY');
+
+  const a11yProps = index => {
+    return {
+      id: `profile-tab-${index}`,
+      'aria-controls': `profile-tabpanel-${index}`
+    };
+  };
+
+  const handleTabChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <>
@@ -98,6 +116,26 @@ export default function ProfileHomeContainer() {
             </Box>
           </Box>
         </CardContent>
+        <Tabs
+          variant="fullWidth"
+          value={value}
+          onChange={handleTabChange}
+          aria-label="profile tabs"
+          className={classes.tabs}
+        >
+          <Tab label="Tweets" {...a11yProps(0)} />
+          <Tab label="Likes" {...a11yProps(1)} />
+          <Tab label="Media" {...a11yProps(2)} />
+        </Tabs>
+        <ProfileTabPanel value={value} index={0}>
+          Tweets
+        </ProfileTabPanel>
+        <ProfileTabPanel value={value} index={1}>
+          Likes
+        </ProfileTabPanel>
+        <ProfileTabPanel value={value} index={2}>
+          Media
+        </ProfileTabPanel>
       </Card>
     </>
   );
