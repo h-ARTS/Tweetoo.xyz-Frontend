@@ -1,4 +1,6 @@
 import React from 'react';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 // MUI Components
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -38,6 +40,8 @@ const useStyles = makeStyles(theme => ({
 export default function TweetTitle(props) {
   const classes = useStyles();
   const { handle, fullName, time, handleStopPropagation } = props;
+  dayjs.extend(relativeTime);
+  const dateTime = dayjs().to(time);
 
   return (
     <Box className={classes.user} onClick={handleStopPropagation}>
@@ -53,7 +57,7 @@ export default function TweetTitle(props) {
         <span>·</span>
       </div>
       <div className={classes.tweetTime}>
-        <time dateTime={time}>12 Min.</time>
+        <time dateTime={dateTime}>{dateTime}</time>
       </div>
     </Box>
   );

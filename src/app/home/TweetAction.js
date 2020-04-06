@@ -73,7 +73,7 @@ const StyledBadge = withStyles({
   }
 })(Badge);
 
-export default function TweetAction({ actionType }) {
+export default function TweetAction({ actionType, count }) {
   const [active, setActive] = useState(false);
   const [replyCount, setReplyCount] = useState(0);
   const { ariaLabel, colorFactory, onClick, Icon, theme } = actionButtons(
@@ -100,7 +100,7 @@ export default function TweetAction({ actionType }) {
           onClick={setAction}
         >
           <StyledBadge
-            badgeContent={1023}
+            badgeContent={count}
             max={100000}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           >

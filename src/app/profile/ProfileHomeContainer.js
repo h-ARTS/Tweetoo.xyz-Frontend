@@ -20,6 +20,7 @@ import CoverImage from './CoverImage';
 import PageTitle from '../../common/ui/PageTitle';
 import ProfileImage from './ProfileImage';
 import ProfileTabPanel from './ProfileTabPanel';
+import TweetsPanel from './TweetsPanel';
 
 const useStyles = makeStyles(theme => ({
   firstLayer: {
@@ -40,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     color: grey[600]
   },
   tabs: {
-    borderBottom: `1px solid ${theme.palette.primary.dark}`
+    borderBottom: '1px solid rgba(0,0,0,0.12)'
   }
 }));
 export default function ProfileHomeContainer() {
@@ -127,9 +128,7 @@ export default function ProfileHomeContainer() {
           <Tab label="Likes" {...a11yProps(1)} />
           <Tab label="Media" {...a11yProps(2)} />
         </Tabs>
-        <ProfileTabPanel value={value} index={0}>
-          Tweets
-        </ProfileTabPanel>
+        <TweetsPanel value={value} index={0} userTweets={tweets} />
         <ProfileTabPanel value={value} index={1}>
           Likes
         </ProfileTabPanel>

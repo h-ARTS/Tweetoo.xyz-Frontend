@@ -1,0 +1,19 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
+import ProfileTabPanel from './ProfileTabPanel';
+import Tweet from '../home/Tweet';
+
+export default function TweetsPanel({ value, index, userTweets }) {
+  const tweets = useSelector(state => state.tweets);
+  const filtered = tweets.filter(function(tweet) {
+    return this.find(t => t.tweetId === tweet._id);
+  }, userTweets);
+
+  return (
+    <ProfileTabPanel value={value} index={index}>
+      {filtered.map(filteredTweet => (
+        <Tweet tweet={filteredTweet} />
+      ))}
+    </ProfileTabPanel>
+  );
+}

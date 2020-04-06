@@ -24,11 +24,11 @@ export const fetchAllData = () => dispatch => {
       dispatch({ type: SET_AUTHENTICATED });
       dispatch({
         type: SET_TWEETS,
-        tweets
+        tweets: tweets.data.data
       });
       dispatch({
         type: SET_REPLIES,
-        replies
+        replies: replies.data.data
       });
       dispatch({ type: DATA_FETCH_COMPLETED });
     })

@@ -58,11 +58,15 @@ export default function Tweet(props) {
     handle,
     fullName,
     fullText,
-    timestamp,
     image,
     tweetId,
-    retweet
+    replies,
+    retweet,
+    retweetCount,
+    likeCount,
+    createdAt
   } = props.tweet;
+  const replyCount = replies.length;
 
   const handleNavigateToUser = () => {
     navigate(`/${handle}`);
@@ -100,7 +104,7 @@ export default function Tweet(props) {
             <TweetTitle
               handle={handle}
               fullName={fullName}
-              time={timestamp}
+              time={createdAt}
               handleStopPropagation={handleStopPropagation}
               onClick={handleNavigateToUser}
             />
@@ -116,9 +120,9 @@ export default function Tweet(props) {
         )}
       </CardActionArea>
       <CardActions className={classes.actions}>
-        <TweetAction actionType="reply" />
-        <TweetAction actionType="retweet" />
-        <TweetAction actionType="like" />
+        <TweetAction actionType="reply" count={replyCount} />
+        <TweetAction actionType="retweet" count={retweetCount} />
+        <TweetAction actionType="like" count={likeCount} />
         <TweetAction actionType="bookmark" />
       </CardActions>
     </Card>
