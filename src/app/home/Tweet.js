@@ -19,7 +19,6 @@ import TweetText from './TweetText';
 import WithLinkTransformation from './WithLinkTransformation';
 
 const useStyles = makeStyles(theme => ({
-  ...theme.tweetooxyz,
   timeline: {},
   root: {
     '&:not(:last-child)': {

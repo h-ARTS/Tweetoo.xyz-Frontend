@@ -8,7 +8,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Link } from '@reach/router';
 
 const useStyles = makeStyles(theme => ({
-  ...theme.tweetooxyz,
   user: {
     display: 'flex',
     alignItems: 'baseline',

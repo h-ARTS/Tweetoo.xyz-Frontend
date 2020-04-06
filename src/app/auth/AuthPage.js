@@ -57,10 +57,6 @@ const useStyles = makeStyles(theme => ({
   },
   signupButton: {
     marginBottom: theme.spacing(1)
-  },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: theme.palette.secondary.light
   }
 }));
 export default function AuthPage() {
@@ -87,7 +83,7 @@ export default function AuthPage() {
 
   return (
     <>
-      <Backdrop open={openLoadingSpinner} className={classes.backdrop}>
+      <Backdrop open={openLoadingSpinner}>
         <CircularProgress />
       </Backdrop>
       <Grid container component="main" className={classes.root}>

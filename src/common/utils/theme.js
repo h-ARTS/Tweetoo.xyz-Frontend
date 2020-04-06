@@ -1,4 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import zIndex from '@material-ui/core/styles/zIndex';
 
 const themeName = 'Tweetoo.xyz';
 
@@ -27,5 +28,12 @@ export default createMuiTheme({
   themeName,
   palette,
   typography,
-  tweetooxyz: {}
+  overrides: {
+    MuiBackdrop: {
+      root: {
+        zIndex: zIndex.drawer + 1,
+        color: palette.secondary.light
+      }
+    }
+  }
 });

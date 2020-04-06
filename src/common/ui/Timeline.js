@@ -10,7 +10,6 @@ import NewTweetFormContainer from '../../app/home/NewTweetFormContainer';
 
 const Box = styled('div')(compose(spacing));
 const useStyles = makeStyles(theme => ({
-  ...theme.tweetooxyz,
   timeline: {
     display: 'flex',
     alignItems: 'stretch',
