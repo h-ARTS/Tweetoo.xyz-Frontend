@@ -1,7 +1,7 @@
 import {
   UPDATE_SIGNUP_FORM_DATA,
   SUBMIT_SIGNUP_FORM_DATA,
-  UPLOAD_USER_IMAGE_FORM_DATA,
+  UPLOAD_CACHED_USER_IMAGE,
   RESET_SIGNUP_FORM,
   UPDATE_PASSWORD_STRENGTH,
   SAVE_UNIQUE_IMAGE_ID
@@ -31,7 +31,7 @@ export default function(state = initialState, action) {
     return action.data;
   }
 
-  if (action.type === UPLOAD_USER_IMAGE_FORM_DATA) {
+  if (action.type === UPLOAD_CACHED_USER_IMAGE) {
     return {
       ...state,
       userImage: action.userImage

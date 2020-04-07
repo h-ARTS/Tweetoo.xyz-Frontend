@@ -1,7 +1,8 @@
 import {
   SET_AUTHENTICATED_USER,
   SET_UNAUTHENTICATED,
-  SET_AUTHENTICATED
+  SET_AUTHENTICATED,
+  UPLOAD_USER_IMAGE
 } from '../types';
 
 export default function(state = {}, action) {
@@ -10,13 +11,24 @@ export default function(state = {}, action) {
   }
 
   if (action.type === SET_UNAUTHENTICATED) {
-    return state;
+    return {
+      ...state,
+      authenticated: false
+    };
   }
 
   if (action.type === SET_AUTHENTICATED) {
     return {
       ...state,
       authenticated: true
+    };
+  }
+
+  if (action.type === UPLOAD_USER_IMAGE) {
+    return {
+      ...state,
+      coverImage: action.coverImage,
+      userImage: action.userImage
     };
   }
 
