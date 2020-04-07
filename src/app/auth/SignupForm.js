@@ -24,17 +24,7 @@ import NameEmailForm from './signup/NameEmailForm';
 import UsernamePasswordForm from './signup/UsernamePasswordForm';
 
 const useStyles = makeStyles(theme => ({
-  dialogTitle: {
-    textAlign: 'center',
-    paddingBottom: theme.spacing(1)
-  },
-  dialogTitleH2: {
-    fontWeight: 800
-  },
-  dialogActions: {
-    justifyContent: 'space-between',
-    padding: theme.spacing(2, 3)
-  }
+  ...theme.spreadThis
 }));
 export default function SignupForm({ open, handleCloseDialog }) {
   const classes = useStyles();
@@ -146,7 +136,7 @@ export default function SignupForm({ open, handleCloseDialog }) {
           <Typography
             component="h2"
             variant="h5"
-            className={classes.dialogTitleH2}
+            className={classes.dialogTitle}
           >
             Tweetoo.xyz
           </Typography>

@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import zIndex from '@material-ui/core/styles/zIndex';
+import createSpacing from '@material-ui/core/styles/createSpacing';
 
 const themeName = 'Tweetoo.xyz';
 
@@ -29,11 +29,18 @@ export default createMuiTheme({
   palette,
   typography,
   overrides: {
-    MuiBackdrop: {
-      root: {
-        zIndex: zIndex.drawer + 1,
-        color: palette.secondary.light
-      }
+    MuiDialogTitle: {
+      textAlign: 'center',
+      paddingBottom: createSpacing(1)
+    },
+    MuiDialogActions: {
+      justifyContent: 'space-between',
+      padding: createSpacing(2, 3)
+    }
+  },
+  spreadThis: {
+    dialogTitle: {
+      fontWeight: 800
     }
   }
 });
