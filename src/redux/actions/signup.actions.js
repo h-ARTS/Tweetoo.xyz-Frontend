@@ -5,7 +5,7 @@ import {
   CLEAR_ERRORS,
   LOADING_UI,
   UPDATE_SIGNUP_FORM_DATA,
-  UPLOAD_USER_IMAGE_FORM_DATA,
+  UPLOAD_CACHED_USER_IMAGE,
   UPDATE_PASSWORD_STRENGTH,
   SAVE_UNIQUE_IMAGE_ID
 } from '../types';
@@ -79,7 +79,7 @@ export const uploadCachedProfileImage = data => async dispatch => {
 
     const { data } = cachedImageApiResponse;
     dispatch({
-      type: UPLOAD_USER_IMAGE_FORM_DATA,
+      type: UPLOAD_CACHED_USER_IMAGE,
       userImage: data.cached.path
     });
     dispatch({
