@@ -12,7 +12,7 @@ export default function TweetsPanel({ value, index, userTweets }) {
   return (
     <ProfileTabPanel value={value} index={index}>
       {filtered.map(filteredTweet => (
-        <Tweet tweet={filteredTweet} />
+        <Tweet key={filteredTweet._id} tweet={filteredTweet} />
       ))}
     </ProfileTabPanel>
   );
