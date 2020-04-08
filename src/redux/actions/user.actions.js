@@ -1,12 +1,15 @@
 import axios from 'axios';
+import { navigate } from '@reach/router';
+import setAuthorizationHeader from '../../common/utils/setAuthorizationHeader';
 import {
   CLEAR_ERRORS,
   LOADING_UI,
   SET_ERRORS,
-  SET_UNAUTHENTICATED
+  SET_UNAUTHENTICATED,
+  UPLOAD_USER_IMAGE,
+  UPDATE_USER_DATA
 } from '../types';
 import { fetchAllData } from './data.actions';
-import { navigate } from '@reach/router';
 
 export const logoutUser = () => dispatch => {
   localStorage.removeItem('token');
@@ -33,4 +36,9 @@ export const signinUser = userData => dispatch => {
     });
 };
 
+export const updateUserData = data => dispatch => {
+  dispatch({
+    type: UPDATE_USER_DATA,
+    data
+  });
 };

@@ -2,7 +2,8 @@ import {
   SET_AUTHENTICATED_USER,
   SET_UNAUTHENTICATED,
   SET_AUTHENTICATED,
-  UPLOAD_USER_IMAGE
+  UPLOAD_USER_IMAGE,
+  UPDATE_USER_DATA
 } from '../types';
 
 export default function(state = {}, action) {
@@ -29,6 +30,13 @@ export default function(state = {}, action) {
       ...state,
       coverImage: action.coverImage,
       userImage: action.userImage
+    };
+  }
+
+  if (action.type === UPDATE_USER_DATA) {
+    return {
+      ...state,
+      ...action.data
     };
   }
 

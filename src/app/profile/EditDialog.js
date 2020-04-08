@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 // Mui components
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -15,6 +15,7 @@ import CloseIcon from '@material-ui/icons/CloseTwoTone';
 import { makeStyles } from '@material-ui/core/styles';
 // Components
 import DialogTitle from '../../common/ui/DialogTitle';
+import { updateUserData } from '../../redux/actions/user.actions';
 
 const useStyles = makeStyles(theme => ({
   dialogContent: {
@@ -91,11 +92,30 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 export default function EditDialog({ openEditDialog, handleCloseEdit }) {
-  const coverImage = 'https://source.unsplash.com/random/600x240';
+  const [data, setData] = useState({});
+  const dispatch = useDispatch();
   const { userImage, fullName, bio, location, website } = useSelector(
     state => state.currentUser
   );
-  const classes = useStyles({ coverImage: coverImage, userImage });
+  const coverImage = 'https://source.unsplash.com/random/600x240';
+  const classes = useStyles({ coverImage, userImage });
+
+  useEffect(() => {
+    setData({ fullName, bio, location, website });
+  }, [bio, fullName, location, website]);
+
+  const handleDataChange = event => {
+    const userData = {
+      ...data,
+      [event.target.name]: event.target.value
+    };
+    setData(userData);
+  };
+
+  const saveUserData = event => {
+    event.preventDefault();
+    dispatch(updateUserData(data));
+  };
 
   return (
     <Dialog
@@ -143,12 +163,13 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
               name="fullName"
               color="secondary"
               variant="filled"
-              required
-              fullWidth
-              value={fullName}
               id="fullName"
               label="Name"
+              required
+              fullWidth
               autoFocus
+              value={fullName}
+              onChange={handleDataChange}
             />
           </Box>
           <Box py={1}>
@@ -162,6 +183,7 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
               multiline
               fullWidth
               value={bio}
+              onChange={handleDataChange}
             />
           </Box>
           <Box py={1}>
@@ -174,7 +196,7 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
               variant="filled"
               fullWidth
               value={location}
-              // onChange={handleDataChange}
+              onChange={handleDataChange}
             />
           </Box>
           <Box py={1}>
@@ -188,13 +210,18 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
               variant="filled"
               fullWidth
               value={website}
-              // onChange={handleDataChange}
+              onChange={handleDataChange}
             />
           </Box>
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="secondary" disableElevation>
+        <Button
+          variant="contained"
+          color="secondary"
+          disableElevation
+          onClick={saveUserData}
+        >
           Save
         </Button>
       </DialogActions>
