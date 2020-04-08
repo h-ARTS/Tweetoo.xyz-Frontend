@@ -2,12 +2,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 // Mui components
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
 // Mui Icons
 import AddAPhotoIcon from '@material-ui/icons/AddAPhotoTwoTone';
 import CloseIcon from '@material-ui/icons/CloseTwoTone';
@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
   },
   userImageUploadContainer: {
     position: 'relative',
-    height: 30,
+    height: 20,
     left: 0,
     right: 0
   },
@@ -66,13 +66,13 @@ const useStyles = makeStyles(theme => ({
     height: theme.spacing(15),
     borderRadius: '50%',
     left: '20px',
-    bottom: '15px',
+    bottom: '-5px',
     margin: '0 auto'
   },
   userImageAction: {
     position: 'absolute',
     height: 0,
-    top: '-70px',
+    top: '-60px',
     left: '55px',
     opacity: 0.75
   },
@@ -87,12 +87,14 @@ const useStyles = makeStyles(theme => ({
     border: `5px solid ${theme.palette.primary.main}`,
     borderRadius: '50%',
     left: '15px',
-    bottom: '10px'
+    bottom: '-10px'
   }
 }));
 export default function EditDialog({ openEditDialog, handleCloseEdit }) {
   const coverImage = 'https://source.unsplash.com/random/600x240';
-  const { userImage } = useSelector(state => state.currentUser);
+  const { userImage, fullName, bio, location, website } = useSelector(
+    state => state.currentUser
+  );
   const classes = useStyles({ coverImage: coverImage, userImage });
 
   return (
@@ -103,7 +105,7 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
       aria-describedby="edit-profile-description"
       onClose={handleCloseEdit}
       PaperProps={{ elevation: 0 }}
-      scroll="body"
+      scroll="paper"
       fullWidth
     >
       <DialogTitle
@@ -113,7 +115,7 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
       >
         Edit profile
       </DialogTitle>
-      <DialogContent className={classes.dialogContent}>
+      <DialogContent className={classes.dialogContent} dividers>
         <Box className={classes.coverUploadContainer}>
           <Box className={classes.coverImage} />
           <Box className={classes.coverImageActions}>
@@ -134,8 +136,68 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
             </IconButton>
           </Box>
         </Box>
-        <Box padding={2}></Box>
+        <Box padding={2}>
+          <Box py={1}>
+            <TextField
+              autoComplete="fullname"
+              name="fullName"
+              color="secondary"
+              variant="filled"
+              required
+              fullWidth
+              value={fullName}
+              id="fullName"
+              label="Name"
+              autoFocus
+            />
+          </Box>
+          <Box py={1}>
+            <TextField
+              autoComplete="bio"
+              color="secondary"
+              name="bio"
+              id="bio"
+              label="Bio"
+              variant="filled"
+              multiline
+              fullWidth
+              value={bio}
+            />
+          </Box>
+          <Box py={1}>
+            <TextField
+              autoComplete="location"
+              color="secondary"
+              name="location"
+              id="location"
+              label="Where do you live?"
+              variant="filled"
+              fullWidth
+              value={location}
+              // onChange={handleDataChange}
+            />
+          </Box>
+          <Box py={1}>
+            <TextField
+              autoComplete="website"
+              color="secondary"
+              name="website"
+              type="url"
+              id="website"
+              label="Website"
+              variant="filled"
+              fullWidth
+              value={website}
+              // onChange={handleDataChange}
+            />
+          </Box>
+        </Box>
       </DialogContent>
+      <DialogActions>
+        <Button variant="contained" color="secondary" disableElevation>
+          Save
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 }
