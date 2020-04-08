@@ -21,6 +21,7 @@ import PageTitle from '../../common/ui/PageTitle';
 import ProfileImage from './ProfileImage';
 import ProfileTabPanel from './ProfileTabPanel';
 import TweetsPanel from './TweetsPanel';
+import EditDialog from './EditDialog';
 
 const useStyles = makeStyles(theme => ({
   firstLayer: {
@@ -47,6 +48,7 @@ const useStyles = makeStyles(theme => ({
 export default function ProfileHomeContainer() {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const [open, setOpen] = useState(false);
   const {
     handle,
     userImage,
@@ -71,6 +73,10 @@ export default function ProfileHomeContainer() {
     setValue(newValue);
   };
 
+  const toggleEditDialog = () => {
+    setOpen(!open);
+  };
+
   return (
     <>
       <PageTitle title={handle} />
@@ -90,7 +96,11 @@ export default function ProfileHomeContainer() {
                 <Typography variant="subtitle2">Joined since {date}</Typography>
               </Box>
             </Box>
-            <Button onClick={''} variant="outlined" color="secondary">
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={toggleEditDialog}
+            >
               Edit Profile
             </Button>
           </Box>
@@ -136,6 +146,7 @@ export default function ProfileHomeContainer() {
           Media
         </ProfileTabPanel>
       </Card>
+      <EditDialog openEditDialog={open} handleCloseEdit={toggleEditDialog} />
     </>
   );
 }
