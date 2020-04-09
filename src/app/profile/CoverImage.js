@@ -7,14 +7,14 @@ const useStyles = makeStyles({
     height: 200
   }
 });
-export default function CoverImage(props) {
+export default function CoverImage({ coverImage, children }) {
   const classes = useStyles();
   return (
     <CardMedia
       className={classes.coverImage}
-      image="https://source.unsplash.com/random/700x240"
+      image={`http://localhost:6500/${coverImage.url}`}
     >
-      {props.children}
+      {children}
     </CardMedia>
   );
 }
