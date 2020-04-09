@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Link from '@material-ui/core/Link';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
@@ -44,6 +45,9 @@ const useStyles = makeStyles(theme => ({
   },
   tabs: {
     borderBottom: '1px solid rgba(0,0,0,0.12)'
+  },
+  cardContent: {
+    paddingBottom: theme.spacing(1)
   }
 }));
 export default function ProfileHomeContainer() {
@@ -86,20 +90,28 @@ export default function ProfileHomeContainer() {
         <CoverImage coverImagePath={''}>
           <ProfileImage userImage={userImage} />
         </CoverImage>
-        <CardContent>
+        <CardContent className={classes.cardContent}>
           <Box className={classes.firstLayer}>
             <Box className={classes.locationJoined}>
-              <Box display="flex" alignItems="center">
+              <Box display="flex" alignItems="center" pb={1}>
                 <LocationIcon />
                 <Typography variant="subtitle2">{location}</Typography>
               </Box>
-              <Box display="flex" alignItems="center">
+              <Box display="flex" alignItems="center" pb={1}>
                 <CalendarIcon />
                 <Typography variant="subtitle2">Joined since {date}</Typography>
               </Box>
               <Box display="flex" alignItems="center">
                 <PublicIcon />
-                <Typography variant="subtitle2">{website}</Typography>
+                <Link
+                  href={`http://${website}`}
+                  color="secondary"
+                  variant="subtitle2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {website}
+                </Link>
               </Box>
             </Box>
             <Button
@@ -110,7 +122,7 @@ export default function ProfileHomeContainer() {
               Edit Profile
             </Button>
           </Box>
-          <Box textAlign="center" my={1}>
+          <Box textAlign="center" mb={1} mt={-3}>
             <Typography className={classes.fullName} variant="h5" component="p">
               {fullName}
             </Typography>
@@ -121,15 +133,21 @@ export default function ProfileHomeContainer() {
           <Box>
             <Typography variant="body2">{bio}</Typography>
           </Box>
-          <Box mt={1} display="flex" justifyContent="space-around">
-            <Box>
-              <Typography>{following.length} Following</Typography>
+          <Box mt={1} display="flex">
+            <Box mr={1}>
+              <Typography variant="body2">
+                <strong>{following.length}</strong> Following
+              </Typography>
+            </Box>
+            <Box mr={1}>
+              <Typography variant="body2">
+                <strong>{followers.length}</strong> Follower
+              </Typography>
             </Box>
             <Box>
-              <Typography>{followers.length} Follower</Typography>
-            </Box>
-            <Box>
-              <Typography>{tweets.length} Tweets</Typography>
+              <Typography variant="body2">
+                <strong>{tweets.length}</strong> Tweets
+              </Typography>
             </Box>
           </Box>
         </CardContent>
