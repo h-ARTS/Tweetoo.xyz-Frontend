@@ -6,6 +6,9 @@ export default {
     followers: [],
     userImage: {
       url: ''
+    },
+    coverImage: {
+      url: ''
     }
   },
   ui: {
