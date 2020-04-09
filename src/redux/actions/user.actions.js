@@ -37,8 +37,19 @@ export const signinUser = userData => dispatch => {
 };
 
 export const updateUserData = data => dispatch => {
+export const updateUserData = data => async dispatch => {
+  try {
+    const response = await axios.put('/api/user', data);
+
+    if (!response) {
+      throw new Error(response);
+    }
+
   dispatch({
     type: UPDATE_USER_DATA,
     data
   });
+  } catch (err) {
+    throw err;
+  }
 };

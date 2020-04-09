@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { updateUserData } from '../../redux/actions/user.actions';
 // Mui components
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -15,7 +16,6 @@ import CloseIcon from '@material-ui/icons/CloseTwoTone';
 import { makeStyles } from '@material-ui/core/styles';
 // Components
 import DialogTitle from '../../common/ui/DialogTitle';
-import { updateUserData } from '../../redux/actions/user.actions';
 
 const useStyles = makeStyles(theme => ({
   dialogContent: {
@@ -101,8 +101,10 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
   const classes = useStyles({ coverImage, userImage });
 
   useEffect(() => {
-    setData({ fullName, bio, location, website });
-  }, [bio, fullName, location, website]);
+    if (openEditDialog && Object.keys(data).length === 0) {
+      setData({ fullName, bio, location, website });
+    }
+  }, [bio, data, fullName, location, openEditDialog, website]);
 
   const handleDataChange = event => {
     const userData = {
@@ -115,6 +117,7 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
   const saveUserData = event => {
     event.preventDefault();
     dispatch(updateUserData(data));
+    handleCloseEdit();
   };
 
   return (
@@ -168,7 +171,7 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
               required
               fullWidth
               autoFocus
-              value={fullName}
+              value={data.fullName}
               onChange={handleDataChange}
             />
           </Box>
@@ -182,7 +185,7 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
               variant="filled"
               multiline
               fullWidth
-              value={bio}
+              value={data.bio}
               onChange={handleDataChange}
             />
           </Box>
@@ -195,7 +198,7 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
               label="Where do you live?"
               variant="filled"
               fullWidth
-              value={location}
+              value={data.location}
               onChange={handleDataChange}
             />
           </Box>
@@ -209,7 +212,7 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
               label="Website"
               variant="filled"
               fullWidth
-              value={website}
+              value={data.website}
               onChange={handleDataChange}
             />
           </Box>

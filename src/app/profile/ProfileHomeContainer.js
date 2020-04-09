@@ -13,8 +13,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 // Mui Icons
-import LocationIcon from '@material-ui/icons/LocationOnTwoTone';
 import CalendarIcon from '@material-ui/icons/CalendarTodayTwoTone';
+import LocationIcon from '@material-ui/icons/LocationOnTwoTone';
+import PublicIcon from '@material-ui/icons/PublicTwoTone';
 // Components
 import CoverImage from './CoverImage';
 import PageTitle from '../../common/ui/PageTitle';
@@ -58,7 +59,8 @@ export default function ProfileHomeContainer() {
     createdAt,
     following,
     followers,
-    tweets
+    tweets,
+    website
   } = useSelector(state => state.currentUser);
   const date = dayjs(createdAt).format('MMMM YYYY');
 
@@ -94,6 +96,10 @@ export default function ProfileHomeContainer() {
               <Box display="flex" alignItems="center">
                 <CalendarIcon />
                 <Typography variant="subtitle2">Joined since {date}</Typography>
+              </Box>
+              <Box display="flex" alignItems="center">
+                <PublicIcon />
+                <Typography variant="subtitle2">{website}</Typography>
               </Box>
             </Box>
             <Button
