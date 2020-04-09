@@ -57,6 +57,7 @@ export default function ProfileHomeContainer() {
   const {
     handle,
     userImage,
+    coverImage,
     fullName,
     location,
     bio,
@@ -87,7 +88,7 @@ export default function ProfileHomeContainer() {
     <>
       <PageTitle title={handle} />
       <Card variant="outlined" square>
-        <CoverImage coverImagePath={''}>
+        <CoverImage coverImage={coverImage}>
           <ProfileImage userImage={userImage} />
         </CoverImage>
         <CardContent className={classes.cardContent}>

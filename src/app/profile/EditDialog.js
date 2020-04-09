@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateUserData } from '../../redux/actions/user.actions';
+import { updateUserData, imageUpload } from '../../redux/actions/user.actions';
 // Mui components
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -8,6 +8,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
+import InputBase from '@material-ui/core/InputBase';
 import TextField from '@material-ui/core/TextField';
 // Mui Icons
 import AddAPhotoIcon from '@material-ui/icons/AddAPhotoTwoTone';
@@ -18,6 +19,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '../../common/ui/DialogTitle';
 
 const useStyles = makeStyles(theme => ({
+  ...theme.spreadThis,
   dialogContent: {
     padding: 0
   },
@@ -35,7 +37,8 @@ const useStyles = makeStyles(theme => ({
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundImage: props => `url(${props.coverImage})`,
+    backgroundImage: props =>
+      `url(http://localhost:6500/${props.coverImage.url})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat'
@@ -92,12 +95,19 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 export default function EditDialog({ openEditDialog, handleCloseEdit }) {
+  const coverImagefileInputEl = useRef(null);
+  const userImagefileInputEl = useRef(null);
   const [data, setData] = useState({});
   const dispatch = useDispatch();
-  const { userImage, fullName, bio, location, website } = useSelector(
-    state => state.currentUser
-  );
-  const coverImage = 'https://source.unsplash.com/random/600x240';
+  const {
+    fullName,
+    bio,
+    location,
+    website,
+    handle,
+    userImage,
+    coverImage
+  } = useSelector(state => state.currentUser);
   const classes = useStyles({ coverImage, userImage });
 
   useEffect(() => {
@@ -118,6 +128,19 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
     event.preventDefault();
     dispatch(updateUserData(data));
     handleCloseEdit();
+  };
+
+  const onCoverImageEditClick = () => {
+    coverImagefileInputEl.current.click();
+  };
+
+  const onUserImageEditClick = () => {
+    userImagefileInputEl.current.click();
+  };
+
+  const handleFileUpload = event => {
+    const file = event.target.files[0];
+    dispatch(imageUpload({ file, handle, dimension: event.target.name }));
   };
 
   return (
@@ -142,9 +165,21 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
         <Box className={classes.coverUploadContainer}>
           <Box className={classes.coverImage} />
           <Box className={classes.coverImageActions}>
-            <IconButton color="primary">
+            <IconButton color="primary" onClick={onCoverImageEditClick}>
               <AddAPhotoIcon />
             </IconButton>
+            <InputBase
+              type="file"
+              name="coverImage"
+              className={classes.fileInputBase}
+              inputProps={{
+                accept: 'image/png, image/jpeg, image/webp',
+                tabIndex: '-1',
+                'data-focusable': true,
+                ref: coverImagefileInputEl
+              }}
+              onChange={handleFileUpload}
+            />
             <IconButton color="primary">
               <CloseIcon />
             </IconButton>
@@ -154,9 +189,21 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
           <Box className={classes.userImage} />
           <Box className={classes.userImageBackdrop} />
           <Box className={classes.userImageAction}>
-            <IconButton color="primary">
+            <IconButton color="primary" onClick={onUserImageEditClick}>
               <AddAPhotoIcon />
             </IconButton>
+            <InputBase
+              type="file"
+              name="userImage"
+              className={classes.fileInputBase}
+              inputProps={{
+                accept: 'image/png, image/jpeg, image/webp',
+                tabIndex: '-1',
+                'data-focusable': true,
+                ref: userImagefileInputEl
+              }}
+              onChange={handleFileUpload}
+            />
           </Box>
         </Box>
         <Box padding={2}>
