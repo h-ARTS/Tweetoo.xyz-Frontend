@@ -41,6 +41,14 @@ export default createMuiTheme({
   spreadThis: {
     dialogTitle: {
       fontWeight: 800
+    },
+    fileInputBase: {
+      height: 0.1,
+      width: 0.1,
+      opacity: 0,
+      overflow: 'hidden',
+      position: 'absolute',
+      zIndex: '-1'
     }
   }
 });
