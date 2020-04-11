@@ -24,6 +24,7 @@ import ProfileImage from './ProfileImage';
 import ProfileTabPanel from './ProfileTabPanel';
 import TweetsPanel from './TweetsPanel';
 import EditDialog from './EditDialog';
+import LikesPanel from './LikesPanel';
 
 const useStyles = makeStyles(theme => ({
   firstLayer: {
@@ -164,9 +165,7 @@ export default function ProfileHomeContainer() {
           <Tab label="Media" {...a11yProps(2)} />
         </Tabs>
         <TweetsPanel value={value} index={0} userTweets={tweets} />
-        <ProfileTabPanel value={value} index={1}>
-          Likes
-        </ProfileTabPanel>
+        <LikesPanel value={value} index={1} />
         <ProfileTabPanel value={value} index={2}>
           Media
         </ProfileTabPanel>

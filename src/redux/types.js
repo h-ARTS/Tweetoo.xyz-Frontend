@@ -11,6 +11,7 @@ export const SET_UNAUTHENTICATED = 'SET_UNAUTHENTICATED';
 export const UPLOAD_USER_IMAGE = 'UPLOAD_USER_IMAGE';
 export const UPLOAD_COVER_IMAGE = 'UPLOAD_COVER_IMAGE';
 export const UPDATE_USER_DATA = 'UPDATE_USER_DATA';
+export const SET_LIKED_TWEETS = 'SET_LIKED_TWEETS';
 // Tweet reducer types
 export const SET_TWEETS = 'SET_TWEETS';
 export const POST_TWEET = 'POST_TWEET';
