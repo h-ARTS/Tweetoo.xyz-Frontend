@@ -6,7 +6,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Popover from '@material-ui/core/Popover';
-import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfiedTwoTone';
 // Mui Styles
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -21,6 +20,7 @@ const useStyles = makeStyles({
 
 export default function GenericPopover({ items, id, open, anchorEl, onClose }) {
   const classes = useStyles();
+
   return (
     <Popover
       id={id}
@@ -48,10 +48,17 @@ export default function GenericPopover({ items, id, open, anchorEl, onClose }) {
             onClick={item.callback}
             key={item.title}
           >
-            <ListItemIcon className={classes.listItemIcon}>
-              <SentimentVeryDissatisfiedIcon />
+            <ListItemIcon
+              className={classes.listItemIcon}
+              style={{ color: item.iconColor }}
+            >
+              <item.icon />
             </ListItemIcon>
-            <ListItemText primary={<Typography>{item.title}</Typography>} />
+            <ListItemText
+              primary={
+                <Typography color={item.textColor}>{item.title}</Typography>
+              }
+            />
           </ListItem>
         ))}
       </List>

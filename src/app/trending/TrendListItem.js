@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 // Mui Styles
 import { makeStyles } from '@material-ui/core/styles';
+import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfiedTwoTone';
+// Ui
 import GenericPopover from '../../common/ui/GenericPopover';
 
 const useStyles = makeStyles(theme => ({
@@ -71,22 +73,26 @@ export default function TrendListItem({ trend, divider, handleNavigate }) {
     {
       title: 'This trend is spam',
       divider: true,
-      callback: null
+      callback: null,
+      icon: SentimentVeryDissatisfiedIcon
     },
     {
       title: 'This trend is abusive or harmful',
       divider: true,
-      callback: null
+      callback: null,
+      icon: SentimentVeryDissatisfiedIcon
     },
     {
       title: 'This trend is duplicate',
       divider: true,
-      callback: null
+      callback: null,
+      icon: SentimentVeryDissatisfiedIcon
     },
     {
       title: 'This trend is low quality',
       divider: false,
-      callback: null
+      callback: null,
+      icon: SentimentVeryDissatisfiedIcon
     }
   ];
 
