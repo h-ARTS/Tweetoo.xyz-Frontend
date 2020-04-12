@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from '@reach/router';
 // Mui Components
 import Avatar from '@material-ui/core/Avatar';
@@ -15,6 +15,8 @@ import { deepPurple } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 // Components
 import NewTweetActions from './NewTweetActions';
+import { useSelector, useDispatch } from 'react-redux';
+import { postTweet } from '../../redux/actions/tweet.actions';
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -33,11 +35,26 @@ const useStyles = makeStyles(theme => ({
 }));
 export default function NewTweetForm({ user }) {
   const classes = useStyles();
+  const [tweetText, setTweetText] = useState('');
+  const dispatch = useDispatch();
+  const { userImage } = useSelector(state => state.currentUser);
+
+  const handleTweetText = event => {
+    setTweetText(event.target.value);
+  };
+
+  const submitTweet = event => {
+    dispatch(postTweet({ fullText: tweetText }));
+  };
 
   return (
     <Box display="flex" pl={2} pr={2} pt={2} pb={1} alignItems="stretch">
       <Link to={`/${user.handle}`}>
-        <Avatar className={classes.avatar}>PH</Avatar>
+        <Avatar
+          className={classes.avatar}
+          src={`http://localhost:6500/${userImage.url}`}
+          children={userImage.url ? null : 'PH'}
+        />
       </Link>
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="new-tweet" color="secondary">
@@ -49,6 +66,8 @@ export default function NewTweetForm({ user }) {
           aria-describedby="new-tweet"
           color="secondary"
           fullWidth
+          value={tweetText}
+          onChange={handleTweetText}
           startAdornment={
             <InputAdornment position="start" className={classes.inputAdornment}>
               <CreateIcon />
@@ -66,6 +85,7 @@ export default function NewTweetForm({ user }) {
             className={classes.tweetButton}
             variant="contained"
             color="secondary"
+            onClick={submitTweet}
             disableElevation
           >
             Tweet!
