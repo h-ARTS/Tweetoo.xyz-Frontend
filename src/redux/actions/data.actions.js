@@ -20,17 +20,21 @@ export const fetchAllData = () => dispatch => {
   axios
     .all([
       getCurrentUser(),
+      getAllLikedTweets(),
       getAllTweets(),
-      getAllReplies(),
-      getAllLikedTweets()
+      getAllReplies()
     ])
     .then(
-      axios.spread((currentUser, tweets, replies, likedTweets) => {
+      axios.spread((currentUser, likedTweets, tweets, replies) => {
         dispatch({
           type: SET_AUTHENTICATED_USER,
           user: currentUser.data.data
         });
         dispatch({ type: SET_AUTHENTICATED });
+        dispatch({
+          type: SET_LIKED_TWEETS,
+          liked: likedTweets.data
+        });
         dispatch({
           type: SET_TWEETS,
           tweets: tweets.data.data
@@ -38,10 +42,6 @@ export const fetchAllData = () => dispatch => {
         dispatch({
           type: SET_REPLIES,
           replies: replies.data.data
-        });
-        dispatch({
-          type: SET_LIKED_TWEETS,
-          liked: likedTweets.data
         });
         dispatch({ type: DATA_FETCH_COMPLETED });
       })
