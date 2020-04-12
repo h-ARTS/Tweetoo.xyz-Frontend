@@ -45,6 +45,7 @@ export default function NewTweetForm({ user }) {
 
   const submitTweet = event => {
     dispatch(postTweet({ fullText: tweetText }));
+    setTweetText('');
   };
 
   return (
