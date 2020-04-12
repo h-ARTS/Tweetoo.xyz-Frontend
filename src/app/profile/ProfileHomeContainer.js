@@ -6,17 +6,12 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Link from '@material-ui/core/Link';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
 // Mui Styles
 import { makeStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
-// Mui Icons
-import CalendarIcon from '@material-ui/icons/CalendarTodayTwoTone';
-import LocationIcon from '@material-ui/icons/LocationOnTwoTone';
-import PublicIcon from '@material-ui/icons/PublicTwoTone';
 // Components
 import CoverImage from './CoverImage';
 import PageTitle from '../../common/ui/PageTitle';
@@ -25,6 +20,9 @@ import ProfileTabPanel from './ProfileTabPanel';
 import TweetsPanel from './TweetsPanel';
 import EditDialog from './EditDialog';
 import LikesPanel from './LikesPanel';
+import Website from './Website';
+import Joined from './Joined';
+import Location from './Location';
 
 const useStyles = makeStyles(theme => ({
   firstLayer: {
@@ -51,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(1)
   }
 }));
-export default function ProfileHomeContainer() {
+export const ProfileHomeContainer = React.forwardRef((props, ref) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [open, setOpen] = useState(false);
@@ -66,7 +64,8 @@ export default function ProfileHomeContainer() {
     following,
     followers,
     tweets,
-    website
+    website,
+    liked
   } = useSelector(state => state.currentUser);
   const date = dayjs(createdAt).format('MMMM YYYY');
 
@@ -95,26 +94,9 @@ export default function ProfileHomeContainer() {
         <CardContent className={classes.cardContent}>
           <Box className={classes.firstLayer}>
             <Box className={classes.locationJoined}>
-              <Box display="flex" alignItems="center" pb={1}>
-                <LocationIcon />
-                <Typography variant="subtitle2">{location}</Typography>
-              </Box>
-              <Box display="flex" alignItems="center" pb={1}>
-                <CalendarIcon />
-                <Typography variant="subtitle2">Joined since {date}</Typography>
-              </Box>
-              <Box display="flex" alignItems="center">
-                <PublicIcon />
-                <Link
-                  href={`http://${website}`}
-                  color="secondary"
-                  variant="subtitle2"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {website}
-                </Link>
-              </Box>
+              {location && <Location location={location} />}
+              <Joined date={date} />
+              {website && <Website website={website} />}
             </Box>
             <Button
               variant="outlined"
@@ -165,7 +147,7 @@ export default function ProfileHomeContainer() {
           <Tab label="Media" {...a11yProps(2)} />
         </Tabs>
         <TweetsPanel value={value} index={0} userTweets={tweets} />
-        <LikesPanel value={value} index={1} />
+        <LikesPanel value={value} index={1} liked={liked} />
         <ProfileTabPanel value={value} index={2}>
           Media
         </ProfileTabPanel>
@@ -173,4 +155,6 @@ export default function ProfileHomeContainer() {
       <EditDialog openEditDialog={open} handleCloseEdit={toggleEditDialog} />
     </>
   );
-}
+});
+
+export default ProfileHomeContainer;
