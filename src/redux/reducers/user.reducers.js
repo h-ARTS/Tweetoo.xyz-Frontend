@@ -10,7 +10,7 @@ import {
 
 export default function(state = {}, action) {
   if (action.type === SET_AUTHENTICATED_USER) {
-    return action.user;
+    return { ...state, ...action.user };
   }
 
   if (action.type === SET_UNAUTHENTICATED) {
