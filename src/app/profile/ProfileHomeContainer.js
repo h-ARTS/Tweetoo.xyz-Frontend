@@ -64,8 +64,7 @@ export const ProfileHomeContainer = React.forwardRef((props, ref) => {
     following,
     followers,
     tweets,
-    website,
-    liked
+    website
   } = useSelector(state => state.currentUser);
   const date = dayjs(createdAt).format('MMMM YYYY');
 
@@ -147,7 +146,7 @@ export const ProfileHomeContainer = React.forwardRef((props, ref) => {
           <Tab label="Media" {...a11yProps(2)} />
         </Tabs>
         <TweetsPanel value={value} index={0} userTweets={tweets} />
-        <LikesPanel value={value} index={1} liked={liked} />
+        <LikesPanel value={value} index={1} userTweets={tweets} />
         <ProfileTabPanel value={value} index={2}>
           Media
         </ProfileTabPanel>
