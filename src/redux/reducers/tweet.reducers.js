@@ -1,4 +1,10 @@
-import { SET_TWEETS, POST_TWEET, DELETE_TWEET } from '../types';
+import {
+  SET_TWEETS,
+  POST_TWEET,
+  DELETE_TWEET,
+  LIKE_TWEET,
+  UNLIKE_TWEET
+} from '../types';
 
 export default function(state = {}, action) {
   if (action.type === SET_TWEETS) {
@@ -7,6 +13,22 @@ export default function(state = {}, action) {
 
   if (action.type === POST_TWEET) {
     return [...state, action.tweet];
+  }
+
+  if (action.type === LIKE_TWEET) {
+    if (!action.tweet.isLiked) {
+      action.tweet.isLiked = true;
+    }
+    const filtered = state.filter(tweet => tweet._id !== action.tweet._id);
+    return [...filtered, action.tweet];
+  }
+
+  if (action.type === UNLIKE_TWEET) {
+    if (action.tweet.isLiked) {
+      action.tweet.isLiked = false;
+    }
+    const filtered = state.filter(tweet => tweet._id !== action.tweet._id);
+    return [...filtered, action.tweet];
   }
 
   if (action.type === DELETE_TWEET) {
