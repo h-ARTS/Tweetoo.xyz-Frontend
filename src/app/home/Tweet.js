@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from '@reach/router';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTweet } from '../../redux/actions/tweet.actions';
+import {
+  deleteTweet,
+  handleLikeTweet
+} from '../../redux/actions/tweet.actions';
 // Mui Components
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
@@ -77,6 +80,7 @@ export default function Tweet(props) {
     retweet,
     retweetCount,
     likeCount,
+    isLiked,
     createdAt,
     createdBy
   } = props.tweet;
@@ -137,6 +141,16 @@ export default function Tweet(props) {
     setAnchorEl(null);
   };
 
+  // Tweet action methods
+
+  const handleLike = () => {
+    if (isLiked) {
+      dispatch(handleLikeTweet(_id, 'unlike'));
+    } else {
+      dispatch(handleLikeTweet(_id, 'like'));
+    }
+  };
+
   const handleDeleteTweet = () => {
     dispatch(deleteTweet(_id));
   };
@@ -191,7 +205,12 @@ export default function Tweet(props) {
         <CardActions className={classes.actions}>
           <TweetAction actionType="reply" count={replyCount} />
           <TweetAction actionType="retweet" count={retweetCount} />
-          <TweetAction actionType="like" count={likeCount} />
+          <TweetAction
+            actionType="like"
+            count={likeCount}
+            isActive={isLiked}
+            onClick={handleLike}
+          />
           <TweetAction actionType="bookmark" />
         </CardActions>
       </Card>

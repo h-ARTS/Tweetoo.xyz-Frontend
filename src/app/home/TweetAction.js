@@ -37,28 +37,24 @@ const actionButtons = isActive => ({
   reply: {
     ariaLabel: 'reply',
     colorFactory: 'primary',
-    onClick: () => {},
     Icon: ReplyIcon,
     theme: defaultTheme
   },
   retweet: {
     ariaLabel: 'retweet',
     colorFactory: isActive ? 'secondary' : 'primary',
-    onClick: () => {},
     Icon: RetweetIcon,
     theme: retweet
   },
   like: {
     ariaLabel: 'like',
     colorFactory: isActive ? 'secondary' : 'primary',
-    onClick: () => {},
     Icon: LikeIcon,
     theme: like
   },
   bookmark: {
     ariaLabel: 'bookmark',
     colorFactory: 'primary',
-    onClick: () => {},
     Icon: BookmarkIcon,
     theme: defaultTheme
   }
@@ -73,21 +69,18 @@ const StyledBadge = withStyles({
   }
 })(Badge);
 
-export default function TweetAction({ actionType, count }) {
-  const [active, setActive] = useState(false);
+export default function TweetAction({ actionType, count, isActive, onClick }) {
   const [replyCount, setReplyCount] = useState(0);
-  const { ariaLabel, colorFactory, onClick, Icon, theme } = actionButtons(
-    active
-  )[actionType];
+  const { ariaLabel, colorFactory, Icon, theme } = actionButtons(isActive)[
+    actionType
+  ];
 
   useEffect(() => {
     const getReplies = ['432', '21312', '21312'];
     setReplyCount(getReplies.length);
   }, [replyCount]);
 
-  const setAction = () => {
-    setActive(!active);
-
+  const handleAction = () => {
     onClick();
   };
 
@@ -97,7 +90,7 @@ export default function TweetAction({ actionType, count }) {
         <IconButton
           aria-label={ariaLabel}
           color={colorFactory}
-          onClick={setAction}
+          onClick={handleAction}
         >
           <StyledBadge
             badgeContent={count}
@@ -115,7 +108,7 @@ export default function TweetAction({ actionType, count }) {
         <IconButton
           aria-label={ariaLabel}
           color={colorFactory}
-          onClick={setAction}
+          onClick={handleAction}
         >
           <Icon />
         </IconButton>
