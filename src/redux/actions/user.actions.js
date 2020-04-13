@@ -6,7 +6,6 @@ import {
   LOADING_UI,
   SET_ERRORS,
   SET_UNAUTHENTICATED,
-  SET_LIKED_TWEETS,
   UPLOAD_USER_IMAGE,
   UPLOAD_COVER_IMAGE,
   UPDATE_USER_DATA
@@ -89,26 +88,6 @@ export const updateUserData = data => async dispatch => {
     dispatch({
       type: UPDATE_USER_DATA,
       data
-    });
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const getAllLikedTweets = () => async dispatch => {
-  dispatch({
-    type: LOADING_UI
-  });
-  try {
-    const response = await axios.get('/api/tweet/liked');
-
-    if (!response) {
-      throw new Error(response);
-    }
-
-    dispatch({
-      type: SET_LIKED_TWEETS,
-      liked: response
     });
   } catch (err) {
     throw err;

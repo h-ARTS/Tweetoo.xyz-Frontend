@@ -4,8 +4,7 @@ import {
   SET_AUTHENTICATED,
   UPLOAD_USER_IMAGE,
   UPLOAD_COVER_IMAGE,
-  UPDATE_USER_DATA,
-  SET_LIKED_TWEETS
+  UPDATE_USER_DATA
 } from '../types';
 
 export default function(state = {}, action) {
@@ -45,13 +44,6 @@ export default function(state = {}, action) {
     return {
       ...state,
       ...action.data
-    };
-  }
-
-  if (action.type === SET_LIKED_TWEETS) {
-    return {
-      ...state,
-      liked: [...action.liked]
     };
   }
 

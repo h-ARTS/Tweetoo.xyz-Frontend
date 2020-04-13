@@ -5,8 +5,7 @@ import {
   SET_REPLIES,
   SET_AUTHENTICATED,
   LOADING_UI,
-  DATA_FETCH_COMPLETED,
-  SET_LIKED_TWEETS
+  DATA_FETCH_COMPLETED
 } from '../types';
 
 export const fetchAllData = () => dispatch => {
@@ -26,18 +25,24 @@ export const fetchAllData = () => dispatch => {
     ])
     .then(
       axios.spread((currentUser, likedTweets, tweets, replies) => {
+        const filterTweetsForLikes = tweets.data.data.map(function(tweet) {
+          tweet.isLiked = false;
+          this.forEach(liked => {
+            if (liked._id === tweet._id) {
+              tweet.isLiked = true;
+            }
+          });
+          return tweet;
+        }, likedTweets.data);
+        console.table(filterTweetsForLikes);
         dispatch({
           type: SET_AUTHENTICATED_USER,
           user: currentUser.data.data
         });
         dispatch({ type: SET_AUTHENTICATED });
         dispatch({
-          type: SET_LIKED_TWEETS,
-          liked: likedTweets.data
-        });
-        dispatch({
           type: SET_TWEETS,
-          tweets: tweets.data.data
+          tweets: filterTweetsForLikes
         });
         dispatch({
           type: SET_REPLIES,

@@ -9,8 +9,7 @@ export default {
     },
     coverImage: {
       url: ''
-    },
-    liked: []
+    }
   },
   ui: {
     loading: false
