@@ -13,7 +13,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 // Mui Theme
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
+// Mui Icons
+import BlockIcon from '@material-ui/icons/BlockTwoTone';
 import DeleteIcon from '@material-ui/icons/DeleteForeverTwoTone';
+import PersonAddIcon from '@material-ui/icons/PersonAddTwoTone';
 // Components
 import TweetSubheader from './TweetSubheader';
 import MoreButton from './MoreButton';
@@ -80,7 +83,7 @@ export default function Tweet(props) {
   const replyCount = replies.length;
 
   useEffect(() => {
-    if (currentUser._id === createdBy) {
+    if (currentUser.handle === handle) {
       setListItem([
         ...listItems,
         {
@@ -88,6 +91,21 @@ export default function Tweet(props) {
           divider: false,
           callback: handleDeleteTweet,
           icon: DeleteIcon,
+          iconColor: theme.palette.error.main,
+          textColor: 'error'
+        }
+      ]);
+    } else {
+      setListItem([
+        {
+          title: `Follow @${handle}`,
+          divider: true,
+          icon: PersonAddIcon
+        },
+        {
+          title: `Block @${handle}`,
+          divider: true,
+          icon: BlockIcon,
           iconColor: theme.palette.error.main,
           textColor: 'error'
         }
