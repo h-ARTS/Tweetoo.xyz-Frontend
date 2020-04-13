@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { POST_TWEET, SET_AUTHENTICATED_USER, DELETE_TWEET } from '../types';
+import {
+  POST_TWEET,
+  SET_AUTHENTICATED_USER,
+  DELETE_TWEET,
+  LIKE_TWEET,
+  UNLIKE_TWEET
+} from '../types';
 
 export const postTweet = data => async dispatch => {
   try {
@@ -38,6 +44,30 @@ export const deleteTweet = tweetId => async dispatch => {
       type: SET_AUTHENTICATED_USER,
       user: response.data.user
     });
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const handleLikeTweet = (tweetId, type) => async dispatch => {
+  try {
+    const response = await axios.put(`/api/tweet/${tweetId}/${type}`);
+
+    if (!response) {
+      throw new Error(response);
+    }
+
+    if (type === 'like') {
+      dispatch({
+        type: LIKE_TWEET,
+        tweet: response.data.doc
+      });
+    } else {
+      dispatch({
+        type: UNLIKE_TWEET,
+        tweet: response.data.doc
+      });
+    }
   } catch (err) {
     throw err;
   }
