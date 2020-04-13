@@ -18,9 +18,9 @@ export default function LikesPanel({ value, index, liked }) {
   } else {
     return (
       <ProfileTabPanel value={value} index={index}>
-        {liked.map(tweet => (
-          <Tweet key={tweet._id} tweet={tweet} />
-        ))}
+        {liked
+          .map(tweet => <Tweet key={tweet._id} tweet={tweet} />)
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))}
       </ProfileTabPanel>
     );
   }
