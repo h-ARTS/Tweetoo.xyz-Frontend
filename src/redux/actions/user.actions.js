@@ -105,7 +105,12 @@ export const updateUserData = data => async dispatch => {
 
     dispatch({
       type: UPDATE_USER_DATA,
-      data
+      data: response.data
+    });
+  } catch (err) {
+    throw err;
+  }
+};
     });
   } catch (err) {
     throw err;
