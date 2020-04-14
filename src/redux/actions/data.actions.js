@@ -34,7 +34,6 @@ export const fetchAllData = () => dispatch => {
           });
           return tweet;
         }, likedTweets.data);
-        console.table(filterTweetsForLikes);
         dispatch({
           type: SET_AUTHENTICATED_USER,
           user: currentUser.data.data
