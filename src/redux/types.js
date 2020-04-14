@@ -5,6 +5,8 @@ export const LOADING_UI = 'LOADING_UI';
 export const SET_ERRORS = 'SET_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 // User reducer types
+export const SET_USER = 'SET_USER';
+export const CLEAR_USER = 'CLEAR_USER';
 export const SET_AUTHENTICATED_USER = 'SET_AUTHENTICATED_USER';
 export const SET_AUTHENTICATED = 'SET_AUTHENTICATED';
 export const SET_UNAUTHENTICATED = 'SET_UNAUTHENTICATED';

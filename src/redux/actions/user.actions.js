@@ -5,6 +5,7 @@ import {
   CLEAR_ERRORS,
   LOADING_UI,
   SET_ERRORS,
+  SET_USER,
   SET_UNAUTHENTICATED,
   UPLOAD_USER_IMAGE,
   UPLOAD_COVER_IMAGE,
@@ -72,6 +73,23 @@ export const imageUpload = imageData => async dispatch => {
         coverImage: { _id, name, type, url }
       });
     }
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getUser = handle => async dispatch => {
+  try {
+    const response = await axios.get(`/api/user/${handle}`);
+
+    if (!response) {
+      throw new Error(response);
+    }
+
+    dispatch({
+      type: SET_USER,
+      user: response.data
+    });
   } catch (err) {
     throw err;
   }
