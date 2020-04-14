@@ -69,7 +69,7 @@ export default function Tweet(props) {
   const [listItems, setListItem] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const currentUser = useSelector(state => state.currentUser);
+  const currentUser = useSelector(state => state.user.current);
   const {
     _id,
     handle,

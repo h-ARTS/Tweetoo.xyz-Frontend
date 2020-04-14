@@ -1,14 +1,27 @@
 export default {
-  currentUser: {
-    authenticated: false,
-    tweets: [],
-    following: [],
-    followers: [],
-    userImage: {
-      url: ''
+  user: {
+    current: {
+      authenticated: false,
+      tweets: [],
+      following: [],
+      followers: [],
+      userImage: {
+        url: ''
+      },
+      coverImage: {
+        url: ''
+      }
     },
-    coverImage: {
-      url: ''
+    watching: {
+      tweets: [],
+      following: [],
+      followers: [],
+      userImage: {
+        url: ''
+      },
+      coverImage: {
+        url: ''
+      }
     }
   },
   ui: {

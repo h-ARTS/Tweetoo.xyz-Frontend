@@ -4,47 +4,72 @@ import {
   SET_AUTHENTICATED,
   UPLOAD_USER_IMAGE,
   UPLOAD_COVER_IMAGE,
-  UPDATE_USER_DATA
+  UPDATE_USER_DATA,
+  CLEAR_STATE,
+  SET_USER,
+  CLEAR_USER
 } from '../types';
+import initialState from '../initialState';
 
 export default function(state = {}, action) {
   if (action.type === SET_AUTHENTICATED_USER) {
-    return { ...state, ...action.user };
+    return {
+      ...state,
+      current: { ...action.user }
+    };
   }
 
   if (action.type === SET_UNAUTHENTICATED) {
     return {
       ...state,
-      authenticated: false
+      current: { ...state.current, authenticated: false }
     };
   }
 
   if (action.type === SET_AUTHENTICATED) {
     return {
       ...state,
-      authenticated: true
+      current: { ...state.current, authenticated: true }
+    };
+  }
+
+  if (action.type === SET_USER) {
+    return {
+      ...state,
+      watching: action.user
     };
   }
 
   if (action.type === UPLOAD_USER_IMAGE) {
     return {
       ...state,
-      userImage: action.userImage
+      current: { ...state.current, userImage: action.userImage }
     };
   }
 
   if (action.type === UPLOAD_COVER_IMAGE) {
     return {
       ...state,
-      coverImage: action.coverImage
+      current: { ...state.current, coverImage: action.coverImage }
     };
   }
 
   if (action.type === UPDATE_USER_DATA) {
     return {
       ...state,
-      ...action.data
+      current: { ...action.data }
     };
+  }
+
+  if (action.type === CLEAR_USER) {
+    return {
+      ...state,
+      watching: initialState.user.watching
+    };
+  }
+
+  if (action.type === CLEAR_STATE) {
+    return initialState.user;
   }
 
   return state;

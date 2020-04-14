@@ -7,7 +7,7 @@ import signup from './signup.reducers';
 
 export default combineReducers({
   ui,
-  currentUser: user,
+  user,
   tweets,
   signup_form: signup
 });

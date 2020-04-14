@@ -107,7 +107,7 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
     handle,
     userImage,
     coverImage
-  } = useSelector(state => state.currentUser);
+  } = useSelector(state => state.user.current);
   const classes = useStyles({ coverImage, userImage });
 
   useEffect(() => {

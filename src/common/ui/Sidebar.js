@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 export default function Sidebar() {
   const classes = useStyles();
   const isXL = useMediaQuery('(max-width: 1280px)');
-  const { userImage } = useSelector(state => state.currentUser);
+  const { userImage } = useSelector(state => state.user.current);
 
   return (
     <Grid
