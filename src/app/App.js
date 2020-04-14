@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Router, navigate } from '@reach/router';
 // JWT / Axios
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
+import store from '../redux/store';
+import { useSelector } from 'react-redux';
 import { logoutUser } from '../redux/actions/user.actions';
 import { fetchAllData } from '../redux/actions/data.actions';
 // Mui components
@@ -25,29 +26,24 @@ import Layout from '../common/ui/Layout';
 
 axios.defaults.baseURL = 'http://localhost:6500';
 const token = localStorage.token;
+if (token) {
+  const decoded = jwtDecode(token);
+  if (decoded.exp * 1000 < Date.now()) {
+    store.dispatch(logoutUser());
+    navigate('/');
+  } else {
+    axios.defaults.headers.common['Authorization'] = token;
+    store.dispatch(fetchAllData());
+    const path =
+      window.location.pathname === '/' ? '/home' : window.location.pathname;
+    navigate(path);
+  }
+} else {
+  navigate('/');
+}
 
 export default function App() {
-  const dispatch = useDispatch();
   const { loading } = useSelector(state => state.ui);
-
-  useEffect(() => {
-    if (token) {
-      const decoded = jwtDecode(token);
-      if (decoded.exp * 1000 < Date.now()) {
-        dispatch(logoutUser());
-        navigate('/');
-      } else {
-        axios.defaults.headers.common['Authorization'] = token;
-        dispatch(fetchAllData());
-        const path =
-          window.location.pathname === '/' ? '/home' : window.location.pathname;
-        navigate(path);
-      }
-    } else {
-      navigate('/');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <ThemeProvider theme={theme}>
