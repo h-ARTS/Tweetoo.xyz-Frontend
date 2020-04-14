@@ -11,6 +11,7 @@ import {
   UPLOAD_COVER_IMAGE,
   UPDATE_USER_DATA,
   CLEAR_STATE,
+  SET_AUTHENTICATED_USER
 } from '../types';
 import { fetchAllData } from './data.actions';
 
@@ -113,6 +114,22 @@ export const updateUserData = data => async dispatch => {
     throw err;
   }
 };
+
+export const updateFollower = (handle, follow = false) => async dispatch => {
+  try {
+    const response = await axios.put(`/api/user/${handle}?follow=${follow}`);
+
+    if (!response) {
+      throw new Error(response);
+    }
+
+    dispatch({
+      type: SET_USER,
+      user: response.data.target
+    });
+    dispatch({
+      type: SET_AUTHENTICATED_USER,
+      user: response.data.updated
     });
   } catch (err) {
     throw err;
