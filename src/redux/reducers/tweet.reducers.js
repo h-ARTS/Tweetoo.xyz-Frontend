@@ -3,10 +3,11 @@ import {
   POST_TWEET,
   DELETE_TWEET,
   LIKE_TWEET,
-  UNLIKE_TWEET
+  UNLIKE_TWEET,
+  CLEAR_STATE
 } from '../types';
 
-export default function(state = {}, action) {
+export default function(state = [], action) {
   if (action.type === SET_TWEETS) {
     return [...state, ...action.tweets];
   }
@@ -36,6 +37,10 @@ export default function(state = {}, action) {
       tweet => tweet._id !== action.removed._id
     );
     return [...removedFiltered];
+  }
+
+  if (action.type === CLEAR_STATE) {
+    return [];
   }
 
   return state;
