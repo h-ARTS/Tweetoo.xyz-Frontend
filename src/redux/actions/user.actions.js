@@ -9,7 +9,8 @@ import {
   SET_UNAUTHENTICATED,
   UPLOAD_USER_IMAGE,
   UPLOAD_COVER_IMAGE,
-  UPDATE_USER_DATA
+  UPDATE_USER_DATA,
+  CLEAR_STATE,
 } from '../types';
 import { fetchAllData } from './data.actions';
 
@@ -17,6 +18,7 @@ export const logoutUser = () => dispatch => {
   localStorage.removeItem('token');
   delete axios.defaults.headers.common['Authorization'];
   dispatch({ type: SET_UNAUTHENTICATED });
+  dispatch({ type: CLEAR_STATE });
   navigate('/');
 };
 
