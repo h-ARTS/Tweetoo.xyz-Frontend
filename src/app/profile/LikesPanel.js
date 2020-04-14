@@ -7,15 +7,13 @@ import Typography from '@material-ui/core/Typography';
 import ProfileTabPanel from './ProfileTabPanel';
 import Tweet from '../home/Tweet';
 
-export const LikesPanel = React.memo(({ value, index, userTweets }) => {
+export const LikesPanel = React.memo(({ value, index }) => {
   const tweets = useSelector(state => state.tweets);
   const filtered = tweets
-    .filter(function(tweet) {
-      return this.find(t => t.tweetId === tweet._id && tweet.isLiked === true);
-    }, userTweets)
+    .filter(tweet => tweet.isLiked === true)
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-  if (!userTweets) {
+  if (!filtered.length) {
     return (
       <ProfileTabPanel value={value} index={index}>
         <Box p={1}>
