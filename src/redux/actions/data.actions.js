@@ -25,7 +25,7 @@ export const fetchAllData = () => dispatch => {
     ])
     .then(
       axios.spread((currentUser, likedTweets, tweets, replies) => {
-        const filterTweetsForLikes = tweets.data.data.map(function(tweet) {
+        let filteredTweets = tweets.data.map(function(tweet) {
           tweet.isLiked = false;
           this.forEach(liked => {
             if (liked._id === tweet._id) {
@@ -34,14 +34,23 @@ export const fetchAllData = () => dispatch => {
           });
           return tweet;
         }, likedTweets.data);
+        filteredTweets = filteredTweets.map(function(tweet) {
+          tweet.isRetweet = false;
+          this.forEach(userTweet => {
+            if (userTweet.tweetId === tweet._id && userTweet.retweet) {
+              tweet.isRetweet = true;
+            }
+          });
+          return tweet;
+        }, currentUser.data.tweets);
         dispatch({
           type: SET_AUTHENTICATED_USER,
-          user: currentUser.data.data
+          user: currentUser.data
         });
         dispatch({ type: SET_AUTHENTICATED });
         dispatch({
           type: SET_TWEETS,
-          tweets: filterTweetsForLikes
+          tweets: filteredTweets
         });
         dispatch({
           type: SET_REPLIES,

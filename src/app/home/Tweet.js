@@ -4,7 +4,8 @@ import { useNavigate } from '@reach/router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   deleteTweet,
-  handleLikeTweet
+  handleLikeTweet,
+  postRetweet
 } from '../../redux/actions/tweet.actions';
 // Mui Components
 import Avatar from '@material-ui/core/Avatar';
@@ -77,7 +78,7 @@ export default function Tweet(props) {
     fullText,
     image,
     replies,
-    retweet,
+    isRetweet,
     retweetCount,
     likeCount,
     isLiked,
@@ -155,6 +156,10 @@ export default function Tweet(props) {
     dispatch(deleteTweet(_id));
   };
 
+  const handleRetweet = () => {
+    dispatch(postRetweet(_id, !isRetweet));
+  };
+
   const popoverProps = {
     id: Boolean(anchorEl) ? 'more-popover' : undefined,
     open: Boolean(anchorEl),
@@ -175,7 +180,7 @@ export default function Tweet(props) {
           className={classes.cardActionArea}
           disableRipple
         >
-          {retweet && <TweetSubheader handle={handle} />}
+          {isRetweet && <TweetSubheader handle={handle} />}
           <CardHeader
             className={classes.cardHeader}
             avatar={
@@ -204,7 +209,12 @@ export default function Tweet(props) {
         </CardActionArea>
         <CardActions className={classes.actions}>
           <TweetAction actionType="reply" count={replyCount} />
-          <TweetAction actionType="retweet" count={retweetCount} />
+          <TweetAction
+            actionType="retweet"
+            count={retweetCount}
+            isActive={isRetweet}
+            onClick={handleRetweet}
+          />
           <TweetAction
             actionType="like"
             count={likeCount}

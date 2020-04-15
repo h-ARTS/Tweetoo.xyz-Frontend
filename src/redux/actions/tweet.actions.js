@@ -4,7 +4,9 @@ import {
   SET_AUTHENTICATED_USER,
   DELETE_TWEET,
   LIKE_TWEET,
-  UNLIKE_TWEET
+  UNLIKE_TWEET,
+  POST_RETWEET,
+  DELETE_RETWEET
 } from '../types';
 
 export const postTweet = data => async dispatch => {
@@ -66,6 +68,40 @@ export const handleLikeTweet = (tweetId, type) => async dispatch => {
       dispatch({
         type: UNLIKE_TWEET,
         tweet: response.data.doc
+      });
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const postRetweet = (tweetId, retweet = true) => async dispatch => {
+  try {
+    const response = retweet
+      ? await axios.post(`/api/tweet/${tweetId}/retweet`)
+      : await axios.delete(`/api/tweet/${tweetId}/undoretweet`);
+
+    if (!response) {
+      throw new Error(response);
+    }
+
+    if (retweet) {
+      dispatch({
+        type: POST_RETWEET,
+        tweet: response.data.doc
+      });
+      dispatch({
+        type: SET_AUTHENTICATED_USER,
+        user: response.data.user
+      });
+    } else {
+      dispatch({
+        type: DELETE_RETWEET,
+        tweet: response.data.doc
+      });
+      dispatch({
+        type: SET_AUTHENTICATED_USER,
+        user: response.data.user
       });
     }
   } catch (err) {
