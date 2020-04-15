@@ -56,9 +56,9 @@ export default function TweetTitle(props) {
       <div className={classes.dotDivider}>
         <span>·</span>
       </div>
-      <div className={classes.tweetTime}>
+      <Typography variant="body2" className={classes.tweetTime}>
         <time dateTime={dateTime}>{dateTime}</time>
-      </div>
+      </Typography>
     </Box>
   );
 }
