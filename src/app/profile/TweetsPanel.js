@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import ProfileTabPanel from './ProfileTabPanel';
 import Tweet from '../home/Tweet';
 
-export default function TweetsPanel({ value, index, userTweets }) {
+export const TweetsPanel = React.memo(({ value, index, userTweets }) => {
   const tweets = useSelector(state => state.tweets);
   const filtered = tweets
     .filter(function(tweet) {
@@ -18,4 +18,6 @@ export default function TweetsPanel({ value, index, userTweets }) {
       ))}
     </ProfileTabPanel>
   );
-}
+});
+
+export default TweetsPanel;
