@@ -37,6 +37,9 @@ const useStyles = makeStyles(theme => ({
   listItemIconRoot: {
     minWidth: 'auto'
   },
+  listSubheader: {
+    zIndex: 0
+  },
   avatarContainer: {
     display: 'inline-flex',
     minWidth: 56,
@@ -71,7 +74,11 @@ export default function Sidebar() {
           className={isXL ? classes.list : ''}
           subheader={
             !isXL && (
-              <ListSubheader component="div" id="nested-list-subheader">
+              <ListSubheader
+                component="div"
+                className={classes.listSubheader}
+                id="nested-list-subheader"
+              >
                 Tweetoo.xyz
               </ListSubheader>
             )
