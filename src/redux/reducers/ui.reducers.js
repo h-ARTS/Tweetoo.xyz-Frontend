@@ -1,4 +1,4 @@
-import { DATA_FETCH_COMPLETED, LOADING_UI } from '../types';
+import { DATA_FETCH_COMPLETED, LOADING_UI, PROFILE_TAB_CHANGE } from '../types';
 
 export default function(state = {}, action) {
   if (action.type === LOADING_UI) {
@@ -12,6 +12,15 @@ export default function(state = {}, action) {
     return {
       ...state,
       loading: false
+    };
+  }
+
+  if (action.type === PROFILE_TAB_CHANGE) {
+    return {
+      ...state,
+      profile: {
+        tabValue: action.tabValue
+      }
     };
   }
 

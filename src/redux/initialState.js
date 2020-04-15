@@ -25,6 +25,9 @@ export default {
     }
   },
   ui: {
+    profile: {
+      tabValue: 0
+    },
     loading: false
   },
   tweets: []

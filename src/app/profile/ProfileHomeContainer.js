@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useLocation } from '@reach/router';
+import { useLocation, useMatch } from '@reach/router';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser, updateFollower } from '../../redux/actions/user.actions';
-import { CLEAR_USER } from '../../redux/types';
+import { CLEAR_USER, PROFILE_TAB_CHANGE } from '../../redux/types';
 import dayjs from 'dayjs';
 // Mui
 import Box from '@material-ui/core/Box';
@@ -69,20 +69,25 @@ const useStyles = makeStyles(theme => ({
 }));
 export const ProfileHomeContainer = () => {
   const classes = useStyles();
-  const [value, setValue] = useState(0);
   const [open, setOpen] = useState(false);
   const [followingTitle, setFollowingTitle] = useState('following');
   const location = useLocation();
   const dispatch = useDispatch();
+  const { tabValue } = useSelector(state => state.ui.profile);
   const { current, watching } = useSelector(state => state.user);
   const date = dayjs(current.createdAt).format('MMMM YYYY');
   const isNotCurrentUser =
     location.pathname !== '/profile' &&
     location.pathname !== `/${current.handle}`;
+  const match = useMatch('/:userId');
 
   useEffect(() => {
     if (isNotCurrentUser) {
       dispatch(getUser(location.pathname.substring(1)));
+    }
+
+    if (match) {
+      dispatch({ type: PROFILE_TAB_CHANGE, tabValue: 0 });
     }
 
     return () => {
@@ -99,7 +104,7 @@ export const ProfileHomeContainer = () => {
   };
 
   const handleTabChange = (event, newValue) => {
-    setValue(newValue);
+    dispatch({ type: PROFILE_TAB_CHANGE, tabValue: newValue });
   };
 
   const toggleEditDialog = () => {
@@ -234,7 +239,7 @@ export const ProfileHomeContainer = () => {
         </CardContent>
         <Tabs
           variant="fullWidth"
-          value={value}
+          value={tabValue}
           onChange={handleTabChange}
           aria-label="profile tabs"
           className={classes.tabs}
@@ -244,12 +249,12 @@ export const ProfileHomeContainer = () => {
           <Tab label="Media" {...a11yProps(2)} />
         </Tabs>
         <TweetsPanel
-          value={value}
+          value={tabValue}
           index={0}
           userTweets={userPropFactory('tweets')}
         />
-        <LikesPanel value={value} index={1} />
-        <ProfileTabPanel value={value} index={2}>
+        <LikesPanel value={tabValue} index={1} />
+        <ProfileTabPanel value={tabValue} index={2}>
           Media
         </ProfileTabPanel>
       </Card>

@@ -6,6 +6,7 @@ export const MARK_NOTIFICATIONS_READ = 'MARK_NOTIFICATIONS_READ';
 export const LOADING_UI = 'LOADING_UI';
 export const SET_ERRORS = 'SET_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+export const PROFILE_TAB_CHANGE = 'PROFILE_TAB_CHANGE';
 // User reducer types
 export const SET_USER = 'SET_USER';
 export const CLEAR_USER = 'CLEAR_USER';
