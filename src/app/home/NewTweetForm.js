@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from '@reach/router';
 // Mui Components
 import Avatar from '@material-ui/core/Avatar';
@@ -15,8 +15,6 @@ import { deepPurple } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 // Components
 import NewTweetActions from './NewTweetActions';
-import { useSelector, useDispatch } from 'react-redux';
-import { postTweet } from '../../redux/actions/tweet.actions';
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -33,28 +31,21 @@ const useStyles = makeStyles(theme => ({
     marginTop: '5px'
   }
 }));
-export default function NewTweetForm({ user }) {
+export default function NewTweetForm({
+  user,
+  tweetText,
+  onSubmit,
+  onTweetText
+}) {
   const classes = useStyles();
-  const [tweetText, setTweetText] = useState('');
-  const dispatch = useDispatch();
-  const { userImage } = useSelector(state => state.user.current);
-
-  const handleTweetText = event => {
-    setTweetText(event.target.value);
-  };
-
-  const submitTweet = event => {
-    dispatch(postTweet({ fullText: tweetText }));
-    setTweetText('');
-  };
 
   return (
     <Box display="flex" pl={2} pr={2} pt={2} pb={1} alignItems="stretch">
       <Link to={`/${user.handle}`}>
         <Avatar
           className={classes.avatar}
-          src={`http://localhost:6500/${userImage.url}`}
-          children={userImage.url ? null : 'PH'}
+          src={`http://localhost:6500/${user.userImage.url}`}
+          children={user.userImage.url ? null : 'PH'}
         />
       </Link>
       <FormControl className={classes.formControl}>
@@ -68,7 +59,7 @@ export default function NewTweetForm({ user }) {
           color="secondary"
           fullWidth
           value={tweetText}
-          onChange={handleTweetText}
+          onChange={onTweetText}
           startAdornment={
             <InputAdornment position="start" className={classes.inputAdornment}>
               <CreateIcon />
@@ -86,7 +77,7 @@ export default function NewTweetForm({ user }) {
             className={classes.tweetButton}
             variant="contained"
             color="secondary"
-            onClick={submitTweet}
+            onClick={onSubmit}
             disableElevation
           >
             Tweet!
