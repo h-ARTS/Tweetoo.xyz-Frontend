@@ -31,6 +31,7 @@ import TweetText from './TweetText';
 import WithLinkTransformation from './WithLinkTransformation';
 import GenericPopover from '../../common/ui/GenericPopover';
 import { useFollow } from '../../common/hooks/useFollow';
+import ReplyDialog from './ReplyDialog';
 
 const useStyles = makeStyles(theme => ({
   timeline: {},
@@ -65,11 +66,12 @@ const useStyles = makeStyles(theme => ({
 
 const TweetTextContainer = WithLinkTransformation(TweetText);
 
-export default function Tweet(props) {
+export default function Tweet({ tweet, minimized = false }) {
   const classes = useStyles();
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const [listItems, setListItem] = useState([]);
+  const [openReplyDialog, setOpenReplyDialog] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.user.current);
@@ -86,7 +88,7 @@ export default function Tweet(props) {
     isLiked,
     createdAt,
     createdBy
-  } = props.tweet;
+  } = tweet;
   const replyCount = replies.length;
   const { isFollowing, handleFollowUser } = useFollow();
 
@@ -169,6 +171,10 @@ export default function Tweet(props) {
     setAnchorEl(null);
   };
 
+  const toggleReplyDialog = () => {
+    setOpenReplyDialog(!openReplyDialog);
+  };
+
   const popoverProps = {
     id: Boolean(anchorEl) ? 'more-popover' : undefined,
     open: Boolean(anchorEl),
@@ -179,7 +185,13 @@ export default function Tweet(props) {
 
   return (
     <>
-      <Card className={classes.root} component="div" square varaint="outlined">
+      <Card
+        className={classes.root}
+        component="div"
+        square
+        varaint="outlined"
+        elevation={0}
+      >
         <CardActionArea
           component="article"
           role="article"
@@ -188,6 +200,7 @@ export default function Tweet(props) {
           onClick={navigateToTweet}
           className={classes.cardActionArea}
           disableRipple
+          disabled={minimized}
         >
           {isRetweet && <TweetSubheader handle={handle} />}
           <CardHeader
@@ -206,7 +219,7 @@ export default function Tweet(props) {
                 onClick={handleNavigateToUser}
               />
             }
-            action={<MoreButton onClick={handleMore} />}
+            action={!minimized && <MoreButton onClick={handleMore} />}
           />
           <TweetTextContainer
             className={classes.cardContent}
@@ -216,24 +229,35 @@ export default function Tweet(props) {
             <CardMedia title="Random" image={image} className={classes.media} />
           )}
         </CardActionArea>
-        <CardActions className={classes.actions}>
-          <TweetAction actionType="reply" count={replyCount} />
-          <TweetAction
-            actionType="retweet"
-            count={retweetCount}
-            isActive={isRetweet}
-            onClick={handleRetweet}
-          />
-          <TweetAction
-            actionType="like"
-            count={likeCount}
-            isActive={isLiked}
-            onClick={handleLike}
-          />
-          <TweetAction actionType="bookmark" />
-        </CardActions>
+        {!minimized && (
+          <CardActions className={classes.actions}>
+            <TweetAction
+              actionType="reply"
+              count={replyCount}
+              onClick={toggleReplyDialog}
+            />
+            <TweetAction
+              actionType="retweet"
+              count={retweetCount}
+              isActive={isRetweet}
+              onClick={handleRetweet}
+            />
+            <TweetAction
+              actionType="like"
+              count={likeCount}
+              isActive={isLiked}
+              onClick={handleLike}
+            />
+            <TweetAction actionType="bookmark" />
+          </CardActions>
+        )}
       </Card>
       <GenericPopover {...popoverProps} />
+      <ReplyDialog
+        tweet={tweet}
+        openReplyDialog={openReplyDialog}
+        handleCloseEdit={toggleReplyDialog}
+      />
     </>
   );
 }
