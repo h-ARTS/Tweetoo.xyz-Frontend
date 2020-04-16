@@ -158,6 +158,7 @@ export default function EditDialog({ openEditDialog, handleCloseEdit }) {
         id="edit-profile-title"
         onClose={handleCloseEdit}
         ariaLabel="edit-profile-title"
+        size="medium"
       >
         Edit profile
       </DialogTitle>
