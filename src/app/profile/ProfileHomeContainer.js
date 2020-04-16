@@ -71,13 +71,13 @@ const useStyles = makeStyles(theme => ({
 export const ProfileHomeContainer = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [
+  const {
     followingTitle,
     isFollowing,
     isFollowingYou,
     handleFollowUser,
     handleFollowingBtnTitle
-  ] = useFollow();
+  } = useFollow();
   const location = useLocation();
   const dispatch = useDispatch();
   const { tabValue } = useSelector(state => state.ui.profile);

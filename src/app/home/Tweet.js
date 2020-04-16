@@ -21,6 +21,7 @@ import { red } from '@material-ui/core/colors';
 import BlockIcon from '@material-ui/icons/BlockTwoTone';
 import DeleteIcon from '@material-ui/icons/DeleteForeverTwoTone';
 import PersonAddIcon from '@material-ui/icons/PersonAddTwoTone';
+import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabledTwoTone';
 // Components
 import TweetSubheader from './TweetSubheader';
 import MoreButton from './MoreButton';
@@ -29,6 +30,7 @@ import TweetTitle from './TweetTitle';
 import TweetText from './TweetText';
 import WithLinkTransformation from './WithLinkTransformation';
 import GenericPopover from '../../common/ui/GenericPopover';
+import { useFollow } from '../../common/hooks/useFollow';
 
 const useStyles = makeStyles(theme => ({
   timeline: {},
@@ -86,9 +88,10 @@ export default function Tweet(props) {
     createdBy
   } = props.tweet;
   const replyCount = replies.length;
+  const { isFollowing, handleFollowUser } = useFollow();
 
   useEffect(() => {
-    if (currentUser.handle === handle) {
+    if (currentUser._id === createdBy) {
       setListItem([
         ...listItems,
         {
@@ -103,9 +106,10 @@ export default function Tweet(props) {
     } else {
       setListItem([
         {
-          title: `Follow @${handle}`,
+          title: isFollowing() ? `Unfollow @${handle}` : `Follow @${handle}`,
           divider: true,
-          icon: PersonAddIcon
+          callback: handleFollow,
+          icon: isFollowing() ? PersonAddDisabledIcon : PersonAddIcon
         },
         {
           title: `Block @${handle}`,
@@ -117,7 +121,7 @@ export default function Tweet(props) {
       ]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isFollowing]);
 
   const handleNavigateToUser = () => {
     navigate(`/${handle}`);
@@ -160,12 +164,17 @@ export default function Tweet(props) {
     dispatch(postRetweet(_id, !isRetweet));
   };
 
+  const handleFollow = () => {
+    handleFollowUser();
+    setAnchorEl(null);
+  };
+
   const popoverProps = {
     id: Boolean(anchorEl) ? 'more-popover' : undefined,
     open: Boolean(anchorEl),
     anchorEl,
-    onClose: handleClose,
-    items: listItems
+    items: listItems,
+    onClose: handleClose
   };
 
   return (

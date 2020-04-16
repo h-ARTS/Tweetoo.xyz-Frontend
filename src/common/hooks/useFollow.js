@@ -40,11 +40,11 @@ export const useFollow = () => {
     dispatch(updateFollower(watching.handle, !isFollowing()));
   };
 
-  return [
+  return {
     followingTitle,
     isFollowing,
     isFollowingYou,
     handleFollowUser,
     handleFollowingBtnTitle
-  ];
+  };
 };
