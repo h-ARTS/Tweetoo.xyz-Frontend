@@ -93,7 +93,7 @@ export const ProfileHomeContainer = () => {
       dispatch(getUser(location.pathname.substring(1)));
     }
 
-    if (match) {
+    if (match && !tabValue) {
       dispatch({ type: PROFILE_TAB_CHANGE, tabValue: 0 });
     }
 
