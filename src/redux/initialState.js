@@ -28,7 +28,9 @@ export default {
     profile: {
       tabValue: 0
     },
+    replyDialog: false,
     loading: false
   },
-  tweets: []
+  tweets: [],
+  replies: []
 };
