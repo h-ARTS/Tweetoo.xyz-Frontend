@@ -122,8 +122,10 @@ export default function Tweet({ tweet, minimized = false }) {
         }
       ]);
     }
+
+    setOpenReplyDialog(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFollowing]);
+  }, [isFollowing, replies]);
 
   const handleNavigateToUser = () => {
     navigate(`/${handle}`);
