@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useMatch } from '@reach/router';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { getUser, updateFollower } from '../../redux/actions/user.actions';
+import { getUser } from '../../redux/actions/user.actions';
 import { CLEAR_USER, PROFILE_TAB_CHANGE } from '../../redux/types';
 import dayjs from 'dayjs';
 // Mui
@@ -28,6 +28,7 @@ import LikesPanel from './LikesPanel';
 import Website from './Website';
 import Joined from './Joined';
 import Location from './Location';
+import { useFollow } from '../../common/hooks/useFollow';
 
 const useStyles = makeStyles(theme => ({
   firstLayer: {
@@ -70,7 +71,13 @@ const useStyles = makeStyles(theme => ({
 export const ProfileHomeContainer = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [followingTitle, setFollowingTitle] = useState('following');
+  const [
+    followingTitle,
+    isFollowing,
+    isFollowingYou,
+    handleFollowUser,
+    handleFollowingBtnTitle
+  ] = useFollow();
   const location = useLocation();
   const dispatch = useDispatch();
   const { tabValue } = useSelector(state => state.ui.profile);
@@ -115,40 +122,6 @@ export const ProfileHomeContainer = () => {
     return isNotCurrentUser ? watching[prop] : current[prop];
   };
 
-  const isFollowing = useCallback(() => {
-    if (isNotCurrentUser) {
-      const found = current.following.find(f => {
-        return f.userId === watching._id;
-      });
-      return Boolean(found);
-    }
-  }, [current.following, isNotCurrentUser, watching._id]);
-
-  const isFollowingYou = useCallback(() => {
-    if (isNotCurrentUser) {
-      const found = current.followers.find(f => {
-        return f.userId === watching._id;
-      });
-      return Boolean(found);
-    }
-  }, [current.followers, isNotCurrentUser, watching._id]);
-
-  const handleFollowingBtnTitle = useCallback(() => {
-    if (followingTitle === 'following') {
-      setFollowingTitle('unfollow');
-    } else {
-      setFollowingTitle('following');
-    }
-  }, [followingTitle]);
-
-  const unfollowUser = () => {
-    dispatch(updateFollower(watching.handle));
-  };
-
-  const followUser = () => {
-    dispatch(updateFollower(watching.handle, true));
-  };
-
   return (
     <>
       <PageTitle title={userPropFactory('handle')} />
@@ -175,7 +148,7 @@ export const ProfileHomeContainer = () => {
                     color="secondary"
                     disableElevation
                     className={classes.followButton}
-                    onClick={unfollowUser}
+                    onClick={handleFollowUser}
                     onMouseEnter={handleFollowingBtnTitle}
                     onMouseLeave={handleFollowingBtnTitle}
                   >
@@ -185,7 +158,7 @@ export const ProfileHomeContainer = () => {
                   <Button
                     variant="outlined"
                     color="secondary"
-                    onClick={followUser}
+                    onClick={handleFollowUser}
                   >
                     Follow
                   </Button>
