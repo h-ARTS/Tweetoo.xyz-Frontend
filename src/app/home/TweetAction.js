@@ -70,15 +70,9 @@ const StyledBadge = withStyles({
 })(Badge);
 
 export default function TweetAction({ actionType, count, isActive, onClick }) {
-  const [replyCount, setReplyCount] = useState(0);
   const { ariaLabel, colorFactory, Icon, theme } = actionButtons(isActive)[
     actionType
   ];
-
-  useEffect(() => {
-    const getReplies = ['432', '21312', '21312'];
-    setReplyCount(getReplies.length);
-  }, [replyCount]);
 
   const handleAction = () => {
     onClick();
