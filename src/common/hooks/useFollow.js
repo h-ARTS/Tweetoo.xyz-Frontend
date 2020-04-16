@@ -1,14 +1,17 @@
 import { useState, useCallback } from 'react';
-import { useMatch } from '@reach/router';
+import { useLocation } from '@reach/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateFollower } from '../../redux/actions/user.actions';
 
-export const useFollow = () => {
+export const useFollow = tweetHandle => {
   const [followingTitle, setFollowingTitle] = useState('following');
   const { current, watching } = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const { userId } = useMatch('/:userId');
-  const isNotCurrentUser = userId !== 'profile' && userId !== current.handle;
+  const { pathname } = useLocation('/:userId');
+  const isNotCurrentUser =
+    pathname !== '/profile' &&
+    pathname !== `/${current.handle}` &&
+    tweetHandle !== current.handle;
 
   const isFollowing = useCallback(() => {
     if (isNotCurrentUser) {

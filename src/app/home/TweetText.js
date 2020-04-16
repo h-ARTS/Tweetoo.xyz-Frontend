@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
+    fontSize: props => (props.largeText ? '1.25rem' : 'inherit'),
     '& a': {
       color: theme.palette.secondary.main,
       textDecoration: 'none',
@@ -16,12 +17,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 export default function TweetText(props) {
-  const classes = useStyles();
+  const classes = useStyles(props);
   const { fullText, hashtagTransform, handleStopPropagation } = props;
   return (
     <CardContent>
       <Typography
-        type="body2"
+        variant="body1"
         className={classes.root}
         onClick={handleStopPropagation}
       >

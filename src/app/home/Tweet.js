@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
 
 const TweetTextContainer = WithLinkTransformation(TweetText);
 
-export default function Tweet({ tweet, minimized = false }) {
+export default function Tweet({ tweet, minimized = false, largeText = false }) {
   const classes = useStyles();
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -90,7 +90,7 @@ export default function Tweet({ tweet, minimized = false }) {
     createdBy
   } = tweet;
   const replyCount = replies.length;
-  const { isFollowing, handleFollowUser } = useFollow();
+  const { isFollowing, handleFollowUser } = useFollow(handle);
 
   useEffect(() => {
     if (currentUser._id === createdBy) {
@@ -226,6 +226,7 @@ export default function Tweet({ tweet, minimized = false }) {
           <TweetTextContainer
             className={classes.cardContent}
             fullText={fullText}
+            largeText={largeText}
           />
           {image && (
             <CardMedia title="Random" image={image} className={classes.media} />
