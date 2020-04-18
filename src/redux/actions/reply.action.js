@@ -1,5 +1,36 @@
 import axios from 'axios';
-import { POST_REPLY, SET_AUTHENTICATED_USER, UPDATE_TWEET } from '../types';
+import {
+  POST_REPLY,
+  SET_AUTHENTICATED_USER,
+  UPDATE_TWEET,
+  SET_REPLIES,
+  LOADING_REPLIES,
+  DATA_FETCH_COMPLETED,
+  DELETE_REPLY
+} from '../types';
+
+export const getReplies = tweetId => async dispatch => {
+  dispatch({
+    type: LOADING_REPLIES
+  });
+  try {
+    const response = await axios.get(`/api/reply/${tweetId}`);
+
+    if (!response) {
+      throw new Error(response);
+    }
+
+    dispatch({
+      type: DATA_FETCH_COMPLETED
+    });
+    dispatch({
+      type: SET_REPLIES,
+      replies: response.data
+    });
+  } catch (err) {
+    throw err;
+  }
+};
 
 export const postReply = (fullText, tweetId) => async dispatch => {
   try {
