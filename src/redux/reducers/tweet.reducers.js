@@ -12,7 +12,12 @@ import {
 
 export default function(state = [], action) {
   if (action.type === SET_TWEETS) {
-    return [...state, ...action.tweets];
+    const filterOutOldTweets = state.filter(function(tweet) {
+      return this.forEach(t => {
+        return t._id === tweet._id;
+      });
+    }, action.tweets);
+    return [...filterOutOldTweets, ...action.tweets];
   }
 
   if (action.type === POST_TWEET) {
