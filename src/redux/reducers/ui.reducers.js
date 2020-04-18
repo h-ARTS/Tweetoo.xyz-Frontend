@@ -1,4 +1,9 @@
-import { DATA_FETCH_COMPLETED, LOADING_UI, PROFILE_TAB_CHANGE } from '../types';
+import {
+  DATA_FETCH_COMPLETED,
+  LOADING_UI,
+  PROFILE_TAB_CHANGE,
+  LOADING_REPLIES
+} from '../types';
 
 export default function(state = {}, action) {
   if (action.type === LOADING_UI) {
@@ -8,10 +13,18 @@ export default function(state = {}, action) {
     };
   }
 
+  if (action.type === LOADING_REPLIES) {
+    return {
+      ...state,
+      loadingReplies: true
+    };
+  }
+
   if (action.type === DATA_FETCH_COMPLETED) {
     return {
       ...state,
-      loading: false
+      loading: false,
+      loadingReplies: false
     };
   }
 

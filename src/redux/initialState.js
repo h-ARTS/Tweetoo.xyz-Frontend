@@ -29,7 +29,8 @@ export default {
       tabValue: 0
     },
     replyDialog: false,
-    loading: false
+    loading: false,
+    loadingReplies: false
   },
   tweets: [],
   replies: []
