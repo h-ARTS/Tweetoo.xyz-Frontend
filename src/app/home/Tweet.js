@@ -32,6 +32,7 @@ import WithLinkTransformation from './WithLinkTransformation';
 import GenericPopover from '../../common/ui/GenericPopover';
 import { useFollow } from '../../common/hooks/useFollow';
 import ReplyDialog from './ReplyDialog';
+import { deleteReply } from '../../redux/actions/reply.action';
 
 const useStyles = makeStyles(theme => ({
   timeline: {},
@@ -89,22 +90,35 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
     createdAt,
     createdBy
   } = tweet;
-  const replyCount = replies.length;
   const { isFollowing, handleFollowUser } = useFollow(handle);
 
   useEffect(() => {
     if (currentUser._id === createdBy) {
-      setListItem([
-        ...listItems,
-        {
-          title: 'Delete Tweet',
-          divider: false,
-          callback: handleDeleteTweet,
-          icon: DeleteIcon,
-          iconColor: theme.palette.error.main,
-          textColor: 'error'
-        }
-      ]);
+      if (tweet.hasOwnProperty('replies')) {
+        setListItem([
+          ...listItems,
+          {
+            title: 'Delete Tweet',
+            divider: false,
+            callback: handleDeleteTweet,
+            icon: DeleteIcon,
+            iconColor: theme.palette.error.main,
+            textColor: 'error'
+          }
+        ]);
+      } else {
+        setListItem([
+          ...listItems,
+          {
+            title: 'Delete Reply',
+            divider: false,
+            callback: handleDeleteReply,
+            icon: DeleteIcon,
+            iconColor: theme.palette.error.main,
+            textColor: 'error'
+          }
+        ]);
+      }
     } else {
       setListItem([
         {
@@ -177,6 +191,12 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
     setOpenReplyDialog(!openReplyDialog);
   };
 
+  // Reply actions
+
+  const handleDeleteReply = () => {
+    dispatch(deleteReply(_id));
+  };
+
   const popoverProps = {
     id: Boolean(anchorEl) ? 'more-popover' : undefined,
     open: Boolean(anchorEl),
@@ -234,11 +254,13 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
         </CardActionArea>
         {!minimized && (
           <CardActions className={classes.actions}>
-            <TweetAction
-              actionType="reply"
-              count={replyCount}
-              onClick={toggleReplyDialog}
-            />
+            {tweet.hasOwnProperty('replies') && (
+              <TweetAction
+                actionType="reply"
+                count={replies.length}
+                onClick={toggleReplyDialog}
+              />
+            )}
             <TweetAction
               actionType="retweet"
               count={retweetCount}

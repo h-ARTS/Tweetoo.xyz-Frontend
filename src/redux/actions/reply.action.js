@@ -58,3 +58,20 @@ export const postReply = (fullText, tweetId) => async dispatch => {
     throw err;
   }
 };
+
+export const deleteReply = replyId => async dispatch => {
+  try {
+    const response = await axios.delete(`/api/reply?replyId=${replyId}`);
+
+    if (!response) {
+      throw new Error(response);
+    }
+
+    dispatch({
+      type: DELETE_REPLY,
+      reply: response.data.removed
+    });
+  } catch (err) {
+    throw err;
+  }
+};
