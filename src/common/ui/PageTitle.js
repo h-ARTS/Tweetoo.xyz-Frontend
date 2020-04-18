@@ -1,5 +1,5 @@
 import React from 'react';
-import { navigate, useLocation } from '@reach/router';
+import { navigate } from '@reach/router';
 // MUI Components
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
@@ -28,10 +28,8 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 800
   }
 }));
-export default function PageTitle(props) {
+export default function PageTitle({ title, backButton }) {
   const classes = useStyles();
-  const location = useLocation();
-  const filteredPaths = ['/home', '/trending', '/notifications', '/bookmarks'];
 
   const navigateBack = () => {
     navigate(-1);
@@ -39,7 +37,7 @@ export default function PageTitle(props) {
 
   return (
     <Paper className={classes.root} variant="outlined" square>
-      {filteredPaths[location.pathname] ? (
+      {backButton ? (
         <IconButton
           size="small"
           color="secondary"
@@ -50,7 +48,7 @@ export default function PageTitle(props) {
         </IconButton>
       ) : null}
       <Typography className={classes.pageTitle} variant="h6" component="h2">
-        {props.title}
+        {title}
       </Typography>
     </Paper>
   );
