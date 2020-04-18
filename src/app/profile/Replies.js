@@ -34,7 +34,9 @@ export const Replies = React.memo(() => {
       </Box>
     );
   } else {
-    return replies.map(reply => <Tweet key={reply._id} tweet={reply} />);
+    return replies
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .map(reply => <Tweet key={reply._id} tweet={reply} />);
   }
 });
 

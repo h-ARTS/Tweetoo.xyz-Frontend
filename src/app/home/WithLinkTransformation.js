@@ -91,7 +91,7 @@ export default WrappedComponent => {
           return (
             <React.Fragment key={word}>
               <Link
-                to={`/${word}`}
+                to={`/${word.substring(1)}`}
                 alt={word}
                 title={word}
                 aria-label={word.substring(1)}
