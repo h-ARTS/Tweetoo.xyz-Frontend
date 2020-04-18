@@ -62,6 +62,7 @@ const actionButtons = isActive => ({
 
 const StyledBadge = withStyles({
   badge: {
+    zIndex: 0,
     color: 'inherit',
     backgroundColor: 'transparent',
     right: '-20px',
