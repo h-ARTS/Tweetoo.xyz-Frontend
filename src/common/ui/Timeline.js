@@ -5,8 +5,8 @@ import { compose, spacing } from '@material-ui/system';
 // Components
 import Tweet from '../../app/home/Tweet';
 // Demo data
-import demoData from '../utils/demoData';
 import NewTweetFormContainer from '../../app/home/NewTweetFormContainer';
+import { useSelector } from 'react-redux';
 
 const Box = styled('div')(compose(spacing));
 const useStyles = makeStyles({
@@ -21,12 +21,15 @@ const useStyles = makeStyles({
 
 export default function Timeline() {
   const classes = useStyles();
+  const tweets = useSelector(state => state.tweets);
   return (
     <Box className={classes.timeline}>
       <NewTweetFormContainer />
-      {demoData.map(tweet => (
-        <Tweet tweet={tweet} key={tweet.tweetId} />
-      ))}
+      {tweets
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .map(tweet => (
+          <Tweet tweet={tweet} key={tweet._id} />
+        ))}
     </Box>
   );
 }
