@@ -16,7 +16,6 @@ export const Replies = React.memo(() => {
   const replies = useSelector(state => state.replies);
 
   useEffect(() => {
-    console.log('Replies', 're-render');
     dispatch(getReplies(params.tweetId));
 
     return () => {

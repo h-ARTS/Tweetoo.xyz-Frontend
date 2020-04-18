@@ -17,7 +17,6 @@ export default function TweetPage() {
   const [loadingTweet, setLoadingTweet] = useState(true);
 
   useEffect(() => {
-    console.log('TweetPage', 're-render');
     if (tweets.length > 0) {
       const found = tweets.find(tweet => {
         return tweet._id === params.tweetId;

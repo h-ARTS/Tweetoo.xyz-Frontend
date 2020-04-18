@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    fontSize: props => (props.largeText ? '1.25rem' : 'inherit'),
+    fontSize: props => (props.largeText ? '1.30rem' : 'inherit'),
     '& a': {
       color: theme.palette.secondary.main,
       textDecoration: 'none',

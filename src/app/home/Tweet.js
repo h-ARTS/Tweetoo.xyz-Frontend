@@ -88,7 +88,8 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
     likeCount,
     isLiked,
     createdAt,
-    createdBy
+    createdBy,
+    userImageUrl
   } = tweet;
   const { isFollowing, handleFollowUser } = useFollow(handle);
 
@@ -96,7 +97,6 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
     if (currentUser._id === createdBy) {
       if (tweet.hasOwnProperty('replies')) {
         setListItem([
-          ...listItems,
           {
             title: 'Delete Tweet',
             divider: false,
@@ -108,7 +108,6 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
         ]);
       } else {
         setListItem([
-          ...listItems,
           {
             title: 'Delete Reply',
             divider: false,
@@ -228,7 +227,11 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
           <CardHeader
             className={classes.cardHeader}
             avatar={
-              <Avatar aria-label="profile" className={classes.avatar}>
+              <Avatar
+                aria-label="profile"
+                src={`http://localhost:6500/${userImageUrl}`}
+                className={classes.avatar}
+              >
                 P
               </Avatar>
             }
