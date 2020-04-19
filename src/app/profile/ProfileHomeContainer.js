@@ -124,7 +124,7 @@ export const ProfileHomeContainer = () => {
 
   return (
     <>
-      <PageTitle title={userPropFactory('handle')} backButton />
+      <PageTitle renderTitle={userPropFactory('handle')} backButton />
       <Card variant="outlined" square>
         <CoverImage coverImage={userPropFactory('coverImage')}>
           <ProfileImage userImage={userPropFactory('userImage')} />

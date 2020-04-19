@@ -29,7 +29,7 @@ export default function TweetPage() {
 
   return (
     <>
-      <PageTitle title="Tweetoo.xyz" backButton />
+      <PageTitle renderTitle="Tweetoo.xyz" backButton />
       <Paper elevation={0} variant="outlined" square>
         {loadingTweet ? (
           <Box p={3}>

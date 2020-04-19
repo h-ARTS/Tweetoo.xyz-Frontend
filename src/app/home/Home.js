@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <Grid item xs={12} md={8}>
-        <PageTitle title="Home" />
+        <PageTitle renderTitle="Home" />
         <Timeline />
       </Grid>
       <Hidden smDown>

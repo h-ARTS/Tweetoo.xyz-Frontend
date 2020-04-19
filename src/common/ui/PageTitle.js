@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 800
   }
 }));
-export default function PageTitle({ title, backButton }) {
+export default function PageTitle({ renderTitle, backButton }) {
   const classes = useStyles();
 
   const navigateBack = () => {
@@ -48,7 +48,7 @@ export default function PageTitle({ title, backButton }) {
         </IconButton>
       ) : null}
       <Typography className={classes.pageTitle} variant="h6" component="h2">
-        {title}
+        {renderTitle}
       </Typography>
     </Paper>
   );
