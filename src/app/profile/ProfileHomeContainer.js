@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useMatch } from '@reach/router';
+import dayjs from 'dayjs';
+import { useLocation, useMatch, Link } from '@reach/router';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../../redux/actions/user.actions';
 import { CLEAR_USER, PROFILE_TAB_CHANGE } from '../../redux/types';
-import dayjs from 'dayjs';
 // Mui
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -29,6 +29,7 @@ import Website from './Website';
 import Joined from './Joined';
 import Location from './Location';
 import { useFollow } from '../../common/hooks/useFollow';
+import useA11yTabProps from '../../common/hooks/useA11yTabProps';
 
 const useStyles = makeStyles(theme => ({
   firstLayer: {
@@ -66,6 +67,13 @@ const useStyles = makeStyles(theme => ({
   },
   cardContent: {
     paddingBottom: theme.spacing(1)
+  },
+  link: {
+    color: theme.palette.text.primary,
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline'
+    }
   }
 }));
 export const ProfileHomeContainer = () => {
@@ -80,6 +88,7 @@ export const ProfileHomeContainer = () => {
   } = useFollow();
   const location = useLocation();
   const dispatch = useDispatch();
+  const a11yProps = useA11yTabProps('profile');
   const { tabValue } = useSelector(state => state.ui.profile);
   const { current, watching } = useSelector(state => state.user);
   const date = dayjs(current.createdAt).format('MMMM YYYY');
@@ -102,13 +111,6 @@ export const ProfileHomeContainer = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
-
-  const a11yProps = index => {
-    return {
-      id: `profile-tab-${index}`,
-      'aria-controls': `profile-tabpanel-${index}`
-    };
-  };
 
   const handleTabChange = (event, newValue) => {
     dispatch({ type: PROFILE_TAB_CHANGE, tabValue: newValue });
@@ -194,14 +196,20 @@ export const ProfileHomeContainer = () => {
           </Box>
           <Box mt={1} display="flex">
             <Box mr={1}>
-              <Typography variant="body2">
-                <strong>{userPropFactory('following').length}</strong> Following
-              </Typography>
+              <Link to="following" className={classes.link}>
+                <Typography variant="body2">
+                  <strong>{userPropFactory('following').length}</strong>{' '}
+                  Following
+                </Typography>
+              </Link>
             </Box>
             <Box mr={1}>
-              <Typography variant="body2">
-                <strong>{userPropFactory('followers').length}</strong> Follower
-              </Typography>
+              <Link to="followers" className={classes.link}>
+                <Typography variant="body2">
+                  <strong>{userPropFactory('followers').length}</strong>{' '}
+                  Follower
+                </Typography>
+              </Link>
             </Box>
             <Box>
               <Typography variant="body2">
