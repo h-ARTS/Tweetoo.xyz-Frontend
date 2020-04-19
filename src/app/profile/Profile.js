@@ -4,15 +4,16 @@ import { Router } from '@reach/router';
 import { useStore } from 'react-redux';
 import { logoutUser } from '../../redux/actions/user.actions';
 // Pages
+import FollowerPage from './FollowerPage';
 import ProfileHomeContainer from './ProfileHomeContainer';
 import TweetPage from './TweetPage';
 // UI Components
 import RightBar from '../../common/ui/RightBar';
+import TrendsList from '../trending/TrendsList';
 // MUI Components
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
-import TrendsList from '../trending/TrendsList';
 
 export default function Profile() {
   const store = useStore();
@@ -27,6 +28,8 @@ export default function Profile() {
         <Router>
           <ProfileHomeContainer path="/" />
           <TweetPage path="tweet/:tweetId" />
+          <FollowerPage path="followers" />
+          <FollowerPage path="following" />
         </Router>
         <Button
           onClick={handleLogout}
