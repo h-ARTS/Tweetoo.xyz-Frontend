@@ -20,9 +20,10 @@ import './App.css';
 // Pages
 import AuthPage from './auth/AuthPage';
 import Home from './home/Home';
+import Layout from '../common/ui/Layout';
+import Notifications from './notifications/Notifications';
 import Profile from './profile/Profile';
 import Trending from './trending/Trending';
-import Layout from '../common/ui/Layout';
 
 axios.defaults.baseURL = 'http://localhost:6500';
 const token = localStorage.token;
@@ -57,6 +58,7 @@ export default function App() {
         <Router component={Layout}>
           <Home path="home" />
           <Trending path="trending" />
+          <Notifications path="notifications" />
           <Profile path=":userId/*" />
         </Router>
       </ErrorCatcher>
