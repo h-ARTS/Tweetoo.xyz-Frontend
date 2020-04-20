@@ -7,15 +7,29 @@ import {
   UPDATE_USER_DATA,
   CLEAR_STATE,
   SET_USER,
-  CLEAR_USER
+  CLEAR_USER,
+  SET_FOLLOWING,
+  SET_FOLLOWERS
 } from '../types';
 import initialState from '../initialState';
 
 export default function(state = {}, action) {
   if (action.type === SET_AUTHENTICATED_USER) {
+    let filteredFollowers = action.user.followers;
+    let filteredFollowing = action.user.following;
+    if (filteredFollowing.length > 0) {
+      filteredFollowing = filteredFollowing.map(user => user.handle);
+    }
+    if (filteredFollowers.length > 0) {
+      filteredFollowers = filteredFollowers.map(user => user.handle);
+    }
     return {
       ...state,
-      current: { ...action.user }
+      current: {
+        ...action.user,
+        following: filteredFollowing,
+        followers: filteredFollowers
+      }
     };
   }
 
@@ -34,9 +48,36 @@ export default function(state = {}, action) {
   }
 
   if (action.type === SET_USER) {
+    let filteredFollowers = action.user.followers;
+    let filteredFollowing = action.user.following;
+    if (filteredFollowing.length > 0) {
+      filteredFollowing = filteredFollowing.map(user => user.handle);
+    }
+    if (filteredFollowers.length > 0) {
+      filteredFollowers = filteredFollowers.map(user => user.handle);
+    }
+
     return {
       ...state,
-      watching: action.user
+      watching: {
+        ...action.user,
+        following: filteredFollowing,
+        followers: filteredFollowers
+      }
+    };
+  }
+
+  if (action.type === SET_FOLLOWERS) {
+    return {
+      ...state,
+      followers: action.followers
+    };
+  }
+
+  if (action.type === SET_FOLLOWING) {
+    return {
+      ...state,
+      following: action.following
     };
   }
 

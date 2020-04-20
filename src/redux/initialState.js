@@ -22,7 +22,9 @@ export default {
       coverImage: {
         url: ''
       }
-    }
+    },
+    followers: [],
+    following: []
   },
   ui: {
     profile: {
@@ -30,7 +32,8 @@ export default {
     },
     replyDialog: false,
     loading: false,
-    loadingReplies: false
+    loadingReplies: false,
+    loadingUsers: false
   },
   tweets: [],
   replies: []

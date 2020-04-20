@@ -2,7 +2,9 @@ import {
   DATA_FETCH_COMPLETED,
   LOADING_UI,
   PROFILE_TAB_CHANGE,
-  LOADING_REPLIES
+  LOADING_REPLIES,
+  LOADING_USERS,
+  USERS_FETCH_COMPLETED
 } from '../types';
 
 export default function(state = {}, action) {
@@ -17,6 +19,20 @@ export default function(state = {}, action) {
     return {
       ...state,
       loadingReplies: true
+    };
+  }
+
+  if (action.type === LOADING_USERS) {
+    return {
+      ...state,
+      loadingUsers: true
+    };
+  }
+
+  if (action.type === USERS_FETCH_COMPLETED) {
+    return {
+      ...state,
+      loadingUsers: false
     };
   }
 

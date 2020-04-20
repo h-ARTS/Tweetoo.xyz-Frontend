@@ -11,7 +11,11 @@ import {
   UPLOAD_COVER_IMAGE,
   UPDATE_USER_DATA,
   CLEAR_STATE,
-  SET_AUTHENTICATED_USER
+  SET_AUTHENTICATED_USER,
+  SET_FOLLOWERS,
+  SET_FOLLOWING,
+  LOADING_USERS,
+  USERS_FETCH_COMPLETED
 } from '../types';
 import { fetchAllData } from './data.actions';
 
@@ -93,6 +97,34 @@ export const getUser = handle => async dispatch => {
       type: SET_USER,
       user: response.data
     });
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getUsers = (handles, options) => async dispatch => {
+  dispatch({
+    type: LOADING_USERS
+  });
+  const commatizedQuery = handles.join(',');
+  try {
+    const response = await axios.get(`/api/users?handles=${commatizedQuery}`);
+
+    const dispatches = {
+      ['followers' || 'followers_watching']: dispatch({
+        type: SET_FOLLOWERS,
+        followers: response.data
+      }),
+      ['following' || 'following_watching']: dispatch({
+        type: SET_FOLLOWING,
+        following: response.data
+      })
+    };
+
+    dispatch({
+      type: USERS_FETCH_COMPLETED
+    });
+    return dispatches[options.type];
   } catch (err) {
     throw err;
   }
