@@ -36,5 +36,6 @@ export default {
     loadingUsers: false
   },
   tweets: [],
-  replies: []
+  replies: [],
+  notifications: []
 };

@@ -6,6 +6,7 @@ import {
   LOADING_UI,
   DATA_FETCH_COMPLETED
 } from '../types';
+import { getNotifications } from './notifications.actions';
 
 export const fetchAllData = () => dispatch => {
   dispatch({
@@ -43,6 +44,7 @@ export const fetchAllData = () => dispatch => {
         type: SET_TWEETS,
         tweets: filteredTweets
       });
+      dispatch(getNotifications());
       dispatch({ type: DATA_FETCH_COMPLETED });
     })
   );
