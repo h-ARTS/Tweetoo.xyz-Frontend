@@ -4,7 +4,7 @@ import { Router } from '@reach/router';
 import { useStore } from 'react-redux';
 import { logoutUser } from '../../redux/actions/user.actions';
 // Pages
-import FollowerPage from './FollowerPage';
+import FollowerPage from './followpage/FollowerPage';
 import ProfileHomeContainer from './ProfileHomeContainer';
 import TweetPage from './TweetPage';
 // UI Components
