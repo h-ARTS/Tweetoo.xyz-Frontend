@@ -56,6 +56,12 @@ export default function Sidebar() {
   const classes = useStyles();
   const isXL = useMediaQuery('(max-width: 1280px)');
   const { userImage } = useSelector(state => state.user.current);
+  const notifications = useSelector(state => state.notifications);
+
+  const hasUnreadNotifications = () => {
+    const found = notifications.find(n => n.read === false);
+    return Boolean(found);
+  };
 
   return (
     <Grid
@@ -102,7 +108,8 @@ export default function Sidebar() {
                 </Box>
               ) : (
                 <ListItemIcon className={isXL ? classes.listItemIconRoot : ''}>
-                  {link.title === 'Notifications' ? (
+                  {link.title === 'Notifications' &&
+                  hasUnreadNotifications() ? (
                     <Badge
                       variant="dot"
                       overlap="circle"
