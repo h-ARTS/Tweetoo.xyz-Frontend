@@ -223,7 +223,7 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
           disableRipple
           disabled={minimized}
         >
-          {isRetweet && <TweetSubheader handle={handle} />}
+          {isRetweet && <TweetSubheader handle={currentUser.handle} />}
           <CardHeader
             className={classes.cardHeader}
             avatar={
