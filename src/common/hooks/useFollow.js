@@ -15,8 +15,8 @@ export const useFollow = tweetHandle => {
 
   const isFollowing = useCallback(() => {
     if (isNotCurrentUser) {
-      const found = current.following.find(f => {
-        return f.handle === watching.handle;
+      const found = current.following.find(handle => {
+        return handle === watching.handle;
       });
       return Boolean(found);
     }
@@ -24,8 +24,8 @@ export const useFollow = tweetHandle => {
 
   const isFollowingYou = useCallback(() => {
     if (isNotCurrentUser) {
-      const found = current.followers.find(f => {
-        return f.handle === watching.handle;
+      const found = current.followers.find(handle => {
+        return handle === watching.handle;
       });
       return Boolean(found);
     }

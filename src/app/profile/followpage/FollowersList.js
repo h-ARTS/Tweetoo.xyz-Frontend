@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import UserListItem from '../UserListItem';
 
 export default function FollowersList({ type }) {
+  const dispatch = useDispatch();
   const loadingUsers = useSelector(state => state.ui.loadingUsers);
   const users = useSelector(state => {
     const getStateUsers = {
@@ -22,12 +23,9 @@ export default function FollowersList({ type }) {
     return getStateUsers[type];
   });
   const { followers, following } = useSelector(state => state.user);
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (users.length > 0) {
-      dispatch(getUsers(users, { type }));
-    }
+    dispatch(getUsers(users, { type }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
