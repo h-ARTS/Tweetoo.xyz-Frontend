@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { navigate } from '@reach/router';
-import { useSelector } from 'react-redux';
+// Redux
+import { useSelector, useDispatch } from 'react-redux';
+import { markAllRead } from '../../redux/actions/notifications.actions';
 // Mui Components
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -15,7 +17,13 @@ import TrendsList from '../trending/TrendsList';
 import NotificationListItem from './NotificationListItem';
 
 export const Notifications = () => {
+  const dispatch = useDispatch();
   const notifications = useSelector(state => state.notifications);
+
+  useEffect(() => {
+    dispatch(markAllRead());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const navigateToPage = (event, notification) => {
     event.stopPropagation();
