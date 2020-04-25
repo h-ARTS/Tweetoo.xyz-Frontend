@@ -6,14 +6,14 @@ const useFakeFollowersApi = amount => {
 
   const fetchFakeUsers = async () => {
     const response = await fetch(
-      `https://uinames.com/api/?amount=${amount}&ext`,
+      `https://randomuser.me/api/?results=${amount}`,
       {
         mode: 'cors'
       }
     );
 
     const potentialUsersToFollow = await response.json();
-    setPotentialUserToFollow(potentialUsersToFollow);
+    setPotentialUserToFollow(potentialUsersToFollow.results);
     setLoading(false);
   };
 

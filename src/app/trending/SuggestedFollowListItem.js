@@ -21,17 +21,20 @@ export default function SuggestedFollowListItem({ user, handleFollowUser }) {
   return (
     <ListItem>
       <ListItemAvatar>
-        <Avatar alt={`${user.name} ${user.surname}`} src={user.photo} />
+        <Avatar
+          alt={`${user.name.first} ${user.name.last}`}
+          src={user.picture.thumbnail}
+        />
       </ListItemAvatar>
       <ListItemText
         primary={
           <Typography variant="subtitle2">
-            {user.name} {user.surname}
+            {user.name.first} {user.name.last}
           </Typography>
         }
         secondary={
           <Typography variant="body2" className={classes.sFollowHandle}>
-            {`@${user.name}${user.surname}`}
+            {`@${user.name.first}${user.name.last}`}
           </Typography>
         }
       />

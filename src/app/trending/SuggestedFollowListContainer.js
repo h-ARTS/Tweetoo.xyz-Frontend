@@ -42,7 +42,7 @@ export default function SuggestedFollowListContainer() {
         </ListItem>
       ) : (
         usersToFollow.map(user => (
-          <React.Fragment key={`${user.name}-${user.surname}`}>
+          <React.Fragment key={`${user.name.first}-${user.name.last}`}>
             <SuggestedFollowListItem
               user={user}
               handleFollowUser={followUser}
