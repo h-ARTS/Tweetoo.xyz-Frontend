@@ -33,6 +33,7 @@ import GenericPopover from '../../common/ui/GenericPopover';
 import { useFollow } from '../../common/hooks/useFollow';
 import ReplyDialog from './ReplyDialog';
 import { deleteReply } from '../../redux/actions/reply.action';
+import { createBookmark } from '../../redux/actions/bookmarks.action';
 
 const useStyles = makeStyles(theme => ({
   timeline: {},
@@ -87,6 +88,7 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
     retweetCount,
     likeCount,
     isLiked,
+    isBookmark,
     createdAt,
     createdBy,
     userImageUrl
@@ -190,10 +192,12 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
     setOpenReplyDialog(!openReplyDialog);
   };
 
-  // Reply actions
-
   const handleDeleteReply = () => {
     dispatch(deleteReply(_id));
+  };
+
+  const handleBookmark = () => {
+    dispatch(createBookmark(tweet));
   };
 
   const popoverProps = {
@@ -276,7 +280,11 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
               isActive={isLiked}
               onClick={handleLike}
             />
-            <TweetAction actionType="bookmark" />
+            <TweetAction
+              actionType="bookmark"
+              isActive={isBookmark}
+              onClick={handleBookmark}
+            />
           </CardActions>
         )}
       </Card>
