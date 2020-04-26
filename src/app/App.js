@@ -19,6 +19,7 @@ import theme from '../common/utils/theme';
 import './App.css';
 // Pages
 import AuthPage from './auth/AuthPage';
+import Bookmarks from './bookmarks/Bookmarks';
 import Home from './home/Home';
 import Layout from '../common/ui/Layout';
 import Notifications from './notifications/Notifications';
@@ -59,6 +60,7 @@ export default function App() {
           <Home path="home" />
           <Trending path="trending" />
           <Notifications path="notifications" />
+          <Bookmarks path="bookmarks" />
           <Profile path=":userId/*" />
         </Router>
       </ErrorCatcher>
