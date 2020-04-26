@@ -7,7 +7,8 @@ import {
   CLEAR_STATE,
   POST_RETWEET,
   DELETE_RETWEET,
-  UPDATE_TWEET
+  UPDATE_TWEET,
+  SET_IS_BOOKMARK
 } from '../types';
 
 export default function(state = [], action) {
@@ -43,6 +44,21 @@ export default function(state = [], action) {
     action.tweet.isLiked = isLiked;
     action.tweet.isRetweet = action.type === POST_RETWEET && true;
     return [...filtered, action.tweet];
+  }
+
+  if (action.type === SET_IS_BOOKMARK) {
+    const filteredTweets = state.map(function(tweet) {
+      tweet.isBookmark = false;
+      this.forEach(tweetId => {
+        console.log('tweet', tweet, 'tweetId', tweetId);
+        if (tweetId === tweet._id) {
+          tweet.isBookmark = true;
+        }
+      });
+      return tweet;
+    }, action.bookmarks);
+
+    return [...filteredTweets];
   }
 
   if (action.type === UNLIKE_TWEET) {

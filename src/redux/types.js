@@ -30,6 +30,7 @@ export const POST_RETWEET = 'POST_RETWEET';
 export const DELETE_RETWEET = 'DELETE_RETWEET';
 export const LIKE_TWEET = 'LIKE_TWEET';
 export const UNLIKE_TWEET = 'UNLIKE_TWEET';
+export const SET_IS_BOOKMARK = 'SET_IS_BOOKMARK';
 // Reply reducer types
 export const SET_REPLIES = 'SET_REPLIES';
 export const POST_REPLY = 'POST_REPLY';
@@ -48,3 +49,6 @@ export const SAVE_UNIQUE_IMAGE_ID = 'SAVE_UNIQUE_IMAGE_ID';
 // Notifications reducer types
 export const SET_NOTIFICATIONS = 'SET_NOTIFICATIONS';
 export const UPADTE_NOTIFICATIONS_READ = 'UPADTE_NOTIFICATIONS_READ';
+// Bookmarks reducer types
+export const SET_BOOKMARKS = 'SET_BOOKMARKS';
+export const POST_BOOKMARK = 'POST_BOOKMARK';

@@ -7,6 +7,7 @@ import {
   DATA_FETCH_COMPLETED
 } from '../types';
 import { getNotifications } from './notifications.actions';
+import { getBookmarks } from './bookmarks.action';
 
 export const fetchAllData = () => dispatch => {
   dispatch({
@@ -45,6 +46,7 @@ export const fetchAllData = () => dispatch => {
         tweets: filteredTweets
       });
       dispatch(getNotifications());
+      dispatch(getBookmarks());
       dispatch({ type: DATA_FETCH_COMPLETED });
     })
   );

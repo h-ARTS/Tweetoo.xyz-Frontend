@@ -6,6 +6,7 @@ import tweets from './tweet.reducers';
 import replies from './reply.reducers';
 import signup from './signup.reducers';
 import notifications from './notifications.reducers';
+import bookmarks from './bookmarks.reducers';
 
 export default combineReducers({
   ui,
@@ -13,5 +14,6 @@ export default combineReducers({
   tweets,
   replies,
   notifications,
+  bookmarks,
   signup_form: signup
 });

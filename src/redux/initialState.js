@@ -37,5 +37,6 @@ export default {
   },
   tweets: [],
   replies: [],
+  bookmarks: [],
   notifications: []
 };
