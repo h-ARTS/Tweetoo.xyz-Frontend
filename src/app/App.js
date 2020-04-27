@@ -6,12 +6,8 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 // Redux
 import store from '../redux/store';
-import { useSelector } from 'react-redux';
 import { logoutUser } from '../redux/actions/user.actions';
 import { fetchAllData } from '../redux/actions/data.actions';
-// Mui components
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
 // Component
 import ErrorCatcher from '../common/utils/ErrorCatcher';
 // Styling
@@ -45,13 +41,8 @@ if (token) {
 }
 
 export default function App() {
-  const { loading } = useSelector(state => state.ui);
-
   return (
     <ThemeProvider theme={theme}>
-      <Backdrop open={loading}>
-        <CircularProgress />
-      </Backdrop>
       <ErrorCatcher>
         <Router>
           <AuthPage path="/" />

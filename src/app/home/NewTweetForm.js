@@ -11,14 +11,14 @@ import InputLabel from '@material-ui/core/InputLabel';
 // Mui Icons
 import CreateIcon from '@material-ui/icons/CreateTwoTone';
 // Mui Styles
-import { deepPurple } from '@material-ui/core/colors';
+import { blueGrey } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 // Components
 import NewTweetActions from './NewTweetActions';
 
 const useStyles = makeStyles(theme => ({
   avatar: {
-    backgroundColor: deepPurple[700]
+    backgroundColor: blueGrey[700]
   },
   formControl: {
     width: '100%',
@@ -45,7 +45,7 @@ export default function NewTweetForm({
         <Avatar
           className={classes.avatar}
           src={`http://localhost:6500/${user.userImage.url}`}
-          children={user.userImage.url ? null : 'PH'}
+          children={user.userImage.url && null}
         />
       </Link>
       <FormControl className={classes.formControl}>
