@@ -30,6 +30,8 @@ import Joined from './Joined';
 import Location from './Location';
 import { useFollow } from '../../common/hooks/useFollow';
 import useA11yTabProps from '../../common/hooks/useA11yTabProps';
+import SkeletonCoverImage from '../../common/ui/skeletons/SkeletonCoverImage';
+import SkeletonUserImage from '../../common/ui/skeletons/SkeletonUserImage';
 
 const useStyles = makeStyles(theme => ({
   firstLayer: {
@@ -89,7 +91,7 @@ export const ProfileHomeContainer = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const a11yProps = useA11yTabProps('profile');
-  const { tabValue } = useSelector(state => state.ui.profile);
+  const { profile, loading } = useSelector(state => state.ui);
   const { current, watching } = useSelector(state => state.user);
   const date = dayjs(current.createdAt).format('MMMM YYYY');
   const isNotCurrentUser =
@@ -102,7 +104,7 @@ export const ProfileHomeContainer = () => {
       dispatch(getUser(location.pathname.substring(1)));
     }
 
-    if (match && !tabValue) {
+    if (match && !profile.tabValue) {
       dispatch({ type: PROFILE_TAB_CHANGE, tabValue: 0 });
     }
 
@@ -128,9 +130,16 @@ export const ProfileHomeContainer = () => {
     <>
       <PageTitle renderTitle={userPropFactory('handle')} backButton />
       <Card variant="outlined" square>
-        <CoverImage coverImage={userPropFactory('coverImage')}>
-          <ProfileImage userImage={userPropFactory('userImage')} />
-        </CoverImage>
+        {loading ? (
+          <>
+            <SkeletonCoverImage />
+            <SkeletonUserImage />
+          </>
+        ) : (
+          <CoverImage coverImage={userPropFactory('coverImage')}>
+            <ProfileImage userImage={userPropFactory('userImage')} />
+          </CoverImage>
+        )}
         <CardContent className={classes.cardContent}>
           <Box className={classes.firstLayer}>
             <Box className={classes.locationJoined}>
@@ -220,7 +229,7 @@ export const ProfileHomeContainer = () => {
         </CardContent>
         <Tabs
           variant="fullWidth"
-          value={tabValue}
+          value={profile.tabValue}
           onChange={handleTabChange}
           aria-label="profile tabs"
           className={classes.tabs}
@@ -230,12 +239,12 @@ export const ProfileHomeContainer = () => {
           <Tab label="Media" {...a11yProps(2)} />
         </Tabs>
         <TweetsPanel
-          value={tabValue}
+          value={profile.tabValue}
           index={0}
           userTweets={userPropFactory('tweets')}
         />
-        <LikesPanel value={tabValue} index={1} />
-        <ProfileTabPanel value={tabValue} index={2}>
+        <LikesPanel value={profile.tabValue} index={1} />
+        <ProfileTabPanel value={profile.tabValue} index={2}>
           Media
         </ProfileTabPanel>
       </Card>
