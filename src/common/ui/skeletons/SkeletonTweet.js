@@ -5,10 +5,20 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Skeleton from '@material-ui/lab/Skeleton';
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    borderLeft: 'none',
+    borderTop: 'none',
+    borderRight: 'none'
+  }
+}));
 export const SkeletonTweet = () => {
+  const classes = useStyles();
+
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" square className={classes.root}>
       <CardHeader
         avatar={
           <Skeleton variant="circle" width={40} height={40} animation="wave" />
