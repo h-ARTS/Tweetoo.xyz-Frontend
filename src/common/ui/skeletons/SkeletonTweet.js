@@ -7,13 +7,13 @@ import CardContent from '@material-ui/core/CardContent';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     borderLeft: 'none',
     borderTop: 'none',
     borderRight: 'none'
   }
-}));
+});
 export const SkeletonTweet = () => {
   const classes = useStyles();
 

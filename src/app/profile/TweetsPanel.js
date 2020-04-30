@@ -2,9 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import ProfileTabPanel from './ProfileTabPanel';
 import Tweet from '../home/Tweet';
+import SkeletonTweet from '../../common/ui/skeletons/SkeletonTweet';
 
 export const TweetsPanel = React.memo(({ value, index, userTweets }) => {
-  const tweets = useSelector(state => state.tweets);
+  const { tweets, ui } = useSelector(state => state);
 
   const filtered = tweets
     .filter(function(tweet) {
@@ -14,9 +15,11 @@ export const TweetsPanel = React.memo(({ value, index, userTweets }) => {
 
   return (
     <ProfileTabPanel value={value} index={index}>
-      {filtered.map(filteredTweet => (
-        <Tweet key={filteredTweet._id} tweet={filteredTweet} />
-      ))}
+      {ui.loading
+        ? [1, 2, 3].map(key => <SkeletonTweet key={key} />)
+        : filtered.map(filteredTweet => (
+            <Tweet key={filteredTweet._id} tweet={filteredTweet} />
+          ))}
     </ProfileTabPanel>
   );
 });
