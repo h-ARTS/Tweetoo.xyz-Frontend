@@ -33,7 +33,10 @@ import GenericPopover from '../../common/ui/GenericPopover';
 import { useFollow } from '../../common/hooks/useFollow';
 import ReplyDialog from './ReplyDialog';
 import { deleteReply } from '../../redux/actions/reply.action';
-import { createBookmark } from '../../redux/actions/bookmarks.action';
+import {
+  createBookmark,
+  removeBookmark
+} from '../../redux/actions/bookmarks.action';
 
 const useStyles = makeStyles(theme => ({
   timeline: {},
@@ -197,7 +200,9 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
   };
 
   const handleBookmark = () => {
-    dispatch(createBookmark(tweet));
+    return !isBookmark
+      ? dispatch(createBookmark(_id))
+      : dispatch(removeBookmark(_id));
   };
 
   const popoverProps = {

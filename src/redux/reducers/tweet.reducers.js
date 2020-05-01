@@ -8,7 +8,8 @@ import {
   POST_RETWEET,
   DELETE_RETWEET,
   UPDATE_TWEET,
-  SET_IS_BOOKMARK
+  SET_IS_BOOKMARK,
+  SET_IS_BOOKMARK_FALSE
 } from '../types';
 
 export default function(state = [], action) {
@@ -58,6 +59,17 @@ export default function(state = [], action) {
     }, action.bookmarks);
 
     return [...filteredTweets];
+  }
+
+  if (action.type === SET_IS_BOOKMARK_FALSE) {
+    const setIsBookmarkFalseOnTweet = state.map(tweet => {
+      if (tweet._id === action.removed.tweetId) {
+        tweet.isBookmark = false;
+      }
+      return tweet;
+    });
+
+    return [...setIsBookmarkFalseOnTweet];
   }
 
   if (action.type === UNLIKE_TWEET) {

@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { SET_BOOKMARKS, POST_BOOKMARK, SET_IS_BOOKMARK } from '../types';
+import {
+  SET_BOOKMARKS,
+  POST_BOOKMARK,
+  SET_IS_BOOKMARK,
+  SET_IS_BOOKMARK_FALSE,
+  DELETE_BOOKMARK
+} from '../types';
 
 export const getBookmarks = () => async dispatch => {
   try {
@@ -39,6 +45,22 @@ export const createBookmark = tweetId => async dispatch => {
     throw error;
   }
 };
+
+export const removeBookmark = tweetId => async dispatch => {
+  try {
+    const response = await axios.delete(`/api/bookmarks?tweetId=${tweetId}`);
+
+    if (!response) {
+      throw new Error('removeBookmarks error: ', response);
+    }
+
+    dispatch({
+      type: DELETE_BOOKMARK,
+      removed: response.data
+    });
+    dispatch({
+      type: SET_IS_BOOKMARK_FALSE,
+      removed: response.data
     });
   } catch (error) {
     throw error;

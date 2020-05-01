@@ -31,6 +31,7 @@ export const DELETE_RETWEET = 'DELETE_RETWEET';
 export const LIKE_TWEET = 'LIKE_TWEET';
 export const UNLIKE_TWEET = 'UNLIKE_TWEET';
 export const SET_IS_BOOKMARK = 'SET_IS_BOOKMARK';
+export const SET_IS_BOOKMARK_FALSE = 'SET_IS_BOOKMARK_FALSE';
 // Reply reducer types
 export const SET_REPLIES = 'SET_REPLIES';
 export const POST_REPLY = 'POST_REPLY';
@@ -52,3 +53,4 @@ export const UPADTE_NOTIFICATIONS_READ = 'UPADTE_NOTIFICATIONS_READ';
 // Bookmarks reducer types
 export const SET_BOOKMARKS = 'SET_BOOKMARKS';
 export const POST_BOOKMARK = 'POST_BOOKMARK';
+export const DELETE_BOOKMARK = 'DELETE_BOOKMARK';
