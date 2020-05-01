@@ -30,8 +30,8 @@ export const POST_RETWEET = 'POST_RETWEET';
 export const DELETE_RETWEET = 'DELETE_RETWEET';
 export const LIKE_TWEET = 'LIKE_TWEET';
 export const UNLIKE_TWEET = 'UNLIKE_TWEET';
+export const SET_IS_BOOKMARK_TO_TWEETS = 'SET_IS_BOOKMARK_TO_TWEETS';
 export const SET_IS_BOOKMARK = 'SET_IS_BOOKMARK';
-export const SET_IS_BOOKMARK_FALSE = 'SET_IS_BOOKMARK_FALSE';
 // Reply reducer types
 export const SET_REPLIES = 'SET_REPLIES';
 export const POST_REPLY = 'POST_REPLY';

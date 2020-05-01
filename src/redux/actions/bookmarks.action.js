@@ -2,9 +2,9 @@ import axios from 'axios';
 import {
   SET_BOOKMARKS,
   POST_BOOKMARK,
-  SET_IS_BOOKMARK,
-  SET_IS_BOOKMARK_FALSE,
-  DELETE_BOOKMARK
+  SET_IS_BOOKMARK_TO_TWEETS,
+  DELETE_BOOKMARK,
+  SET_IS_BOOKMARK
 } from '../types';
 
 export const getBookmarks = () => async dispatch => {
@@ -20,7 +20,7 @@ export const getBookmarks = () => async dispatch => {
       bookmarks: response.data.map(bookmark => bookmark.tweetId)
     });
     dispatch({
-      type: SET_IS_BOOKMARK,
+      type: SET_IS_BOOKMARK_TO_TWEETS,
       bookmarks: response.data.map(bookmark => bookmark.tweetId)
     });
   } catch (error) {
@@ -41,6 +41,13 @@ export const createBookmark = tweetId => async dispatch => {
       type: POST_BOOKMARK,
       tweetId: response.data.tweetId
     });
+    dispatch({
+      type: SET_IS_BOOKMARK,
+      tweet: {
+        isBookmark: true,
+        _id: response.data.tweetId
+      }
+    });
   } catch (error) {
     throw error;
   }
@@ -59,8 +66,11 @@ export const removeBookmark = tweetId => async dispatch => {
       removed: response.data
     });
     dispatch({
-      type: SET_IS_BOOKMARK_FALSE,
-      removed: response.data
+      type: SET_IS_BOOKMARK,
+      tweet: {
+        isBookmark: false,
+        _id: response.data.tweetId
+      }
     });
   } catch (error) {
     throw error;
