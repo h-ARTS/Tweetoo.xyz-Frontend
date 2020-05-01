@@ -7,7 +7,7 @@ export default function(state = initialState.bookmarks, action) {
   }
 
   if (action.type === POST_BOOKMARK) {
-    return [...state, action.bookmark];
+    return [...state, action.tweetId];
   }
 
   return state;

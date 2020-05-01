@@ -22,8 +22,8 @@ export const getBookmarks = () => async dispatch => {
   }
 };
 
-export const createBookmark = tweet => async dispatch => {
-  const postBody = { tweetId: tweet._id, tweet };
+export const createBookmark = tweetId => async dispatch => {
+  const postBody = { tweetId };
   try {
     const response = await axios.post('/api/bookmarks', postBody);
 
@@ -33,7 +33,12 @@ export const createBookmark = tweet => async dispatch => {
 
     dispatch({
       type: POST_BOOKMARK,
-      bookmark: response.data.map(bookmark => bookmark.tweetId)
+      tweetId: response.data.tweetId
+    });
+  } catch (error) {
+    throw error;
+  }
+};
     });
   } catch (error) {
     throw error;

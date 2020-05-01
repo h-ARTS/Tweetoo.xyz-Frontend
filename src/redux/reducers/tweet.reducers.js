@@ -50,7 +50,6 @@ export default function(state = [], action) {
     const filteredTweets = state.map(function(tweet) {
       tweet.isBookmark = false;
       this.forEach(tweetId => {
-        console.log('tweet', tweet, 'tweetId', tweetId);
         if (tweetId === tweet._id) {
           tweet.isBookmark = true;
         }
