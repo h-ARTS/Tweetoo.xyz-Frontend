@@ -32,6 +32,9 @@ import { useFollow } from '../../common/hooks/useFollow';
 import useA11yTabProps from '../../common/hooks/useA11yTabProps';
 import SkeletonCoverImage from '../../common/ui/skeletons/SkeletonCoverImage';
 import SkeletonUserImage from '../../common/ui/skeletons/SkeletonUserImage';
+import SkeletonFullnameHandleBio from '../../common/ui/skeletons/SkeletonFullnameHandleBio';
+import SkeletonUserDetails from '../../common/ui/skeletons/SkeletonUserDetails';
+import SkeletonCounting from '../../common/ui/skeletons/SkeletonCounting';
 
 const useStyles = makeStyles(theme => ({
   firstLayer: {
@@ -143,12 +146,14 @@ export const ProfileHomeContainer = () => {
         <CardContent className={classes.cardContent}>
           <Box className={classes.firstLayer}>
             <Box className={classes.locationJoined}>
-              {userPropFactory('location') && (
-                <Location location={userPropFactory('location')} />
-              )}
-              <Joined date={date} />
-              {userPropFactory('website') && (
-                <Website website={userPropFactory('website')} />
+              {loading ? (
+                <SkeletonUserDetails />
+              ) : (
+                <>
+                  <Location location={userPropFactory('location')} />
+                  <Joined date={date} />
+                  <Website website={userPropFactory('website')} />
+                </>
               )}
             </Box>
             {isNotCurrentUser ? (
@@ -185,45 +190,69 @@ export const ProfileHomeContainer = () => {
               </Button>
             )}
           </Box>
-          <Box textAlign="center" mb={1} mt={-3}>
-            <Typography className={classes.fullName} variant="h5" component="p">
-              {userPropFactory('fullName')}
-            </Typography>
-            <Typography className={classes.handle} variant="subtitle2">
-              @{userPropFactory('handle')}
-              {isFollowingYou() && (
-                <Chip
-                  size="small"
-                  label="Following you"
-                  className={classes.followingChip}
-                />
-              )}
-            </Typography>
-          </Box>
-          <Box>
-            <Typography variant="body2">{userPropFactory('bio')}</Typography>
-          </Box>
+          {loading ? (
+            <SkeletonFullnameHandleBio />
+          ) : (
+            <>
+              <Box textAlign="center" mb={1} mt={-3}>
+                <Typography
+                  className={classes.fullName}
+                  variant="h5"
+                  component="p"
+                >
+                  {userPropFactory('fullName')}
+                </Typography>
+                <Typography className={classes.handle} variant="subtitle2">
+                  @{userPropFactory('handle')}
+                  {isFollowingYou() && (
+                    <Chip
+                      size="small"
+                      label="Following you"
+                      className={classes.followingChip}
+                    />
+                  )}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant="body2">
+                  {userPropFactory('bio')}
+                </Typography>
+              </Box>
+            </>
+          )}
           <Box mt={1} display="flex">
             <Box mr={1}>
-              <Link to="following" className={classes.link}>
-                <Typography variant="body2">
-                  <strong>{userPropFactory('following').length}</strong>{' '}
-                  Following
-                </Typography>
-              </Link>
+              {loading ? (
+                <SkeletonCounting />
+              ) : (
+                <Link to="following" className={classes.link}>
+                  <Typography variant="body2">
+                    <strong>{userPropFactory('following').length}</strong>{' '}
+                    Following
+                  </Typography>
+                </Link>
+              )}
             </Box>
             <Box mr={1}>
-              <Link to="followers" className={classes.link}>
-                <Typography variant="body2">
-                  <strong>{userPropFactory('followers').length}</strong>{' '}
-                  Follower
-                </Typography>
-              </Link>
+              {loading ? (
+                <SkeletonCounting />
+              ) : (
+                <Link to="followers" className={classes.link}>
+                  <Typography variant="body2">
+                    <strong>{userPropFactory('followers').length}</strong>{' '}
+                    Follower
+                  </Typography>
+                </Link>
+              )}
             </Box>
             <Box>
-              <Typography variant="body2">
-                <strong>{userPropFactory('tweets').length}</strong> Tweets
-              </Typography>
+              {loading ? (
+                <SkeletonCounting />
+              ) : (
+                <Typography variant="body2">
+                  <strong>{userPropFactory('tweets').length}</strong> Tweets
+                </Typography>
+              )}
             </Box>
           </Box>
         </CardContent>
