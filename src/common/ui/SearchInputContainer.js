@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { searchQuery } from '../../redux/actions/data.actions';
 // MUI Components
-import Avatar from '@material-ui/core/Avatar';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import Box from '@material-ui/core/Box';
 import FormControl from '@material-ui/core/FormControl';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-// MUI Icons
-import CloseIcon from '@material-ui/icons/Close';
-// MUI Lab
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Paper from '@material-ui/core/Paper';
 // MUI Styles
 import { grey } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 // Components
 import SearchListBoxWrapper from './SearchListBoxWrapper';
 import SearchInput from './SearchInput';
-import { Paper } from '@material-ui/core';
+// import useStorage from '../hooks/useStorage';
+import useDebounce from '../hooks/useDebounce';
+import LastResultOption from './LastResultOption';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,60 +29,23 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     marginBottom: '8px',
     backgroundColor: 'white'
-  },
-  listItem: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1)
-  },
-  listItemLeft: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  listItemText: {
-    marginLeft: theme.spacing(2)
   }
 }));
 
-const lastSearched = [
-  { full_name: 'Alif Mirza', tag: 'AM' },
-  { full_name: 'John Doe', tag: 'JD' },
-  { full_name: 'Tom Cat', tag: 'TC' },
-  { full_name: 'Andrew Anderson', tag: 'AA' },
-  { full_name: 'Burak Ozan', tag: 'BO' },
-  { full_name: 'Muhammad Irfan', tag: 'MI' }
-];
-
-localStorage.setItem('last_searched', JSON.stringify(lastSearched));
-
 export default function SearchInputContainer(props) {
   const classes = useStyles();
+  // const { setItem, removeAll, removeOne, getItem } = useStorage('lastSearched');
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const loading = open && options.length === 0;
+  const dispatch = useDispatch();
+  const { users, tweets } = useSelector(state => state.searchEntries);
+  const debouncedDispatch = useDebounce(dispatch, 250);
 
   useEffect(() => {
-    let active = true;
-
-    if (!loading) {
-      return undefined;
-    }
-
-    setTimeout(() => {
-      const result = localStorage.getItem('last_searched');
-
-      if (active) {
-        setOptions(JSON.parse(result));
-      }
-    }, 1000);
-
-    return () => {
-      active = false;
-    };
-  }, [loading]);
+    setOptions(users);
+  }, [users]);
 
   useEffect(() => {
     if (!open) {
@@ -90,34 +53,32 @@ export default function SearchInputContainer(props) {
     }
   }, [open]);
 
-  const handleDelete = e => {
+  useEffect(() => {
+    if (searchTerm !== '') debouncedDispatch(searchQuery(searchTerm));
+  }, [debouncedDispatch, searchTerm]);
+
+  const handleDelete = (e, params) => {
     e.stopPropagation();
+    // removeOne(params.id);
+  };
+
+  const handleSearch = e => {
+    const value = e.target.value;
+    setSearchTerm(value);
+  };
+
+  const submitSearchTerm = e => {
+    e.preventDefault();
+    // setItem({
+    //   id: uuid(),
+    //   fullText: searchTerm,
+    //   tag: searchTerm.substring(0, 2)
+    // });
   };
 
   const renderListBoxComponent = React.forwardRef((props, ref) => (
-    <SearchListBoxWrapper {...props} ref={ref} onClick={handleDelete} />
+    <SearchListBoxWrapper {...props} ref={ref} />
   ));
-
-  const renderLastResultOptions = params => (
-    <Box className={classes.listItem}>
-      <Box className={classes.listItemLeft}>
-        <Avatar alt={params.full_name}>{params.tag}</Avatar>
-        <Typography className={classes.listItemText} variant="body1">
-          {params.full_name}
-        </Typography>
-      </Box>
-      <Box>
-        <IconButton
-          aria-label="delete"
-          size="small"
-          color="secondary"
-          onClick={handleDelete}
-        >
-          <CloseIcon fontSize="inherit" />
-        </IconButton>
-      </Box>
-    </Box>
-  );
 
   return (
     <Box
@@ -130,6 +91,7 @@ export default function SearchInputContainer(props) {
         aria-label="Search on Tweetoo.xyz"
         component="form"
         role="search"
+        onSubmit={submitSearchTerm}
       >
         <Autocomplete
           open={open}
@@ -137,15 +99,19 @@ export default function SearchInputContainer(props) {
           onClose={() => setOpen(false)}
           loading={loading}
           options={options}
-          getOptionLabel={option => option.full_name}
+          getOptionLabel={option => option.fullName}
           ListboxComponent={renderListBoxComponent}
-          renderOption={renderLastResultOptions}
+          renderOption={params => (
+            <LastResultOption params={params} onRemove={handleDelete} />
+          )}
           renderInput={params => (
             <SearchInput
+              value={searchTerm}
               InputLabelProps={params.InputLabelProps}
               inputProps={params.inputProps}
               inputRef={params.InputProps.ref}
               loading={loading}
+              onChange={handleSearch}
             />
           )}
         />

@@ -17,7 +17,14 @@ const useStyles = makeStyles(theme => ({
 export default function SearchInput(props) {
   const classes = useStyles();
 
-  const { InputLabelProps, inputProps, inputRef, loading } = props;
+  const {
+    InputLabelProps,
+    inputProps,
+    inputRef,
+    loading,
+    onChange,
+    value
+  } = props;
   return (
     <React.Fragment>
       <InputLabel htmlFor="search-input" color="secondary" {...InputLabelProps}>
@@ -25,10 +32,12 @@ export default function SearchInput(props) {
       </InputLabel>
       <Input
         fullWidth
+        value={value}
         color="secondary"
         id="search-input"
         aria-describedby="search-helper-text"
         inputProps={inputProps}
+        onKeyUp={e => onChange(e)}
         ref={inputRef}
         startAdornment={
           <InputAdornment position="start" className={classes.inputAdornment}>
