@@ -38,5 +38,9 @@ export default {
   tweets: [],
   replies: [],
   bookmarks: [],
-  notifications: []
+  notifications: [],
+  searchEntries: {
+    users: [],
+    tweets: []
+  }
 };

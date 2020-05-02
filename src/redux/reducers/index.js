@@ -7,6 +7,7 @@ import replies from './reply.reducers';
 import signup from './signup.reducers';
 import notifications from './notifications.reducers';
 import bookmarks from './bookmarks.reducers';
+import searchEntries from './search.reducers';
 
 export default combineReducers({
   ui,
@@ -15,5 +16,6 @@ export default combineReducers({
   replies,
   notifications,
   bookmarks,
+  searchEntries,
   signup_form: signup
 });

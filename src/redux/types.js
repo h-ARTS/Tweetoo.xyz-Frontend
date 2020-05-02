@@ -54,3 +54,5 @@ export const UPADTE_NOTIFICATIONS_READ = 'UPADTE_NOTIFICATIONS_READ';
 export const SET_BOOKMARKS = 'SET_BOOKMARKS';
 export const POST_BOOKMARK = 'POST_BOOKMARK';
 export const DELETE_BOOKMARK = 'DELETE_BOOKMARK';
+// Seach entry reducer types
+export const POST_SEARCH_QUERY = 'POST_SEARCH_QUERY';

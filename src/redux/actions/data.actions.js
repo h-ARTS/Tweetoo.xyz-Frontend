@@ -4,7 +4,8 @@ import {
   SET_TWEETS,
   SET_AUTHENTICATED,
   LOADING_UI,
-  DATA_FETCH_COMPLETED
+  DATA_FETCH_COMPLETED,
+  POST_SEARCH_QUERY
 } from '../types';
 import { getNotifications } from './notifications.actions';
 import { getBookmarks } from './bookmarks.action';
@@ -50,4 +51,20 @@ export const fetchAllData = () => dispatch => {
       dispatch({ type: DATA_FETCH_COMPLETED });
     })
   );
+};
+
+export const searchQuery = word => async dispatch => {
+  try {
+    const response = await axios.get(`/api/search?entry=${word}`);
+
+    dispatch({
+      type: POST_SEARCH_QUERY,
+      entries: {
+        users: response.data.users,
+        tweets: response.data.tweets
+      }
+    });
+  } catch (error) {
+    throw new Error(error);
+  }
 };
