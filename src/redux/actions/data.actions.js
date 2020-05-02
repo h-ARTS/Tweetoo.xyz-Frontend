@@ -65,6 +65,6 @@ export const searchQuery = word => async dispatch => {
       }
     });
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };

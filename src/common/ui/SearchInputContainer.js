@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { v1 as uuid } from 'uuid';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { searchQuery } from '../../redux/actions/data.actions';
@@ -40,12 +41,27 @@ export default function SearchInputContainer(props) {
   const [searchTerm, setSearchTerm] = useState('');
   const loading = open && options.length === 0;
   const dispatch = useDispatch();
-  const { users, tweets } = useSelector(state => state.searchEntries);
+  const { users } = useSelector(state => state.searchEntries);
   const debouncedDispatch = useDebounce(dispatch, 250);
 
   useEffect(() => {
-    setOptions(users);
-  }, [users]);
+    let active = true;
+
+    if (!loading) {
+      return undefined;
+    }
+
+    if (localStorage.getItem('lastResults')) {
+      const pastResults = localStorage.getItem('lastResults');
+
+      if (active) {
+        setOptions(JSON.parse(pastResults));
+      }
+    } else
+      return () => {
+        active = false;
+      };
+  }, [loading]);
 
   useEffect(() => {
     if (!open) {
@@ -57,10 +73,9 @@ export default function SearchInputContainer(props) {
     if (searchTerm !== '') debouncedDispatch(searchQuery(searchTerm));
   }, [debouncedDispatch, searchTerm]);
 
-  const handleDelete = (e, params) => {
-    e.stopPropagation();
-    // removeOne(params.id);
-  };
+  useEffect(() => {
+    setOptions(users);
+  }, [users]);
 
   const handleSearch = e => {
     const value = e.target.value;
@@ -69,15 +84,68 @@ export default function SearchInputContainer(props) {
 
   const submitSearchTerm = e => {
     e.preventDefault();
-    // setItem({
-    //   id: uuid(),
-    //   fullText: searchTerm,
-    //   tag: searchTerm.substring(0, 2)
-    // });
+    localStorage.setItem(
+      'lastResults',
+      JSON.stringify([
+        {
+          id: uuid(),
+          fullName: searchTerm,
+          userImage: {
+            url: ''
+          }
+        }
+      ])
+    );
+  };
+
+  const handleOptionClick = params => {
+    if (!localStorage.getItem('lastResults')) {
+      const stringifiedResult = JSON.stringify([
+        {
+          id: uuid(),
+          fullName: params.fullName,
+          userImage: {
+            url: params.userImage.url
+          }
+        }
+      ]);
+      localStorage.setItem('lastResults', stringifiedResult);
+      return;
+    } else {
+      const pastResults = JSON.parse(localStorage.getItem('lastResults'));
+      pastResults.push({
+        id: uuid(),
+        fullName: params.fullName,
+        userImage: {
+          url: params.userImage.url
+        }
+      });
+      localStorage.setItem('lastResults', JSON.stringify(pastResults));
+      return;
+    }
+  };
+
+  const handleDelete = (e, params) => {
+    e.stopPropagation();
+    const pastResults = localStorage.getItem('lastResults');
+    const filtered = JSON.parse(pastResults).filter(
+      item => item.id !== params.id
+    );
+    localStorage.setItem('lastResults', JSON.stringify(filtered));
+  };
+
+  const removeAllLatestResults = e => {
+    e.stopPropagation();
+    localStorage.removeItem('lastResults');
+    setOptions([]);
   };
 
   const renderListBoxComponent = React.forwardRef((props, ref) => (
-    <SearchListBoxWrapper {...props} ref={ref} />
+    <SearchListBoxWrapper
+      {...props}
+      ref={ref}
+      onClick={removeAllLatestResults}
+    />
   ));
 
   return (
@@ -102,7 +170,11 @@ export default function SearchInputContainer(props) {
           getOptionLabel={option => option.fullName}
           ListboxComponent={renderListBoxComponent}
           renderOption={params => (
-            <LastResultOption params={params} onRemove={handleDelete} />
+            <LastResultOption
+              params={params}
+              onRemove={handleDelete}
+              onClick={handleOptionClick}
+            />
           )}
           renderInput={params => (
             <SearchInput
@@ -111,7 +183,7 @@ export default function SearchInputContainer(props) {
               inputProps={params.inputProps}
               inputRef={params.InputProps.ref}
               loading={loading}
-              onChange={handleSearch}
+              onKeyUp={handleSearch}
             />
           )}
         />

@@ -26,16 +26,17 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2)
   }
 }));
-export default function LastResultOption({ params, onRemove }) {
+export default function LastResultOption({ params, onRemove, onClick }) {
   const classes = useStyles();
 
-  const navigateToEntry = e => {
+  const navigateToEntryAndSaveResult = e => {
     e.stopPropagation();
     navigate(`/${params.handle}`);
+    onClick(params);
   };
 
   return (
-    <Box className={classes.listItem} onClick={navigateToEntry}>
+    <Box className={classes.listItem} onClick={navigateToEntryAndSaveResult}>
       <Box className={classes.listItemLeft}>
         <Avatar
           alt={params.fullName}
@@ -46,14 +47,16 @@ export default function LastResultOption({ params, onRemove }) {
         </Typography>
       </Box>
       <Box>
-        <IconButton
-          aria-label="delete"
-          size="small"
-          color="secondary"
-          onClick={e => onRemove(e, params)}
-        >
-          <CloseIcon fontSize="inherit" />
-        </IconButton>
+        {!params._id ? (
+          <IconButton
+            aria-label="delete"
+            size="small"
+            color="secondary"
+            onClick={e => onRemove(e, params)}
+          >
+            <CloseIcon fontSize="inherit" />
+          </IconButton>
+        ) : null}
       </Box>
     </Box>
   );

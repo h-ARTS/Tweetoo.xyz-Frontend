@@ -22,7 +22,7 @@ export default function SearchInput(props) {
     inputProps,
     inputRef,
     loading,
-    onChange,
+    onKeyUp,
     value
   } = props;
   return (
@@ -37,7 +37,7 @@ export default function SearchInput(props) {
         id="search-input"
         aria-describedby="search-helper-text"
         inputProps={inputProps}
-        onKeyUp={e => onChange(e)}
+        onKeyUp={e => onKeyUp(e)}
         ref={inputRef}
         startAdornment={
           <InputAdornment position="start" className={classes.inputAdornment}>
