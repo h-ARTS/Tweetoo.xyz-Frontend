@@ -42,11 +42,15 @@ export default function NewTweetForm({
   return (
     <Box display="flex" pl={2} pr={2} pt={2} pb={1} alignItems="stretch">
       <Link to={`/${user.handle}`}>
-        <Avatar
-          className={classes.avatar}
-          src={`http://localhost:6500/${user.userImage.url}`}
-          children={user.userImage.url && null}
-        />
+        {!user.userImage ? (
+          <Avatar className={classes.avatar} />
+        ) : (
+          <Avatar
+            className={classes.avatar}
+            src={`http://localhost:6500/${user.userImage.url}`}
+            children={user.userImage.url && null}
+          />
+        )}
       </Link>
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="new-tweet" color="secondary">

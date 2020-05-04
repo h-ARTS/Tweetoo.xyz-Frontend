@@ -25,10 +25,14 @@ export default function ProfileImage({ userImage }) {
   const classes = useStyles();
   return (
     <Box className={classes.userImageContainer}>
-      <Avatar
-        src={`http://localhost:6500/${userImage.url}`}
-        className={classes.userImage}
-      />
+      {!userImage ? (
+        <Avatar className={classes.userImage} />
+      ) : (
+        <Avatar
+          src={`http://localhost:6500/${userImage.url}`}
+          className={classes.userImage}
+        />
+      )}
     </Box>
   );
 }
