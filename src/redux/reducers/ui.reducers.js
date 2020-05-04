@@ -1,10 +1,13 @@
 import {
   DATA_FETCH_COMPLETED,
   LOADING_UI,
+  LOADING_COMPLETE,
   PROFILE_TAB_CHANGE,
   LOADING_REPLIES,
   LOADING_USERS,
-  USERS_FETCH_COMPLETED
+  USERS_FETCH_COMPLETED,
+  SET_ERRORS,
+  CLEAR_ERRORS
 } from '../types';
 
 export default function(state = {}, action) {
@@ -12,6 +15,13 @@ export default function(state = {}, action) {
     return {
       ...state,
       loading: true
+    };
+  }
+
+  if (action.type === LOADING_COMPLETE) {
+    return {
+      ...state,
+      loading: false
     };
   }
 
@@ -50,6 +60,20 @@ export default function(state = {}, action) {
       profile: {
         tabValue: action.tabValue
       }
+    };
+  }
+
+  if (action.type === SET_ERRORS) {
+    return {
+      ...state,
+      errors: action.error
+    };
+  }
+
+  if (action.type === CLEAR_ERRORS) {
+    return {
+      ...state,
+      errors: null
     };
   }
 

@@ -33,7 +33,8 @@ export default {
     replyDialog: false,
     loading: false,
     loadingReplies: false,
-    loadingUsers: false
+    loadingUsers: false,
+    errors: null
   },
   tweets: [],
   replies: [],

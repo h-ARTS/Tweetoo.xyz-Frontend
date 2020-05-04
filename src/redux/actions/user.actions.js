@@ -15,7 +15,8 @@ import {
   SET_FOLLOWERS,
   SET_FOLLOWING,
   LOADING_USERS,
-  USERS_FETCH_COMPLETED
+  USERS_FETCH_COMPLETED,
+  LOADING_COMPLETE
 } from '../types';
 import { fetchAllData } from './data.actions';
 
@@ -40,8 +41,9 @@ export const signinUser = userData => dispatch => {
     .catch(err => {
       dispatch({
         type: SET_ERRORS,
-        action: err.response
+        error: err.response.data
       });
+      dispatch({ type: LOADING_COMPLETE });
     });
 };
 

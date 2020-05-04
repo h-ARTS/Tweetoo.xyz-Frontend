@@ -1,8 +1,5 @@
 import React from 'react';
 import { Router } from '@reach/router';
-// Redux
-import { useStore } from 'react-redux';
-import { logoutUser } from '../../redux/actions/user.actions';
 // Pages
 import FollowerPage from './followpage/FollowerPage';
 import ProfileHomeContainer from './ProfileHomeContainer';

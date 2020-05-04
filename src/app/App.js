@@ -14,11 +14,11 @@ import ErrorCatcher from '../common/utils/ErrorCatcher';
 import theme from '../common/utils/theme';
 import './App.css';
 // Pages
+import AlertContainer from '../common/ui/AlertContainer';
 import AuthPage from './auth/AuthPage';
 import Bookmarks from './bookmarks/Bookmarks';
 import Home from './home/Home';
 import Layout from '../common/ui/Layout';
-import NotFound from './not-found/NotFound';
 import Notifications from './notifications/Notifications';
 import Profile from './profile/Profile';
 import Discover from './discover/Discover';
@@ -45,11 +45,11 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <ErrorCatcher>
+        <AlertContainer />
         <Router>
           <AuthPage path="/" />
         </Router>
         <Router component={Layout}>
-          <NotFound default />
           <Home path="home" />
           <Discover path="discover" />
           <Notifications path="notifications" />

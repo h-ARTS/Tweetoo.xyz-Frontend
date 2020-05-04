@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // Redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signinUser } from '../../redux/actions/user.actions';
 // MUI Components
 import Backdrop from '@material-ui/core/Backdrop';
@@ -66,18 +66,16 @@ const useStyles = makeStyles(theme => ({
 export default function AuthPage() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [openLoadingSpinner, setOpenLoadingSpinner] = useState(false);
+  const { loading } = useSelector(state => state.ui);
   const [openSignUpDialog, setOpenSignUpDialog] = useState(false);
   const [userData, setUserData] = useState({
     email: '',
     password: '',
     persist: false
   });
-  // const [error, setError] = useState('');
 
   const handleSignin = event => {
     event.preventDefault();
-    setOpenLoadingSpinner(true);
     dispatch(signinUser(userData));
   };
 
@@ -87,7 +85,7 @@ export default function AuthPage() {
 
   return (
     <>
-      <Backdrop open={openLoadingSpinner} className={classes.backdrop}>
+      <Backdrop open={loading} className={classes.backdrop}>
         <CircularProgress />
       </Backdrop>
       <Grid container component="main" className={classes.root}>
