@@ -5,7 +5,7 @@ import Hidden from '@material-ui/core/Hidden';
 // Components
 import RightBar from '../../common/ui/RightBar';
 import Timeline from '../../common/ui/Timeline';
-import TrendsList from '../trending/TrendsList';
+import TrendsList from '../discover/TrendsList';
 import SearchInputContainer from '../../common/ui/SearchInputContainer';
 import PageTitle from '../../common/ui/PageTitle';
 

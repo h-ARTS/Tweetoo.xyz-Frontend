@@ -12,8 +12,8 @@ import Paper from '@material-ui/core/Paper';
 // Components
 import PageTitle from '../../common/ui/PageTitle';
 import RightBar from '../../common/ui/RightBar';
-import SuggestedFollowListContainer from '../trending/SuggestedFollowListContainer';
-import TrendsList from '../trending/TrendsList';
+import SuggestedFollowListContainer from '../discover/SuggestedFollowListContainer';
+import TrendsList from '../discover/TrendsList';
 import NotificationListItem from './NotificationListItem';
 
 export const Notifications = () => {

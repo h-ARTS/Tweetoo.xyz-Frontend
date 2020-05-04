@@ -18,9 +18,10 @@ import AuthPage from './auth/AuthPage';
 import Bookmarks from './bookmarks/Bookmarks';
 import Home from './home/Home';
 import Layout from '../common/ui/Layout';
+import NotFound from './not-found/NotFound';
 import Notifications from './notifications/Notifications';
 import Profile from './profile/Profile';
-import Trending from './trending/Trending';
+import Discover from './discover/Discover';
 
 axios.defaults.baseURL = 'http://localhost:6500';
 const token = localStorage.token;
@@ -48,8 +49,9 @@ export default function App() {
           <AuthPage path="/" />
         </Router>
         <Router component={Layout}>
+          <NotFound default />
           <Home path="home" />
-          <Trending path="trending" />
+          <Discover path="discover" />
           <Notifications path="notifications" />
           <Bookmarks path="bookmarks" />
           <Profile path=":userId/*" />

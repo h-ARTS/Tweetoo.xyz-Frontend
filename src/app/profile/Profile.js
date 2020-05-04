@@ -9,7 +9,7 @@ import ProfileHomeContainer from './ProfileHomeContainer';
 import TweetPage from './TweetPage';
 // UI Components
 import RightBar from '../../common/ui/RightBar';
-import TrendsList from '../trending/TrendsList';
+import TrendsList from '../discover/TrendsList';
 // MUI Components
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';

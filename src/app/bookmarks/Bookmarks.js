@@ -10,8 +10,8 @@ import Paper from '@material-ui/core/Paper';
 import PageTitle from '../../common/ui/PageTitle';
 import RightBar from '../../common/ui/RightBar';
 import SkeletonTweet from '../../common/ui/skeletons/SkeletonTweet';
-import SuggestedFollowListContainer from '../trending/SuggestedFollowListContainer';
-import TrendsList from '../trending/TrendsList';
+import SuggestedFollowListContainer from '../discover/SuggestedFollowListContainer';
+import TrendsList from '../discover/TrendsList';
 import Tweet from '../home/Tweet';
 
 export default function Bookmarks() {

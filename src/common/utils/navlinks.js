@@ -12,8 +12,8 @@ export default [
     icon: HomeIcon
   },
   {
-    to: '/trending',
-    title: 'Trending',
+    to: '/discover',
+    title: 'Discover',
     icon: PublicIcon
   },
   {
