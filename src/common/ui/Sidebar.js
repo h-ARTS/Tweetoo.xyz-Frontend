@@ -1,6 +1,7 @@
 import React from 'react';
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutUser } from '../../redux/actions/user.actions';
 // MUI
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
@@ -11,6 +12,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
+// Mui Icons
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // Mui Styles
 import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -57,10 +60,15 @@ export default function Sidebar() {
   const isXL = useMediaQuery('(max-width: 1280px)');
   const { userImage } = useSelector(state => state.user.current);
   const notifications = useSelector(state => state.notifications);
+  const dispatch = useDispatch();
 
   const hasUnreadNotifications = () => {
     const found = notifications.find(n => n.read === false);
     return Boolean(found);
+  };
+
+  const logout = () => {
+    dispatch(logoutUser());
   };
 
   return (
@@ -134,6 +142,25 @@ export default function Sidebar() {
               )}
             </ListItem>
           ))}
+          <ListItem
+            button
+            className={classes.listItem}
+            disableGutters={isXL}
+            onClick={logout}
+          >
+            <ListItemIcon className={isXL ? classes.listItemIconRoot : ''}>
+              <ExitToAppIcon fontSize="large" />
+            </ListItemIcon>
+            {!isXL && (
+              <Typography
+                variant="button"
+                display="block"
+                className={classes.listItemTitle}
+              >
+                Logout
+              </Typography>
+            )}
+          </ListItem>
         </List>
       </div>
     </Grid>
