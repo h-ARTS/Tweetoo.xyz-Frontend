@@ -36,20 +36,17 @@ export const submitSignupForm = data => async dispatch => {
       `/media/user/${data.handle}`
     );
     if (!createNewUserDirResponse) {
-      throw new Error(createNewUserDirResponse);
+      throw Error(createNewUserDirResponse);
     }
 
-    const assignUserImageResponse = await axios.put(
-      '/media/cached',
-      userImageBody
-    );
-    if (!assignUserImageResponse) {
-      throw new Error(assignUserImageResponse);
-    } else {
-      dispatch(fetchAllData());
-      dispatch({ type: CLEAR_ERRORS });
-      navigate('/home');
+    let assignUserImageResponse;
+    if (data.uniqueImageId != null) {
+      assignUserImageResponse = await axios.put('/media/cached', userImageBody);
     }
+
+    dispatch(fetchAllData());
+    dispatch({ type: CLEAR_ERRORS });
+    navigate('/home');
   } catch (err) {
     throw err;
   }

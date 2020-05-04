@@ -49,6 +49,7 @@ export default function FileUploadButton() {
   const classes = useStyles({ userImage });
 
   const handleFileUpload = event => {
+    event.stopPropagation();
     const file = event.target.files[0];
     dispatch(uploadCachedProfileImage({ file, userHandle }));
   };
