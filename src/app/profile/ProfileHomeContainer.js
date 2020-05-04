@@ -150,9 +150,13 @@ export const ProfileHomeContainer = () => {
                 <SkeletonUserDetails />
               ) : (
                 <>
-                  <Location location={userPropFactory('location')} />
-                  <Joined date={date} />
-                  <Website website={userPropFactory('website')} />
+                  {userPropFactory('location') && (
+                    <Location location={userPropFactory('location')} />
+                  )}
+                  {userPropFactory('date') && <Joined date={date} />}
+                  {userPropFactory('website') && (
+                    <Website website={userPropFactory('website')} />
+                  )}
                 </>
               )}
             </Box>
