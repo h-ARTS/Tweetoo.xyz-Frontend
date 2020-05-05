@@ -9,34 +9,19 @@ import {
 } from '../types';
 import { getNotifications } from './notifications.actions';
 import { getBookmarks } from './bookmarks.action';
+import isLikedPipe from '../../common/utils/isLikedPipe';
+import isRetweetPipe from '../../common/utils/isRetweetPipe';
 
 export const fetchAllData = () => dispatch => {
   dispatch({
     type: LOADING_UI
   });
   const getAllTweets = () => axios.get('/api/tweets');
-  const getAllLikedTweets = () => axios.get('/api/tweet/liked');
   const getCurrentUser = () => axios.get(`/api/user`);
-  axios.all([getCurrentUser(), getAllLikedTweets(), getAllTweets()]).then(
-    axios.spread((currentUser, likedTweets, tweets) => {
-      let filteredTweets = tweets.data.map(function(tweet) {
-        tweet.isLiked = false;
-        this.forEach(liked => {
-          if (liked._id === tweet._id) {
-            tweet.isLiked = true;
-          }
-        });
-        return tweet;
-      }, likedTweets.data);
-      filteredTweets = filteredTweets.map(function(tweet) {
-        tweet.isRetweet = false;
-        this.forEach(userTweet => {
-          if (userTweet.tweetId === tweet._id && userTweet.retweet) {
-            tweet.isRetweet = true;
-          }
-        });
-        return tweet;
-      }, currentUser.data.tweets);
+  axios.all([getCurrentUser(), getAllTweets()]).then(
+    axios.spread(async (currentUser, tweets) => {
+      let filteredTweets = await isLikedPipe(tweets.data);
+      filteredTweets = isRetweetPipe(filteredTweets, currentUser.data);
       dispatch({
         type: SET_AUTHENTICATED_USER,
         user: currentUser.data
