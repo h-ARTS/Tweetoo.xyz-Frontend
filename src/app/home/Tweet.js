@@ -71,7 +71,12 @@ const useStyles = makeStyles(theme => ({
 
 const TweetTextContainer = WithLinkTransformation(TweetText);
 
-export default function Tweet({ tweet, minimized = false, largeText = false }) {
+export default function Tweet({
+  tweet,
+  minimized = false,
+  largeText = false,
+  onRefresh
+}) {
   const classes = useStyles();
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -176,6 +181,7 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
     } else {
       dispatch(handleLikeTweet(_id, 'like'));
     }
+    if (onRefresh) onRefresh();
   };
 
   const handleDeleteTweet = () => {
@@ -184,6 +190,7 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
 
   const handleRetweet = () => {
     dispatch(postRetweet(_id, !isRetweet));
+    if (onRefresh) onRefresh();
   };
 
   const handleFollow = () => {
@@ -200,6 +207,7 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
   };
 
   const handleBookmark = () => {
+    if (onRefresh) onRefresh();
     return !isBookmark
       ? dispatch(createBookmark(_id))
       : dispatch(removeBookmark(_id));
@@ -240,9 +248,7 @@ export default function Tweet({ tweet, minimized = false, largeText = false }) {
                 aria-label="profile"
                 src={`http://localhost:6500/${userImageUrl}`}
                 className={classes.avatar}
-              >
-                P
-              </Avatar>
+              />
             }
             title={
               <TweetTitle

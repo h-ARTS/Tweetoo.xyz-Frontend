@@ -14,7 +14,11 @@ const useStyles = makeStyles({
     borderWidth: '0 0 6px 0'
   }
 });
-export default function NewTweetFormContainer({ reply, tweetId }) {
+export default function NewTweetFormContainer({
+  reply,
+  tweetId,
+  onFormSubmit
+}) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { current } = useSelector(state => state.user);
@@ -31,6 +35,7 @@ export default function NewTweetFormContainer({ reply, tweetId }) {
       dispatch(postReply(tweetText, tweetId));
     }
     setTweetText('');
+    onFormSubmit();
   };
 
   return (

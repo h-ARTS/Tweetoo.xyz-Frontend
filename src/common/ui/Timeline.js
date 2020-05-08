@@ -33,19 +33,27 @@ export default function Timeline() {
 
     return { docs: results, lastId: data.lastId };
   };
-  const { status, data, error, fetchMore, isFetchingMore } = useInfiniteQuery(
-    'tweets',
-    fetchTweets,
-    {
-      getFetchMore: lastGroup => lastGroup.lastId
-    }
-  );
+  const {
+    status,
+    data,
+    error,
+    fetchMore,
+    isFetchingMore,
+    refetch
+  } = useInfiniteQuery('tweets', fetchTweets, {
+    getFetchMore: lastGroup => lastGroup.lastId,
+    refetchInterval: 3000
+  });
+
+  const refetchNewData = () => {
+    refetch();
+  };
 
   useIntersectionObserver({ target: lastElem, onIntersect: fetchMore });
 
   return (
     <Box className={classes.timeline}>
-      <NewTweetFormContainer />
+      <NewTweetFormContainer onFormSubmit={refetchNewData} />
       {status === 'loading'
         ? [1, 2, 3, 4, 5].map(key => <SkeletonTweet key={key} />)
         : data.map((tweetDocs, idx) => (
@@ -53,7 +61,11 @@ export default function Timeline() {
               {tweetDocs.docs
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                 .map(tweet => (
-                  <Tweet tweet={tweet} key={tweet._id} />
+                  <Tweet
+                    tweet={tweet}
+                    key={tweet._id}
+                    onRefresh={refetchNewData}
+                  />
                 ))}
             </React.Fragment>
           ))}
