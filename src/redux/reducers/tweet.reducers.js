@@ -9,7 +9,8 @@ import {
   DELETE_RETWEET,
   UPDATE_TWEET,
   SET_IS_BOOKMARK_TO_TWEETS,
-  SET_IS_BOOKMARK
+  SET_IS_BOOKMARK,
+  UPDATE_TWEET_ENTRIES
 } from '../types';
 
 export default function(state = [], action) {
@@ -70,6 +71,10 @@ export default function(state = [], action) {
     });
 
     return [...setIsBookmarkOnTweet];
+  }
+
+  if (action.type === UPDATE_TWEET_ENTRIES) {
+    return [...state, ...action.entries];
   }
 
   if (action.type === UNLIKE_TWEET) {

@@ -6,8 +6,11 @@ import {
   LIKE_TWEET,
   UNLIKE_TWEET,
   POST_RETWEET,
-  DELETE_RETWEET
+  DELETE_RETWEET,
+  UPDATE_TWEET_ENTRIES
 } from '../types';
+import isLikedPipe from '../../common/utils/isLikedPipe';
+import isRetweetPipe from '../../common/utils/isRetweetPipe';
 
 export const postTweet = data => async dispatch => {
   try {
@@ -107,4 +110,14 @@ export const postRetweet = (tweetId, retweet = true) => async dispatch => {
   } catch (err) {
     throw err;
   }
+};
+
+export const updateTweetEntries = (data, user) => async dispatch => {
+  console.log(data);
+  let results = await isLikedPipe(data);
+  results = isRetweetPipe(results, user);
+  dispatch({
+    type: UPDATE_TWEET_ENTRIES,
+    entries: [...results]
+  });
 };

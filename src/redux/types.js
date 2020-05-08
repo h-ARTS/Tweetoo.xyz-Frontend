@@ -1,5 +1,6 @@
 // Data reducer types
 export const CLEAR_STATE = 'CLEAR_STATE';
+export const UPDATE_TWEET_ENTRIES = 'UPDATE_TWEET_ENTRIES';
 // UI reducer types
 export const DATA_FETCH_COMPLETED = 'DATA_FETCH_COMPLETED';
 export const MARK_NOTIFICATIONS_READ = 'MARK_NOTIFICATIONS_READ';
