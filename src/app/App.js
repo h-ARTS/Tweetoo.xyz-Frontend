@@ -1,6 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Router, navigate } from '@reach/router';
+import { ReactQueryDevtools } from 'react-query-devtools';
 // JWT / Axios
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
@@ -57,6 +58,7 @@ export default function App() {
           <Profile path=":userId/*" />
         </Router>
       </ErrorCatcher>
+      <ReactQueryDevtools initialIsOpen={false} />
     </ThemeProvider>
   );
 }

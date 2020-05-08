@@ -1,4 +1,8 @@
-export default function isRetweetPipe(data, user) {
+import store from '../../redux/store';
+
+export default function isRetweetPipe(data) {
+  const { user } = store.getState();
+
   return data.map(function(tweet) {
     tweet.isRetweet = false;
     this.forEach(userTweet => {
@@ -7,5 +11,5 @@ export default function isRetweetPipe(data, user) {
       }
     });
     return tweet;
-  }, user.tweets);
+  }, user.current.tweets);
 }

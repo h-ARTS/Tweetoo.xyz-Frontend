@@ -1,14 +1,18 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-// MUI Theme
-import { makeStyles, styled } from '@material-ui/core/styles';
-import { compose, spacing } from '@material-ui/system';
+import React, { useRef } from 'react';
+import { useInfiniteQuery } from 'react-query';
+import axios from 'axios';
+// MUI
+import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core/styles';
 // Components
 import NewTweetFormContainer from '../../app/home/NewTweetFormContainer';
 import SkeletonTweet from './skeletons/SkeletonTweet';
 import Tweet from '../../app/home/Tweet';
+import isLikedPipe from '../utils/isLikedPipe';
+import isRetweetPipe from '../utils/isRetweetPipe';
+import useIntersectionObserver from '../hooks/useIntersectionObserver';
 
-const Box = styled('div')(compose(spacing));
 const useStyles = makeStyles({
   timeline: {
     display: 'flex',
@@ -18,18 +22,51 @@ const useStyles = makeStyles({
     borderRight: '1px solid rgba(0, 0, 0, 0.12)'
   }
 });
-
 export default function Timeline() {
   const classes = useStyles();
-  const { tweets, ui } = useSelector(state => state);
+  const lastElem = useRef();
+  const fetchTweets = async (key, lastId = '') => {
+    const { data } = await axios.get(`/api/tweet/next?tweetId=${lastId}`);
+
+    let results = await isLikedPipe(data.docs);
+    results = isRetweetPipe(results);
+
+    return { docs: results, lastId: data.lastId };
+  };
+  const { status, data, error, fetchMore, isFetchingMore } = useInfiniteQuery(
+    'tweets',
+    fetchTweets,
+    {
+      getFetchMore: lastGroup => lastGroup.lastId
+    }
+  );
+
+  useIntersectionObserver({ target: lastElem, onIntersect: fetchMore });
+
   return (
     <Box className={classes.timeline}>
       <NewTweetFormContainer />
-      {ui.loading
+      {status === 'loading'
         ? [1, 2, 3, 4, 5].map(key => <SkeletonTweet key={key} />)
-        : tweets
-            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-            .map(tweet => <Tweet tweet={tweet} key={tweet._id} />)}
+        : data.map((tweetDocs, idx) => (
+            <React.Fragment key={idx}>
+              {tweetDocs.docs
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .map(tweet => (
+                  <Tweet tweet={tweet} key={tweet._id} />
+                ))}
+            </React.Fragment>
+          ))}
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height={90}
+        ref={lastElem}
+      >
+        {isFetchingMore && <CircularProgress color="secondary" disableShrink />}
+        {status === 'error' && <p>{error.message}</p>}
+      </Box>
     </Box>
   );
 }

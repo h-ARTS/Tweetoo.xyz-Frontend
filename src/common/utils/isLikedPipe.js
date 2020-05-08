@@ -12,7 +12,6 @@ export default async function isLikedPipe(data) {
     });
     return doc;
   }, response.data);
-  console.log(results);
 
   return results;
 }
