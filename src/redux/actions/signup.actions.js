@@ -39,6 +39,7 @@ export const submitSignupForm = data => async dispatch => {
       throw Error(createNewUserDirResponse);
     }
 
+    // eslint-disable-next-line no-unused-vars
     let assignUserImageResponse;
     if (data.uniqueImageId != null) {
       assignUserImageResponse = await axios.put('/media/cached', userImageBody);

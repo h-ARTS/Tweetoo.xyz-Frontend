@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     left: 0,
     backgroundImage: props =>
       !props.coverImage
-        ? 'url(http://localhost:3000/media/standard/no_cover.jpg)'
+        ? 'url(http://localhost:6500/media/standard/no_cover.jpg)'
         : `url(http://localhost:6500/${props.coverImage.url})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center center',
@@ -86,7 +86,7 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     backgroundImage: props =>
       !props.userImage
-        ? 'url(http://localhost:3000/media/standard/no_cover.jpg)'
+        ? 'url(http://localhost:6500/media/standard/no_cover.jpg)'
         : `url(http://localhost:6500/${props.userImage.url})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
