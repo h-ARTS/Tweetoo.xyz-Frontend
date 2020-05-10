@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { navigate } from '@reach/router';
+import { navigate, useLocation } from '@reach/router';
 import { v1 as uuid } from 'uuid';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,6 +44,7 @@ export default function SearchInputContainer(props) {
   const dispatch = useDispatch();
   const { users } = useSelector(state => state.searchEntries);
   const debouncedDispatch = useDebounce(dispatch, 250);
+  const location = useLocation();
 
   useEffect(() => {
     let active = true;
@@ -99,10 +100,20 @@ export default function SearchInputContainer(props) {
         }
       ])
     );
+
+    if (location.pathname.includes('search?q=')) {
+      dispatch(searchQuery(searchTerm));
+      return;
+    }
+
     navigate(`/discover/search?q=${searchTerm}`);
   };
 
   const handleOptionClick = params => {
+    if (location.pathname.includes('search?q=')) {
+      dispatch(searchQuery(searchTerm));
+    }
+
     if (!localStorage.getItem('lastResults')) {
       const stringifiedResult = JSON.stringify([
         {

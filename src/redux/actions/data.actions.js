@@ -39,6 +39,9 @@ export const fetchAllData = () => dispatch => {
 };
 
 export const searchQuery = word => async dispatch => {
+  if (word.charAt(0) === '#') {
+    word = word.substring(1);
+  }
   try {
     const response = await axios.get(`/api/search?entry=${word}`);
 
