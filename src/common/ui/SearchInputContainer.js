@@ -57,11 +57,12 @@ export default function SearchInputContainer(props) {
       if (active) {
         setOptions(JSON.parse(pastResults));
       }
-    } else
+    }
+
       return () => {
         active = false;
       };
-  }, [loading]);
+  }, [loading, open]);
 
   useEffect(() => {
     if (!open) {
