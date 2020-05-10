@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { navigate } from '@reach/router';
 import { v1 as uuid } from 'uuid';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -59,9 +60,9 @@ export default function SearchInputContainer(props) {
       }
     }
 
-      return () => {
-        active = false;
-      };
+    return () => {
+      active = false;
+    };
   }, [loading, open]);
 
   useEffect(() => {
@@ -91,12 +92,14 @@ export default function SearchInputContainer(props) {
         {
           id: uuid(),
           fullName: searchTerm,
+          handle: '',
           userImage: {
             url: ''
           }
         }
       ])
     );
+    navigate(`/discover/search?q=${searchTerm}`);
   };
 
   const handleOptionClick = params => {
@@ -178,6 +181,7 @@ export default function SearchInputContainer(props) {
               params={params}
               onRemove={handleDelete}
               onClick={handleOptionClick}
+              navigate={navigate}
             />
           )}
           renderInput={params => (

@@ -52,7 +52,7 @@ export default function App() {
         </Router>
         <Router component={Layout}>
           <Home path="home" />
-          <Discover path="discover" />
+          <Discover path="discover/*" />
           <Notifications path="notifications" />
           <Bookmarks path="bookmarks" />
           <Profile path=":userId/*" />

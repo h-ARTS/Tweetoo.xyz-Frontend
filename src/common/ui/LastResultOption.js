@@ -1,5 +1,4 @@
 import React from 'react';
-import { navigate } from '@reach/router';
 // Mui Component
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
@@ -26,13 +25,20 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2)
   }
 }));
-export default function LastResultOption({ params, onRemove, onClick }) {
+export default function LastResultOption({
+  params,
+  onRemove,
+  onClick,
+  navigate
+}) {
   const classes = useStyles();
 
   const navigateToEntryAndSaveResult = e => {
     e.stopPropagation();
-    navigate(`/${params.handle}`);
     onClick(params);
+
+    if (params.handle !== '') navigate(`/${params.handle}`);
+    else navigate(`/discover/search?q=${params.fullName}`);
   };
 
   return (
