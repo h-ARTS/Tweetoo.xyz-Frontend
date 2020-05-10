@@ -105,6 +105,7 @@ export default function SearchInputContainer(props) {
         {
           id: uuid(),
           fullName: params.fullName,
+          handle: params.handle,
           userImage: {
             url: params.userImage.url
           }
@@ -114,9 +115,11 @@ export default function SearchInputContainer(props) {
       return;
     } else {
       const pastResults = JSON.parse(localStorage.getItem('lastResults'));
+      if (pastResults.find(item => item.fullName === params.fullName)) return;
       pastResults.push({
         id: uuid(),
         fullName: params.fullName,
+        handle: params.handle,
         userImage: {
           url: params.userImage.url
         }
