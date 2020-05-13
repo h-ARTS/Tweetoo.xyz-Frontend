@@ -9,8 +9,10 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import PersonAddIcon from '@material-ui/icons/PersonAddTwoTone';
 import { useFollow } from '../../common/hooks/useFollow';
+import { useSelector } from 'react-redux';
 
 export default function UserListItem({ user }) {
+  const { current } = useSelector(state => state.user);
   const { isFollowing, handleFollowUser } = useFollow(user.handle);
 
   return (
@@ -23,16 +25,18 @@ export default function UserListItem({ user }) {
         )}
       </ListItemAvatar>
       <ListItemText primary={user.fullName} secondary={user.bio} />
-      <ListItemSecondaryAction>
-        <IconButton
-          edge="end"
-          aria-label="follow"
-          color={isFollowing ? 'secondary' : 'default'}
-          onClick={handleFollowUser}
-        >
-          <PersonAddIcon />
-        </IconButton>
-      </ListItemSecondaryAction>
+      {current._id !== user._id && (
+        <ListItemSecondaryAction>
+          <IconButton
+            edge="end"
+            aria-label="follow"
+            color={isFollowing() ? 'secondary' : 'default'}
+            onClick={handleFollowUser}
+          >
+            <PersonAddIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      )}
     </ListItem>
   );
 }
