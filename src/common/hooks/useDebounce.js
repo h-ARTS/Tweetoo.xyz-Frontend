@@ -40,7 +40,7 @@ export default function useDebounce(func, delay = 100) {
         if (checkLatest()) {
           ref.current.func(...args);
         } else {
-          console.error('Function in debounced could not be executed!');
+          console.error('Debounced function could not be executed!');
         }
       }, delay);
     },
