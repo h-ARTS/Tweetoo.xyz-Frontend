@@ -84,18 +84,18 @@ const useStyles = makeStyles(theme => ({
 export const ProfileHomeContainer = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const { profile, loading } = useSelector(state => state.ui);
+  const { current, watching } = useSelector(state => state.user);
   const {
     followingTitle,
     isFollowing,
     isFollowingYou,
     handleFollowUser,
     handleFollowingBtnTitle
-  } = useFollow();
+  } = useFollow(watching.handle);
   const location = useLocation();
   const dispatch = useDispatch();
   const a11yProps = useA11yTabProps('profile');
-  const { profile, loading } = useSelector(state => state.ui);
-  const { current, watching } = useSelector(state => state.user);
   const date = dayjs(current.createdAt).format('MMMM YYYY');
   const isNotCurrentUser =
     location.pathname !== '/profile' &&

@@ -5,7 +5,7 @@ import { updateFollower } from '../../redux/actions/user.actions';
 
 export const useFollow = tweetHandle => {
   const [followingTitle, setFollowingTitle] = useState('following');
-  const { current } = useSelector(state => state.user);
+  const { current, watching } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const { pathname } = useLocation('/:userId');
   const isNotCurrentUser =
