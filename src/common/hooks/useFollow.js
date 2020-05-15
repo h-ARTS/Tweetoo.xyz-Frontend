@@ -51,3 +51,5 @@ export const useFollow = tweetHandle => {
     handleFollowingBtnTitle
   };
 };
+
+export default useFollow;
