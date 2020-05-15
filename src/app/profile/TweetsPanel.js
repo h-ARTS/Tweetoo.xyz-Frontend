@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import ProfileTabPanel from './ProfileTabPanel';
-import Tweet from '../home/Tweet';
+import TweetContainer from '../home/TweetContainer';
 import SkeletonTweet from '../../common/ui/skeletons/SkeletonTweet';
 
 export const TweetsPanel = React.memo(({ value, index, userTweets }) => {
@@ -18,7 +18,7 @@ export const TweetsPanel = React.memo(({ value, index, userTweets }) => {
       {ui.loading
         ? [1, 2, 3].map(key => <SkeletonTweet key={key} />)
         : filtered.map(filteredTweet => (
-            <Tweet key={filteredTweet._id} tweet={filteredTweet} />
+            <TweetContainer key={filteredTweet._id} tweet={filteredTweet} />
           ))}
     </ProfileTabPanel>
   );

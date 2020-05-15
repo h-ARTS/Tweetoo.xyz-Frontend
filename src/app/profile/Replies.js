@@ -7,7 +7,7 @@ import { getReplies } from '../../redux/actions/reply.action';
 // Mui components
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Tweet from '../home/Tweet';
+import TweetContainer from '../home/TweetContainer';
 
 export const Replies = React.memo(() => {
   const params = useParams();
@@ -35,7 +35,7 @@ export const Replies = React.memo(() => {
   } else {
     return replies
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-      .map(reply => <Tweet key={reply._id} tweet={reply} />);
+      .map(reply => <TweetContainer key={reply._id} tweet={reply} />);
   }
 });
 

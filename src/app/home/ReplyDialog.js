@@ -8,7 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 // Components
-import Tweet from './Tweet';
+import TweetContainer from './TweetContainer';
 import NewTweetFormContainer from './NewTweetFormContainer';
 
 const useStyles = makeStyles(theme => ({
@@ -38,7 +38,7 @@ export default function ReplyDialog({
         <Box p={1}></Box>
       </DialogTitle>
       <DialogContent dividers className={classes.root}>
-        <Tweet tweet={tweet} minimized />
+        <TweetContainer tweet={tweet} minimized />
         <Box p={2}>
           <Typography variant="body2" color="textSecondary">
             Reply on <Link to={`/${tweet.handle}`}>{tweet.handle}</Link>

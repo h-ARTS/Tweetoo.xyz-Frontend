@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
 // Components
-import Tweet from '../home/Tweet';
+import TweetContainer from '../home/TweetContainer';
 import Replies from './Replies';
 import PageTitle from '../../common/ui/PageTitle';
 
@@ -36,7 +36,7 @@ export default function TweetPage() {
             <CircularProgress size="small" color="secondary" />
           </Box>
         ) : (
-          <Tweet tweet={currentTweet} largeText />
+          <TweetContainer tweet={currentTweet} largeText />
         )}
         <Replies />
       </Paper>

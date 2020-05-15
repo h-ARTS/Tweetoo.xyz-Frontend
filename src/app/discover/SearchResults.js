@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 // Components
 import CustomListSubheader from '../../common/ui/CustomListSubheader';
 import UserListItem from '../profile/UserListItem';
-import Tweet from '../home/Tweet';
+import TweetContainer from '../home/TweetContainer';
 
 export default function SearchResultsContainer() {
   const { users, tweets } = useSelector(state => state.searchEntries);
@@ -32,7 +32,7 @@ export default function SearchResultsContainer() {
         disablePadding
       >
         {tweets.map(tweet => (
-          <Tweet tweet={tweet} />
+          <TweetContainer tweet={tweet} />
         ))}
       </List>
     </Box>

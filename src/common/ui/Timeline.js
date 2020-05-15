@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // Components
 import NewTweetFormContainer from '../../app/home/NewTweetFormContainer';
 import SkeletonTweet from './skeletons/SkeletonTweet';
-import Tweet from '../../app/home/Tweet';
+import TweetContainer from '../../app/home/TweetContainer';
 import isLikedPipe from '../utils/isLikedPipe';
 import isRetweetPipe from '../utils/isRetweetPipe';
 import useIntersectionObserver from '../hooks/useIntersectionObserver';
@@ -61,7 +61,7 @@ export default function Timeline() {
               {tweetDocs.docs
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                 .map(tweet => (
-                  <Tweet
+                  <TweetContainer
                     tweet={tweet}
                     key={tweet._id}
                     onRefresh={refetchNewData}

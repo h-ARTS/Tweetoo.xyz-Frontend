@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 // Components
 import ProfileTabPanel from './ProfileTabPanel';
-import Tweet from '../home/Tweet';
+import TweetContainer from '../home/TweetContainer';
 
 export const LikesPanel = React.memo(({ value, index }) => {
   const tweets = useSelector(state => state.tweets);
@@ -27,7 +27,7 @@ export const LikesPanel = React.memo(({ value, index }) => {
     return (
       <ProfileTabPanel value={value} index={index}>
         {filtered
-          .map(tweet => <Tweet key={tweet._id} tweet={tweet} />)
+          .map(tweet => <TweetContainer key={tweet._id} tweet={tweet} />)
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))}
       </ProfileTabPanel>
     );

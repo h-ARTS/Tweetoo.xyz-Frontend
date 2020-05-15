@@ -12,7 +12,7 @@ import RightBar from '../../common/ui/RightBar';
 import SkeletonTweet from '../../common/ui/skeletons/SkeletonTweet';
 import SuggestedFollowListContainer from '../discover/SuggestedFollowListContainer';
 import TrendsList from '../discover/TrendsList';
-import Tweet from '../home/Tweet';
+import TweetContainer from '../home/TweetContainer';
 
 export default function Bookmarks() {
   const tweets = useSelector(state => state.tweets);
@@ -27,7 +27,7 @@ export default function Bookmarks() {
             ? [1, 2, 3].map(key => <SkeletonTweet key={key} />)
             : tweets
                 .filter(tweet => tweet.isBookmark)
-                .map(tweet => <Tweet tweet={tweet} key={tweet._id} />)}
+                .map(tweet => <TweetContainer tweet={tweet} key={tweet._id} />)}
         </Paper>
       </Grid>
       <Hidden smDown>
