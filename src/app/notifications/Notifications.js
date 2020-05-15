@@ -41,9 +41,10 @@ export const Notifications = () => {
         <PageTitle renderTitle="Notifications" />
         <Paper variant="outlined" square>
           <List disablePadding>
-            {notifications.map(n => (
+            {notifications.map(notification => (
               <NotificationListItem
-                notification={n}
+                key={notification._id}
+                notification={notification}
                 navigateToPage={navigateToPage}
               />
             ))}
