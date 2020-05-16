@@ -7,7 +7,9 @@ import {
   UPDATE_SIGNUP_FORM_DATA,
   UPLOAD_CACHED_USER_IMAGE,
   UPDATE_PASSWORD_STRENGTH,
-  SAVE_UNIQUE_IMAGE_ID
+  SAVE_UNIQUE_IMAGE_ID,
+  SET_ERRORS,
+  LOADING_COMPLETE
 } from '../types';
 import { fetchAllData } from './data.actions';
 
@@ -85,6 +87,11 @@ export const uploadCachedProfileImage = data => async dispatch => {
       uniqueImageId: data.cached._id
     });
   } catch (err) {
+    dispatch({
+      type: SET_ERRORS,
+      error: err.response.data
+    });
+    dispatch({ type: LOADING_COMPLETE });
     throw err;
   }
 };
