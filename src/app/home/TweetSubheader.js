@@ -28,13 +28,17 @@ const useStyles = makeStyles(theme => ({
 export default function TweetSubheader(props) {
   const classes = useStyles();
 
+  const handleStopPropagation = event => {
+    event.stopPropagation();
+  };
+
   return (
     <div className={classes.retweeted}>
       <RetweetIcon fontSize="small" />
       <Typography
         variant="caption"
         component={Link}
-        onClick={e => e.stopPropagation()}
+        onClick={handleStopPropagation}
         to={`/${props.handle}`}
       >
         {props.handle} retweeted

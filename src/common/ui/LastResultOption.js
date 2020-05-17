@@ -41,6 +41,8 @@ export default function LastResultOption({
     else navigate(`/discover/search?q=${params.fullName}`);
   };
 
+  const removeItem = e => onRemove(e, params);
+
   return (
     <Box className={classes.listItem} onClick={navigateToEntryAndSaveResult}>
       <Box className={classes.listItemLeft}>
@@ -58,7 +60,7 @@ export default function LastResultOption({
             aria-label="delete"
             size="small"
             color="secondary"
-            onClick={e => onRemove(e, params)}
+            onClick={removeItem}
           >
             <CloseIcon fontSize="inherit" />
           </IconButton>

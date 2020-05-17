@@ -166,6 +166,32 @@ export default function SearchInputContainer(props) {
     />
   ));
 
+  const renderInput = params => (
+    <SearchInput
+      value={searchTerm}
+      InputLabelProps={params.InputLabelProps}
+      inputProps={params.inputProps}
+      inputRef={params.InputProps.ref}
+      loading={loading}
+      onKeyUp={handleSearch}
+    />
+  );
+
+  const renderOption = params => (
+    <LastResultOption
+      params={params}
+      onRemove={handleDelete}
+      onClick={handleOptionClick}
+      navigate={navigate}
+    />
+  );
+
+  const getOptionLabel = option => option.fullName;
+
+  const openAutoComplete = () => setOpen(true);
+
+  const closeAutoComplete = () => setOpen(false);
+
   return (
     <Box
       className={props.variant === 2 ? classes.root2 : classes.root}
@@ -181,30 +207,14 @@ export default function SearchInputContainer(props) {
       >
         <Autocomplete
           open={open}
-          onOpen={() => setOpen(true)}
-          onClose={() => setOpen(false)}
+          onOpen={openAutoComplete}
+          onClose={closeAutoComplete}
           loading={loading}
           options={options}
-          getOptionLabel={option => option.fullName}
+          getOptionLabel={getOptionLabel}
           ListboxComponent={renderListBoxComponent}
-          renderOption={params => (
-            <LastResultOption
-              params={params}
-              onRemove={handleDelete}
-              onClick={handleOptionClick}
-              navigate={navigate}
-            />
-          )}
-          renderInput={params => (
-            <SearchInput
-              value={searchTerm}
-              InputLabelProps={params.InputLabelProps}
-              inputProps={params.inputProps}
-              inputRef={params.InputProps.ref}
-              loading={loading}
-              onKeyUp={handleSearch}
-            />
-          )}
+          renderOption={renderOption}
+          renderInput={renderInput}
         />
       </FormControl>
     </Box>
