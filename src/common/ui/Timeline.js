@@ -42,7 +42,8 @@ export default function Timeline() {
     refetch
   } = useInfiniteQuery('tweets', fetchTweets, {
     getFetchMore: lastGroup => lastGroup.lastId,
-    refetchInterval: 3000
+    refetchInterval: 3000,
+    retry: 4
   });
 
   const refetchNewData = () => {
