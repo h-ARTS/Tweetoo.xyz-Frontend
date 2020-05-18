@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { Link } from '@reach/router';
 import Anchor from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
@@ -20,7 +20,7 @@ export default WrappedComponent => {
   const httpPattern = /^(f|ht)tps?:\/\//i;
   const withoutHttpPattern = /^(:\/\/)/;
 
-  return class extends Component {
+  return class extends PureComponent {
     static displayName = `WithLinkTransformation(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 
