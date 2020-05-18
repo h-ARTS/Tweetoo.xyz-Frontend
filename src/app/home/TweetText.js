@@ -16,9 +16,14 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
-export default function TweetText(props) {
-  const classes = useStyles(props);
-  const { fullText, hashtagTransform, handleStopPropagation } = props;
+export default function TweetText({
+  largeText = 'inherit',
+  fullText,
+  hashtagTransform,
+  handleStopPropagation
+}) {
+  const classes = useStyles({ largeText });
+
   return (
     <CardContent>
       <Typography
