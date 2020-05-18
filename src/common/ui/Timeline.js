@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import axios from 'axios';
 // MUI
@@ -46,9 +46,9 @@ export default function Timeline() {
     retry: 4
   });
 
-  const refetchNewData = () => {
+  const refetchNewData = useCallback(() => {
     refetch();
-  };
+  }, [refetch]);
 
   useIntersectionObserver({ target: lastElem, onIntersect: fetchMore });
 

@@ -62,7 +62,6 @@ export default function Tweet({
   fullName,
   fullText,
   createdAt,
-  handleStopPropagation,
   handleNavigateToUser,
   handleMore,
   largeText,
@@ -116,7 +115,6 @@ export default function Tweet({
                 handle={handle}
                 fullName={fullName}
                 time={createdAt}
-                handleStopPropagation={handleStopPropagation}
                 onClick={handleNavigateToUser}
               />
             }

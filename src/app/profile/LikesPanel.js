@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import ProfileTabPanel from './ProfileTabPanel';
 import TweetContainer from '../home/TweetContainer';
 
-export const LikesPanel = React.memo(({ value, index }) => {
+export const LikesPanel = React.memo(function LikePanel({ value, index }) {
   const tweets = useSelector(state => state.tweets);
   const filtered = tweets
     .filter(tweet => tweet.isLiked === true)

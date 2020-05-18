@@ -37,11 +37,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function TweetTitle(props) {
+export default function TweetTitle({ handle, fullName, time }) {
   const classes = useStyles();
-  const { handle, fullName, time, handleStopPropagation } = props;
   dayjs.extend(relativeTime);
   const dateTime = dayjs().to(time);
+
+  const handleStopPropagation = event => {
+    event.stopPropagation();
+  };
 
   return (
     <Box className={classes.user} onClick={handleStopPropagation}>

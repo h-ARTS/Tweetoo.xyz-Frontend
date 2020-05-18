@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: '5px'
   }
 }));
-export default function NewTweetForm({
+export const NewTweetForm = React.memo(function NewTweetForm({
   user,
   tweetText,
   onSubmit,
@@ -90,4 +90,6 @@ export default function NewTweetForm({
       </FormControl>
     </Box>
   );
-}
+});
+
+export default NewTweetForm;

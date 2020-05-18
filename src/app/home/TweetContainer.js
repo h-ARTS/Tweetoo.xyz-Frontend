@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from '@reach/router';
+import React, { useState, useEffect, useCallback } from 'react';
+import { navigate } from '@reach/router';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -15,7 +15,6 @@ import {
 // Mui Styles
 import { useTheme } from '@material-ui/core/styles';
 // Mui Icons
-import BlockIcon from '@material-ui/icons/BlockTwoTone';
 import DeleteIcon from '@material-ui/icons/DeleteForeverTwoTone';
 import PersonAddIcon from '@material-ui/icons/PersonAddTwoTone';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabledTwoTone';
@@ -23,7 +22,7 @@ import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabledTwoTone';
 import useFollow from '../../common/hooks/useFollow';
 import Tweet from './Tweet';
 
-export default function TweetContainer({
+export const TweetContainer = React.memo(function TweetContainer({
   tweet,
   minimized = false,
   largeText = false,
@@ -33,7 +32,6 @@ export default function TweetContainer({
   const [anchorEl, setAnchorEl] = useState(null);
   const [listItems, setListItem] = useState([]);
   const [openReplyDialog, setOpenReplyDialog] = useState(false);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.user.current);
   const {
@@ -86,13 +84,6 @@ export default function TweetContainer({
           divider: true,
           callback: handleFollow,
           icon: isFollowing() ? PersonAddDisabledIcon : PersonAddIcon
-        },
-        {
-          title: `Block @${handle}`,
-          divider: true,
-          icon: BlockIcon,
-          iconColor: theme.palette.error.main,
-          textColor: 'error'
         }
       ]);
     }
@@ -101,23 +92,21 @@ export default function TweetContainer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFollowing, replies]);
 
-  const handleNavigateToUser = () => {
+  const handleNavigateToUser = useCallback(() => {
     navigate(`/${handle}`);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const navigateToTweet = event => {
+  const navigateToTweet = useCallback(event => {
     event.stopPropagation();
     navigate(`/${handle}/tweet/${_id}`);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const handleStopPropagation = event => {
-    event.stopPropagation();
-  };
-
-  const handleMore = event => {
+  const handleMore = useCallback(event => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
-  };
+  }, []);
 
   const handleClose = event => {
     event.stopPropagation();
@@ -126,46 +115,49 @@ export default function TweetContainer({
 
   // Tweet action methods
 
-  const handleLike = () => {
+  const handleLike = useCallback(() => {
     if (isLiked) {
       dispatch(handleLikeTweet(_id, 'unlike'));
     } else {
       dispatch(handleLikeTweet(_id, 'like'));
     }
     if (onRefresh) onRefresh();
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLiked]);
 
   const handleDeleteTweet = () => {
     dispatch(deleteTweet(_id));
   };
 
-  const handleRetweet = () => {
+  const handleRetweet = useCallback(() => {
     dispatch(postRetweet(_id, !isRetweet));
     if (onRefresh) onRefresh();
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRetweet]);
 
   const handleFollow = () => {
     handleFollowUser();
     setAnchorEl(null);
   };
 
-  const toggleReplyDialog = () => {
+  const toggleReplyDialog = useCallback(() => {
     setOpenReplyDialog(!openReplyDialog);
-  };
+  }, [openReplyDialog]);
 
   const handleDeleteReply = () => {
     dispatch(deleteReply(_id));
   };
 
-  const handleBookmark = () => {
+  const handleBookmark = useCallback(() => {
     if (onRefresh) onRefresh();
     return !isBookmark
       ? dispatch(createBookmark(_id))
       : dispatch(removeBookmark(_id));
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isBookmark]);
 
   const popoverProps = {
-    id: Boolean(anchorEl) ? 'more-popover' : undefined,
+    id: 'more-popover',
     open: Boolean(anchorEl),
     anchorEl,
     items: listItems,
@@ -192,7 +184,6 @@ export default function TweetContainer({
       replies={replies}
       tweet={tweet}
       createdAt={createdAt}
-      handleStopPropagation={handleStopPropagation}
       handleMore={handleMore}
       handleLike={handleLike}
       handleRetweet={handleRetweet}
@@ -202,4 +193,6 @@ export default function TweetContainer({
       toggleReplyDialog={toggleReplyDialog}
     />
   );
-}
+});
+
+export default TweetContainer;

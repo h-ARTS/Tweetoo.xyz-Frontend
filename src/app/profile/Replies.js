@@ -9,7 +9,7 @@ import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TweetContainer from '../home/TweetContainer';
 
-export const Replies = React.memo(() => {
+export const Replies = React.memo(function Replies() {
   const params = useParams();
   const dispatch = useDispatch();
   const loadingReplies = useSelector(state => state.ui.loadingReplies);

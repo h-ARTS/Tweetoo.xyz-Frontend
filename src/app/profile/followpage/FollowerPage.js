@@ -14,7 +14,7 @@ import PageTitle from '../../../common/ui/PageTitle';
 import ProfileTabPanel from '../ProfileTabPanel';
 import useA11yTabProps from '../../../common/hooks/useA11yTabProps';
 
-export const FollowerPage = React.memo(() => {
+export const FollowerPage = React.memo(function FollowerPage() {
   const params = useParams();
   const location = useLocation();
   const dispatch = useDispatch();

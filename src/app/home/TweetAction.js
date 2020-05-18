@@ -71,7 +71,12 @@ const StyledBadge = withStyles({
   }
 })(Badge);
 
-export default function TweetAction({ actionType, count, isActive, onClick }) {
+export const TweetAction = React.memo(function TweetAction({
+  actionType,
+  count,
+  isActive,
+  onClick
+}) {
   const { ariaLabel, colorFactory, Icon, theme } = actionButtons(isActive)[
     actionType
   ];
@@ -111,4 +116,6 @@ export default function TweetAction({ actionType, count, isActive, onClick }) {
       </ThemeProvider>
     );
   }
-}
+});
+
+export default TweetAction;

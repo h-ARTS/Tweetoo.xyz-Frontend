@@ -74,7 +74,7 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
-export default function ProfileHome({
+export const ProfileHome = React.memo(function ProfileHome({
   userPropFactory,
   loading,
   date,
@@ -247,4 +247,6 @@ export default function ProfileHome({
       <EditDialog openEditDialog={open} handleCloseEdit={toggleEditDialog} />
     </>
   );
-}
+});
+
+export default ProfileHome;

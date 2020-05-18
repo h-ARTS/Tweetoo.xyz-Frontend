@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { postTweet } from '../../redux/actions/tweet.actions';
 import { postReply } from '../../redux/actions/reply.action';
@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     borderWidth: '0 0 6px 0'
   }
 });
-export default function NewTweetFormContainer({
+export const NewTweetFormContainer = React.memo(function NewTweetFormContainer({
   reply,
   tweetId,
   onFormSubmit
@@ -24,11 +24,11 @@ export default function NewTweetFormContainer({
   const current = useSelector(state => state.user.current);
   const [tweetText, setTweetText] = useState('');
 
-  const handleTweetText = event => {
+  const handleTweetText = useCallback(event => {
     setTweetText(event.target.value);
-  };
+  }, []);
 
-  const submitForm = () => {
+  const submitForm = useCallback(() => {
     if (!reply) {
       dispatch(postTweet({ fullText: tweetText }));
     } else {
@@ -36,7 +36,8 @@ export default function NewTweetFormContainer({
     }
     setTweetText('');
     onFormSubmit();
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Paper className={classes.root} variant="outlined" square>
@@ -48,4 +49,6 @@ export default function NewTweetFormContainer({
       />
     </Paper>
   );
-}
+});
+
+export default NewTweetFormContainer;
