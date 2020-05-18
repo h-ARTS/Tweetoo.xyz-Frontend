@@ -111,3 +111,5 @@ dist
 # vscode
 .vscode
 *.code-workspace
+
+/build
