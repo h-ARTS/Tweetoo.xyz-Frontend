@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
 export default function AuthPage() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { loading } = useSelector(state => state.ui);
+  const loading = useSelector(state => state.ui.loading);
   const [openSignUpDialog, setOpenSignUpDialog] = useState(false);
   const [userData, setUserData] = useState({
     email: '',

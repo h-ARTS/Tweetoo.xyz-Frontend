@@ -22,7 +22,8 @@ export default function FollowersList({ type }) {
 
     return getStateUsers[type];
   });
-  const { followers, following } = useSelector(state => state.user);
+  const followers = useSelector(state => state.user.followers);
+  const following = useSelector(state => state.user.following);
 
   useEffect(() => {
     dispatch(getUsers(users, { type }));

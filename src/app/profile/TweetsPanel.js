@@ -4,18 +4,23 @@ import ProfileTabPanel from './ProfileTabPanel';
 import TweetContainer from '../home/TweetContainer';
 import SkeletonTweet from '../../common/ui/skeletons/SkeletonTweet';
 
-export const TweetsPanel = React.memo(({ value, index, userTweets }) => {
-  const { tweets, ui } = useSelector(state => state);
+export const TweetsPanel = React.memo(function TweetsPanel({
+  value,
+  index,
+  userTweets
+}) {
+  const loading = useSelector(state => state.ui.loading);
+  const tweets = useSelector(state => state.tweets);
 
   const filtered = tweets
     .filter(function(tweet) {
-      return this.find(t => t.tweetId === tweet._id);
+      return this.find(t => t.tweetId == tweet._id);
     }, userTweets)
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   return (
     <ProfileTabPanel value={value} index={index}>
-      {ui.loading
+      {loading
         ? [1, 2, 3].map(key => <SkeletonTweet key={key} />)
         : filtered.map(filteredTweet => (
             <TweetContainer key={filteredTweet._id} tweet={filteredTweet} />

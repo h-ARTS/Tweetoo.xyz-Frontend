@@ -42,7 +42,7 @@ export default function SearchInputContainer(props) {
   const [searchTerm, setSearchTerm] = useState('');
   const loading = open && options.length === 0;
   const dispatch = useDispatch();
-  const { users } = useSelector(state => state.searchEntries);
+  const users = useSelector(state => state.searchEntries.users);
   const debouncedDispatch = useDebounce(dispatch, 250);
   const location = useLocation();
 

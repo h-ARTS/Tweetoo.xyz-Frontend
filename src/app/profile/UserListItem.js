@@ -12,7 +12,7 @@ import { useFollow } from '../../common/hooks/useFollow';
 import { useSelector } from 'react-redux';
 
 export default function UserListItem({ user }) {
-  const { current } = useSelector(state => state.user);
+  const current = useSelector(state => state.user.current);
   const { isFollowing, handleFollowUser } = useFollow(user.handle);
 
   return (

@@ -21,7 +21,7 @@ export default function NewTweetFormContainer({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { current } = useSelector(state => state.user);
+  const current = useSelector(state => state.user.current);
   const [tweetText, setTweetText] = useState('');
 
   const handleTweetText = event => {

@@ -12,7 +12,7 @@ import TweetContainer from '../home/TweetContainer';
 export const Replies = React.memo(() => {
   const params = useParams();
   const dispatch = useDispatch();
-  const { loadingReplies } = useSelector(state => state.ui);
+  const loadingReplies = useSelector(state => state.ui.loadingReplies);
   const replies = useSelector(state => state.replies);
 
   useEffect(() => {

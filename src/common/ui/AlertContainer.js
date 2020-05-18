@@ -5,7 +5,7 @@ import Slide from '@material-ui/core/Slide';
 import Snackbar from '@material-ui/core/Snackbar';
 
 export default function AlertContainer() {
-  const { errors } = useSelector(state => state.ui);
+  const errors = useSelector(state => state.ui.errors);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {

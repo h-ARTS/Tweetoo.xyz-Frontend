@@ -16,7 +16,7 @@ import TweetContainer from '../home/TweetContainer';
 
 export default function Bookmarks() {
   const tweets = useSelector(state => state.tweets);
-  const { loading } = useSelector(state => state.ui);
+  const loading = useSelector(state => state.ui.loading);
 
   return (
     <>

@@ -12,7 +12,8 @@ import ProfileHome from './ProfileHome';
 
 export const ProfileHomeContainer = () => {
   const [open, setOpen] = useState(false);
-  const { profile, loading } = useSelector(state => state.ui);
+  const loading = useSelector(state => state.ui.loading);
+  const profile = useSelector(state => state.ui.profile);
   const { current, watching } = useSelector(state => state.user);
   const {
     followingTitle,
