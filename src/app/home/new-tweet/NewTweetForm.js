@@ -14,7 +14,7 @@ import CreateIcon from '@material-ui/icons/CreateTwoTone';
 import { blueGrey } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 // Components
-import NewTweetActions from './NewTweetActions';
+import NewTweetActions from './NewTweetActionContainer';
 
 const useStyles = makeStyles(theme => ({
   avatar: {

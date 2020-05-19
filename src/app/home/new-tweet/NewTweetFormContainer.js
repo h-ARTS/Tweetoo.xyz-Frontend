@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { postTweet } from '../../redux/actions/tweet.actions';
-import { postReply } from '../../redux/actions/reply.action';
+import { postTweet } from '../../../redux/actions/tweet.actions';
+import { postReply } from '../../../redux/actions/reply.action';
 // Mui Components
 import Paper from '@material-ui/core/Paper';
 // Mui Styles
