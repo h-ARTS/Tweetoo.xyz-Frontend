@@ -14,7 +14,7 @@ export const TweetsPanel = React.memo(function TweetsPanel({
 
   const filtered = tweets
     .filter(function(tweet) {
-      return this.find(t => t.tweetId == tweet._id);
+      return this.find(t => t.tweetId === tweet._id);
     }, userTweets)
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 

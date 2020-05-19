@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 // Components
-import NewTweetFormContainer from '../../app/home/NewTweetFormContainer';
+import NewTweetFormContainer from '../../app/home/new-tweet/NewTweetFormContainer';
 import SkeletonTweet from './skeletons/SkeletonTweet';
 import TweetContainer from '../../app/home/TweetContainer';
 import isLikedPipe from '../utils/isLikedPipe';
@@ -42,7 +42,7 @@ export default function Timeline() {
     refetch
   } = useInfiniteQuery('tweets', fetchTweets, {
     getFetchMore: lastGroup => lastGroup.lastId,
-    refetchInterval: 3000,
+    refetchInterval: 10000,
     retry: 4
   });
 
