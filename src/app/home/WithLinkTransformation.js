@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from '@reach/router';
 import Anchor from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
