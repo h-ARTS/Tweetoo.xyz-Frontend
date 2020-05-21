@@ -43,5 +43,9 @@ export default {
   searchEntries: {
     users: [],
     tweets: []
+  },
+  cached: {
+    newTweetImageIds: [],
+    newTweetImages: []
   }
 };
