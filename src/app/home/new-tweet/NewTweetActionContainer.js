@@ -13,16 +13,14 @@ export default function NewTweetActionContainer() {
   function handleFileUpload(event) {
     event.stopPropagation();
     const files = event.target.files;
-    var fileList = [];
-    for (let i = 0; i < files.length; i++) {
-      fileList.push(files[i]);
-    }
-    dispatch(uploadTweetImagesForCache(fileList));
+
+    dispatch(uploadTweetImagesForCache(files));
   }
 
   function onImageUploadClick() {
     fileInputEl.current.click();
   }
+
   return (
     <Box display="flex" alignItems="center" marginTop="5px" marginLeft="-10px">
       <NewTweetAction

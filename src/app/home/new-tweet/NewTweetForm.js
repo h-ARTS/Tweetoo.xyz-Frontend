@@ -14,7 +14,8 @@ import CreateIcon from '@material-ui/icons/CreateTwoTone';
 import { blueGrey } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 // Components
-import NewTweetActions from './NewTweetActionContainer';
+import NewTweetActionContainer from './NewTweetActionContainer';
+import TweetImages from './TweetImages';
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -70,13 +71,14 @@ export const NewTweetForm = React.memo(function NewTweetForm({
             </InputAdornment>
           }
         />
+        <TweetImages />
         <Box
           display="flex"
           flexWrap="wrap"
           alignItems="center"
           justifyContent="space-between"
         >
-          <NewTweetActions />
+          <NewTweetActionContainer />
           <Button
             className={classes.tweetButton}
             variant="contained"

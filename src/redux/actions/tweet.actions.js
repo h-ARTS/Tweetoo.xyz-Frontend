@@ -115,6 +115,11 @@ export const uploadTweetImagesForCache = files => async dispatch => {
 
     if (!response) throw Error(response);
 
+    console.log(response.data);
+    dispatch({
+      type: UPLOAD_TWEET_IMAGES_FOR_CACHE,
+      images: response.data
+    });
     dispatch({
       type: SAVE_UNIQUE_TWEET_IMAGE_IDS,
       uniqueTweetImageIds: response.data.map(function getId(file) {
