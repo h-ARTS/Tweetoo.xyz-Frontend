@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 // Mui components
 import CloseIcon from '@material-ui/icons/CloseRounded';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
+import { removeCachedImage } from '../../../redux/actions/data.actions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 export default function TweetImages() {
+  const dispatch = useDispatch();
   const cachedImages = useSelector(state => state.cached.newTweetImages);
   const classes = useStyles();
 
@@ -47,6 +49,12 @@ export default function TweetImages() {
     return images;
   }, [cachedImages]);
 
+  const deleteCachedTweetImage = (event, imageId) => {
+    event.stopPropagation();
+
+    dispatch(removeCachedImage(imageId));
+  };
+
   if (!cachedImages.length) return <div></div>;
 
   return (
@@ -62,6 +70,8 @@ export default function TweetImages() {
             size="small"
             className={classes.closeButton}
             color="primary"
+            data-imageid={tile._id}
+            onClick={e => deleteCachedTweetImage(e, tile._id)}
           >
             <CloseIcon />
           </IconButton>

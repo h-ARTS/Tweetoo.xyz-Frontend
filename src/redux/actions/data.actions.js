@@ -4,6 +4,7 @@ import {
   SET_TWEETS,
   SET_AUTHENTICATED,
   LOADING_UI,
+  REMOVE_CACHED_IMAGE,
   DATA_FETCH_COMPLETED,
   POST_SEARCH_QUERY
 } from '../types';
@@ -54,5 +55,20 @@ export const searchQuery = word => async dispatch => {
     });
   } catch (error) {
     throw error;
+  }
+};
+
+export const removeCachedImage = imageId => async dispatch => {
+  try {
+    const response = await axios.post('/media/cached', {
+      uniqueImageId: imageId
+    });
+
+    dispatch({
+      type: REMOVE_CACHED_IMAGE,
+      imageId: response.data.uniqueImageId
+    });
+  } catch (reason) {
+    throw Error(reason);
   }
 };

@@ -1,7 +1,8 @@
 import initialState from '../initialState';
 import {
   SAVE_UNIQUE_TWEET_IMAGE_IDS,
-  UPLOAD_TWEET_IMAGES_FOR_CACHE
+  UPLOAD_TWEET_IMAGES_FOR_CACHE,
+  REMOVE_CACHED_IMAGE
 } from '../types';
 
 export default function(state = initialState.cached, action) {
@@ -16,6 +17,21 @@ export default function(state = initialState.cached, action) {
     return {
       ...state,
       newTweetImages: [].concat(action.images)
+    };
+  }
+
+  if (action.type === REMOVE_CACHED_IMAGE) {
+    const filteredOutCacheImages = state.newTweetImages.filter(
+      image => image._id !== action.imageId
+    );
+    const filteredOutImageId = state.newTweetImageIds.filter(
+      id => id !== action.imageId
+    );
+
+    return {
+      ...state,
+      newTweetImageIds: filteredOutImageId,
+      newTweetImages: filteredOutCacheImages
     };
   }
 
