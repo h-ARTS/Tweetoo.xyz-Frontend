@@ -2,7 +2,8 @@ import initialState from '../initialState';
 import {
   SAVE_UNIQUE_TWEET_IMAGE_IDS,
   UPLOAD_TWEET_IMAGES_FOR_CACHE,
-  REMOVE_CACHED_IMAGE
+  REMOVE_CACHED_IMAGE,
+  CLEAR_CACHED_TWEET_IMAGES
 } from '../types';
 
 export default function(state = initialState.cached, action) {
@@ -32,6 +33,14 @@ export default function(state = initialState.cached, action) {
       ...state,
       newTweetImageIds: filteredOutImageId,
       newTweetImages: filteredOutCacheImages
+    };
+  }
+
+  if (action.type === CLEAR_CACHED_TWEET_IMAGES) {
+    return {
+      ...state,
+      newTweetImageIds: [],
+      newTweetImages: []
     };
   }
 

@@ -9,7 +9,8 @@ import {
   DELETE_RETWEET,
   UPDATE_TWEET_ENTRIES,
   UPLOAD_TWEET_IMAGES_FOR_CACHE,
-  SAVE_UNIQUE_TWEET_IMAGE_IDS
+  SAVE_UNIQUE_TWEET_IMAGE_IDS,
+  CLEAR_CACHED_TWEET_IMAGES
 } from '../types';
 import isLikedPipe from '../../common/utils/isLikedPipe';
 import isRetweetPipe from '../../common/utils/isRetweetPipe';
@@ -29,6 +30,9 @@ export const postTweet = data => async dispatch => {
     dispatch({
       type: SET_AUTHENTICATED_USER,
       user: response.data.user
+    });
+    dispatch({
+      type: CLEAR_CACHED_TWEET_IMAGES
     });
   } catch (err) {
     throw err;
