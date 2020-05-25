@@ -1,21 +1,23 @@
-import React, { useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
 // Mui components
 import CloseIcon from '@material-ui/icons/CloseRounded';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
-import { removeCachedImage } from '../../../redux/actions/data.actions';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: '10px 0'
+    margin: props =>
+      !props.isEdit ? '0 16px 10px !important' : '16px 0 10px !important',
+    border: props => !props.isEdit && '1px solid rgba(0, 0, 0, 0.12)',
+    borderRadius: props => (!props.isEdit ? 10 : 0)
   },
   gridListTile: {
     position: 'relative',
+    padding: props => !props.isEdit && '0 !important',
     '& .MuiGridListTile-tile': {
-      borderRadius: 10
+      borderRadius: props => (props.isEdit ? 10 : 0)
     }
   },
   closeButton: {
@@ -26,56 +28,40 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'rgba(0, 0, 0, 0.5)'
   }
 }));
-export default function TweetImages() {
-  const dispatch = useDispatch();
-  const cachedImages = useSelector(state => state.cached.newTweetImages);
-  const classes = useStyles();
+export default function TweetImages({
+  isEdit,
+  cachedImages = [],
+  imagesSortedInTileSizes,
+  onRemove
+}) {
+  const classes = useStyles({ isEdit });
 
-  const imagesSortedTileSizes = useMemo(() => {
-    const images = cachedImages;
-    const imageTileSizes = {
-      1: [3],
-      2: [1.5, 1.5],
-      3: [3, 1.5, 1.5],
-      4: [1.5, 1.5, 1.5, 1.5],
-      5: [3, 2, 1, 1, 2],
-      6: [1]
-    };
-
-    images.forEach(function getOne(image, idx) {
-      image.cols = this[idx];
-    }, imageTileSizes[images.length]);
-
-    return images;
-  }, [cachedImages]);
-
-  const deleteCachedTweetImage = (event, imageId) => {
-    event.stopPropagation();
-
-    dispatch(removeCachedImage(imageId));
-  };
-
-  if (!cachedImages.length) return <div></div>;
+  if (!cachedImages.length && !imagesSortedInTileSizes.length)
+    return <div></div>;
 
   return (
-    <GridList cellHeight={200} cols={3} className={classes.root}>
-      {imagesSortedTileSizes.map(tile => (
+    <GridList cellHeight={isEdit ? 200 : 290} cols={3} className={classes.root}>
+      {imagesSortedInTileSizes.map(tile => (
         <GridListTile
           className={classes.gridListTile}
           key={tile._id}
           cols={tile.cols}
           data-id={tile._id}
         >
-          <IconButton
-            size="small"
-            className={classes.closeButton}
-            color="primary"
-            data-imageid={tile._id}
-            onClick={e => deleteCachedTweetImage(e, tile._id)}
-          >
-            <CloseIcon />
-          </IconButton>
-          <img src={`http://localhost:6500/${tile.path}`} alt={tile.name} />
+          {isEdit && (
+            <IconButton
+              size="small"
+              className={classes.closeButton}
+              color="primary"
+              onClick={e => onRemove(e, tile._id)}
+            >
+              <CloseIcon />
+            </IconButton>
+          )}
+          <img
+            src={`http://localhost:6500/${tile.url || tile.path}`}
+            alt={tile.name}
+          />
         </GridListTile>
       ))}
     </GridList>
