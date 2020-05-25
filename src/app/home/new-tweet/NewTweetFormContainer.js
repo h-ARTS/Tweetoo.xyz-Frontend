@@ -22,22 +22,32 @@ export const NewTweetFormContainer = React.memo(function NewTweetFormContainer({
   const classes = useStyles();
   const dispatch = useDispatch();
   const current = useSelector(state => state.user.current);
+  const newTweetImages = useSelector(state => state.cached.newTweetImages);
   const [tweetText, setTweetText] = useState('');
 
   const handleTweetText = useCallback(event => {
     setTweetText(event.target.value);
   }, []);
 
-  const submitForm = useCallback(() => {
+  const tweetImages = newTweetImages.map(image => {
+    return {
+      name: image.originalname,
+      type: image.mimetype,
+      url: image.path,
+      mediaId: image._id
+    };
+  });
+
+  const submitForm = e => {
     if (!reply) {
-      dispatch(postTweet({ fullText: tweetText }));
+      dispatch(postTweet({ fullText: tweetText, tweetImages }));
     } else {
       dispatch(postReply(tweetText, tweetId));
     }
     setTweetText('');
     onFormSubmit();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   return (
     <Paper className={classes.root} variant="outlined" square>

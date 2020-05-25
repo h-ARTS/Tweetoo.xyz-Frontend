@@ -15,7 +15,7 @@ import { blueGrey } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 // Components
 import NewTweetActionContainer from './NewTweetActionContainer';
-import TweetImages from './TweetImages';
+import CachedTweetImagesContainer from './CachedTweetImagesContainer';
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -71,7 +71,7 @@ export const NewTweetForm = React.memo(function NewTweetForm({
             </InputAdornment>
           }
         />
-        <TweetImages />
+        <CachedTweetImagesContainer />
         <Box
           display="flex"
           flexWrap="wrap"
