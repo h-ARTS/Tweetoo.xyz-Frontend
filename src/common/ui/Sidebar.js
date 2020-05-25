@@ -41,6 +41,7 @@ const useStyles = makeStyles(theme => ({
     minWidth: 'auto'
   },
   listSubheader: {
+    position: 'relative',
     zIndex: 0
   },
   avatarContainer: {
