@@ -18,6 +18,7 @@ import TweetText from './TweetText';
 import WithLinkTransformation from './WithLinkTransformation';
 import GenericPopover from '../../common/ui/GenericPopover';
 import ReplyDialog from './ReplyDialog';
+import TweetImagesContainer from './TweetImagesContainer';
 
 const useStyles = makeStyles(theme => ({
   timeline: {},
@@ -65,7 +66,6 @@ export default function Tweet({
   handleNavigateToUser,
   handleMore,
   largeText,
-  image,
   tweet,
   replies,
   toggleReplyDialog,
@@ -75,6 +75,7 @@ export default function Tweet({
   isLiked,
   handleLike,
   isBookmark,
+  tweetImages,
   handleBookmark,
   popoverProps,
   openReplyDialog
@@ -125,8 +126,13 @@ export default function Tweet({
             fullText={fullText}
             largeText={largeText}
           />
-          {image && (
-            <CardMedia title="Random" image={image} className={classes.media} />
+          {!tweetImages.length ? null : tweetImages.length === 1 ? (
+            <CardMedia
+              className={classes.media}
+              image={`http://localhost:6500/${tweetImages[0].url}`}
+            />
+          ) : (
+            <TweetImagesContainer images={tweetImages} />
           )}
         </CardActionArea>
         {!minimized && (

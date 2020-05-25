@@ -39,7 +39,6 @@ export const TweetContainer = React.memo(function TweetContainer({
     handle,
     fullName,
     fullText,
-    image,
     replies,
     isRetweet,
     retweetCount,
@@ -48,7 +47,8 @@ export const TweetContainer = React.memo(function TweetContainer({
     isBookmark,
     createdAt,
     createdBy,
-    userImageUrl
+    userImageUrl,
+    tweetImages
   } = tweet;
   const { isFollowing, handleFollowUser } = useFollow(handle);
 
@@ -180,10 +180,10 @@ export const TweetContainer = React.memo(function TweetContainer({
       handle={handle}
       fullName={fullName}
       fullText={fullText}
-      image={image}
       replies={replies}
       tweet={tweet}
       createdAt={createdAt}
+      tweetImages={tweetImages}
       handleMore={handleMore}
       handleLike={handleLike}
       handleRetweet={handleRetweet}
