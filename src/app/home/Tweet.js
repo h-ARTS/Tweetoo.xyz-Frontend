@@ -5,20 +5,20 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 // Mui Theme
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 // Components
-import TweetSubheader from './TweetSubheader';
-import MoreButton from './MoreButton';
-import TweetAction from './TweetAction';
-import TweetTitle from './TweetTitle';
-import TweetText from './TweetText';
-import WithLinkTransformation from './WithLinkTransformation';
+import TweetSingleImageContainer from './TweetSingleImageContainer';
 import GenericPopover from '../../common/ui/GenericPopover';
+import MoreButton from './MoreButton';
 import ReplyDialog from './ReplyDialog';
+import TweetAction from './TweetAction';
 import TweetImagesContainer from './TweetImagesContainer';
+import TweetSubheader from './TweetSubheader';
+import TweetText from './TweetText';
+import TweetTitle from './TweetTitle';
+import WithLinkTransformation from './WithLinkTransformation';
 
 const useStyles = makeStyles(theme => ({
   timeline: {},
@@ -35,13 +35,6 @@ const useStyles = makeStyles(theme => ({
   },
   cardContent: {
     paddingTop: 0
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-    margin: '0 16px',
-    border: '1px solid rgba(0, 0, 0, 0.12)',
-    borderRadius: 10
   },
   avatar: {
     backgroundColor: red[500]
@@ -127,10 +120,7 @@ export default function Tweet({
             largeText={largeText}
           />
           {!tweetImages.length ? null : tweetImages.length === 1 ? (
-            <CardMedia
-              className={classes.media}
-              image={`http://localhost:6500/${tweetImages[0].url}`}
-            />
+            <TweetSingleImageContainer tweetImages={tweetImages} />
           ) : (
             <TweetImagesContainer images={tweetImages} />
           )}

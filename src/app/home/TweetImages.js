@@ -28,11 +28,14 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'rgba(0, 0, 0, 0.5)'
   }
 }));
-export default function TweetImages({
+const TweetImages = React.memo(function TweetImages({
   isEdit,
   cachedImages = [],
   imagesSortedInTileSizes,
-  onRemove
+  onClick,
+  onRemove,
+  previewModal,
+  showModal
 }) {
   const classes = useStyles({ isEdit });
 
@@ -40,30 +43,40 @@ export default function TweetImages({
     return <div></div>;
 
   return (
-    <GridList cellHeight={isEdit ? 200 : 290} cols={3} className={classes.root}>
-      {imagesSortedInTileSizes.map(tile => (
-        <GridListTile
-          className={classes.gridListTile}
-          key={tile._id}
-          cols={tile.cols}
-          data-id={tile._id}
-        >
-          {isEdit && (
-            <IconButton
-              size="small"
-              className={classes.closeButton}
-              color="primary"
-              onClick={e => onRemove(e, tile._id)}
-            >
-              <CloseIcon />
-            </IconButton>
-          )}
-          <img
-            src={`http://localhost:6500/${tile.url || tile.path}`}
-            alt={tile.name}
-          />
-        </GridListTile>
-      ))}
-    </GridList>
+    <>
+      {showModal && previewModal}
+      <GridList
+        cellHeight={isEdit ? 200 : 290}
+        cols={3}
+        className={classes.root}
+      >
+        {imagesSortedInTileSizes.map((tile, idx) => (
+          <GridListTile
+            className={classes.gridListTile}
+            key={tile._id}
+            cols={tile.cols}
+            onClick={onClick}
+          >
+            {isEdit && (
+              <IconButton
+                size="small"
+                className={classes.closeButton}
+                color="primary"
+                onClick={e => onRemove(e, tile._id)}
+              >
+                <CloseIcon />
+              </IconButton>
+            )}
+            <img
+              data-id={idx}
+              src={`http://localhost:6500/${tile.url || tile.path}`}
+              alt={tile.name}
+            />
+          </GridListTile>
+        ))}
+      </GridList>
+    </>
   );
-}
+});
+
+export default TweetImages;
