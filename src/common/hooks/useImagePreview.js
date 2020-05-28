@@ -8,24 +8,22 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '../ui/Modal';
 
 const useStyles = makeStyles({
-  root: {
+  imageContainer: {
     position: 'fixed',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 960,
-    height: 600,
     maxWidth: '100%',
     maxHeight: '100%'
   },
   imageFocusable: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
     bottom: 0,
-    height: '100%',
     left: 0,
     opacity: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
+    height: '100%',
     width: '100%',
     zIndex: -1
   },
@@ -63,9 +61,12 @@ export default function useImagePreview(paths) {
   const [index, setIndex] = useState(0);
   const classes = useStyles({ image: paths[index].url });
   const [showModal, setShowModal] = useState(false);
+  const [naturalWidth, setNaturalWidth] = useState(0);
+  const [naturalHeight, setNaturalHeight] = useState(0);
 
   const handleClose = event => {
     event.stopPropagation();
+    if (event.target.dataset.area === 'image') return;
     setShowModal(false);
   };
 
@@ -80,11 +81,22 @@ export default function useImagePreview(paths) {
     return navType === 'back' ? setIndex(index - 1) : setIndex(index + 1);
   };
 
+  const onImageLoad = event => {
+    const image = event.target;
+    setNaturalWidth(image.naturalWidth);
+    setNaturalHeight(image.naturalHeight);
+  };
+
   const PreviewModal = () => (
     <Modal onClick={handleClose}>
-      <Box className={classes.root}>
-        <Box className={classes.image} />
+      <Box
+        className={classes.imageContainer}
+        width={naturalWidth}
+        height={naturalHeight}
+      >
+        <Box className={classes.image} data-area="image" />
         <img
+          onLoad={onImageLoad}
           className={classes.imageFocusable}
           src={`http://localhost:6500/${paths[index].url}`}
           alt=""
@@ -97,6 +109,7 @@ export default function useImagePreview(paths) {
           className={classes.backButton}
           data-id="back"
           disabled={index === 0}
+          disableRipple
         >
           <BackIcon data-id="back" />
         </IconButton>
@@ -106,6 +119,7 @@ export default function useImagePreview(paths) {
           className={classes.forwardButton}
           data-id="next"
           disabled={index === paths.length - 1}
+          disableRipple
         >
           <ForwardIcon data-id="next" />
         </IconButton>
