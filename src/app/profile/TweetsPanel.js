@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import ProfileTabPanel from './ProfileTabPanel';
 import TweetContainer from '../home/TweetContainer';
 import SkeletonTweet from '../../common/ui/skeletons/SkeletonTweet';
 
-export const TweetsPanel = React.memo(function TweetsPanel({
+export const TweetsPanel = memo(function TweetsPanel({
   value,
   index,
   userTweets

@@ -16,7 +16,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import CoverImage from './CoverImage';
 import PageTitle from '../../common/ui/PageTitle';
 import ProfileImage from './ProfileImage';
-import ProfileTabPanel from './ProfileTabPanel';
 import TweetsPanel from './TweetsPanel';
 import EditDialog from './EditDialog';
 import LikesPanel from './LikesPanel';

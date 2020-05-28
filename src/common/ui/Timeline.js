@@ -58,7 +58,7 @@ export default function Timeline() {
       {status === 'loading'
         ? [1, 2, 3, 4, 5].map(key => <SkeletonTweet key={key} />)
         : data.map((tweetDocs, idx) => (
-            <React.Fragment key={idx}>
+            <React.Fragment key={tweetDocs.docs[idx]._id}>
               {tweetDocs.docs
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                 .map(tweet => (
