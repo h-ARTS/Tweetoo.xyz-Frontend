@@ -119,7 +119,8 @@ export default function Tweet({
             fullText={fullText}
             largeText={largeText}
           />
-          {!tweetImages.length ? null : tweetImages.length === 1 ? (
+          {!tweetImages || !tweetImages.length ? null : tweetImages.length ===
+            1 ? (
             <TweetSingleImageContainer tweetImages={tweetImages} />
           ) : (
             <TweetImagesContainer images={tweetImages} />

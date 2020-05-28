@@ -2,11 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { navigate } from '@reach/router';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  deleteTweet,
-  handleLikeTweet,
-  postRetweet
-} from '../../redux/actions/tweet.actions';
+import { deleteTweet, postRetweet } from '../../redux/actions/tweet.actions';
 import { deleteReply } from '../../redux/actions/reply.action';
 import {
   createBookmark,
@@ -20,6 +16,7 @@ import PersonAddIcon from '@material-ui/icons/PersonAddTwoTone';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabledTwoTone';
 // Hooks
 import useFollow from '../../common/hooks/useFollow';
+import useMutateLike from '../../common/hooks/react-query/useMutateLike';
 import Tweet from './Tweet';
 
 export const TweetContainer = React.memo(function TweetContainer({
@@ -28,6 +25,7 @@ export const TweetContainer = React.memo(function TweetContainer({
   largeText = false,
   onRefresh
 }) {
+  const mutateLike = useMutateLike();
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const [listItems, setListItem] = useState([]);
@@ -117,9 +115,9 @@ export const TweetContainer = React.memo(function TweetContainer({
 
   const handleLike = useCallback(() => {
     if (isLiked) {
-      dispatch(handleLikeTweet(_id, 'unlike'));
+      mutateLike({ tweet, type: 'unlike' });
     } else {
-      dispatch(handleLikeTweet(_id, 'like'));
+      mutateLike({ tweet, type: 'like' });
     }
     if (onRefresh) onRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
