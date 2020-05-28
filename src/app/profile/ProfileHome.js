@@ -28,6 +28,7 @@ import SkeletonUserImage from '../../common/ui/skeletons/SkeletonUserImage';
 import SkeletonFullnameHandleBio from '../../common/ui/skeletons/SkeletonFullnameHandleBio';
 import SkeletonUserDetails from '../../common/ui/skeletons/SkeletonUserDetails';
 import SkeletonCounting from '../../common/ui/skeletons/SkeletonCounting';
+import MediaPanel from './MediaPanel';
 
 const useStyles = makeStyles(theme => ({
   firstLayer: {
@@ -240,9 +241,12 @@ export const ProfileHome = React.memo(function ProfileHome({
           userTweets={userPropFactory('tweets')}
         />
         <LikesPanel value={profile.tabValue} index={1} />
-        <ProfileTabPanel value={profile.tabValue} index={2}>
-          Media
-        </ProfileTabPanel>
+        <MediaPanel
+          value={profile.tabValue}
+          index={2}
+          handle={userPropFactory('handle')}
+          userTweets={userPropFactory('tweets')}
+        />
       </Card>
       <EditDialog openEditDialog={open} handleCloseEdit={toggleEditDialog} />
     </>
