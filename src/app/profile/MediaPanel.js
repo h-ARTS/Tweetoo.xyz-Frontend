@@ -30,10 +30,10 @@ export const MediaPanel = memo(function LikePanel({
     <ProfileTabPanel value={value} index={index}>
       {status === 'loading' ? (
         <CircularProgress color="secondary" size={2} />
-      ) : status === 'error' ? (
+      ) : status === 'error' || !data.length ? (
         <Box p={1}>
           <Typography>
-            So far you have no tweets width images. Start tweeting your journey!
+            So far you have no tweets with images. Start tweeting your journey!
           </Typography>
         </Box>
       ) : (

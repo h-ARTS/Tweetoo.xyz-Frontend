@@ -239,7 +239,11 @@ export const ProfileHome = React.memo(function ProfileHome({
           index={0}
           userTweets={userPropFactory('tweets')}
         />
-        <LikesPanel value={profile.tabValue} index={1} />
+        <LikesPanel
+          value={profile.tabValue}
+          index={1}
+          userTweets={userPropFactory('tweets')}
+        />
         <MediaPanel
           value={profile.tabValue}
           index={2}
