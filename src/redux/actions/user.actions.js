@@ -22,10 +22,15 @@ import { fetchAllData } from './data.actions';
 
 export const logoutUser = () => dispatch => {
   localStorage.removeItem('token');
-  delete axios.defaults.headers.common['Authorization'];
-  dispatch({ type: SET_UNAUTHENTICATED });
-  dispatch({ type: CLEAR_STATE });
-  navigate('/');
+  axios
+    .post('/logout')
+    .then(res => {
+      delete axios.defaults.headers.common['Authorization'];
+      dispatch({ type: SET_UNAUTHENTICATED });
+      dispatch({ type: CLEAR_STATE });
+      navigate('/');
+    })
+    .catch(reason => console.error(reason));
 };
 
 export const signinUser = userData => dispatch => {
