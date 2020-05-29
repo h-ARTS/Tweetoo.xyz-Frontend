@@ -54,7 +54,7 @@ export const NewTweetForm = React.memo(function NewTweetForm({
         )}
       </Link>
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="new-tweet" color="secondary">
+        <InputLabel htmlFor="new-tweet" color="secondary" shrink>
           What are you thinking?
         </InputLabel>
         <Input
