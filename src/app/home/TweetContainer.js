@@ -16,38 +16,26 @@ import PersonAddIcon from '@material-ui/icons/PersonAddTwoTone';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabledTwoTone';
 // Hooks
 import useFollow from '../../common/hooks/useFollow';
-import useMutateLike from '../../common/hooks/react-query/useMutateLike';
+import useFetchTweet from '../../common/hooks/react-query/useFetchTweet';
+// Components
 import Tweet from './Tweet';
+import SkeletonTweet from '../../common/ui/skeletons/SkeletonTweet';
+import TweetContextProvider from '../../common/context/TweetContextProvider';
 
 export const TweetContainer = React.memo(function TweetContainer({
   tweet,
   minimized = false,
   largeText = false,
-  onRefresh
+  onRefresh = null
 }) {
-  const mutateLike = useMutateLike();
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const [listItems, setListItem] = useState([]);
   const [openReplyDialog, setOpenReplyDialog] = useState(false);
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.user.current);
-  const {
-    _id,
-    handle,
-    fullName,
-    fullText,
-    replies,
-    isRetweet,
-    retweetCount,
-    likeCount,
-    isLiked,
-    isBookmark,
-    createdAt,
-    createdBy,
-    userImageUrl,
-    tweetImages
-  } = tweet;
+  const { _id, handle, createdBy } = tweet;
+  const [status, data, error, refetch] = useFetchTweet(_id);
   const { isFollowing, handleFollowUser } = useFollow(handle);
 
   useEffect(() => {
@@ -75,7 +63,14 @@ export const TweetContainer = React.memo(function TweetContainer({
           }
         ]);
       }
-    } else {
+    }
+
+    setOpenReplyDialog(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (currentUser._id !== createdBy) {
       setListItem([
         {
           title: isFollowing() ? `Unfollow @${handle}` : `Follow @${handle}`,
@@ -85,10 +80,8 @@ export const TweetContainer = React.memo(function TweetContainer({
         }
       ]);
     }
-
-    setOpenReplyDialog(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFollowing, replies]);
+  }, [isFollowing]);
 
   const handleNavigateToUser = useCallback(() => {
     navigate(`/${handle}`);
@@ -113,46 +106,32 @@ export const TweetContainer = React.memo(function TweetContainer({
 
   // Tweet action methods
 
-  const handleLike = useCallback(() => {
-    if (isLiked) {
-      mutateLike({ tweet, type: 'unlike' });
-    } else {
-      mutateLike({ tweet, type: 'like' });
-    }
-    if (onRefresh) onRefresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLiked]);
-
   const handleDeleteTweet = () => {
     dispatch(deleteTweet(_id));
   };
 
-  const handleRetweet = useCallback(() => {
-    dispatch(postRetweet(_id, !isRetweet));
-    if (onRefresh) onRefresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRetweet]);
+  // const handleRetweet = useCallback(() => {
+  //   dispatch(postRetweet(_id, !isRetweet));
+  //   if (onRefresh) onRefresh();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [isRetweet]);
 
   const handleFollow = () => {
     handleFollowUser();
     setAnchorEl(null);
   };
 
-  const toggleReplyDialog = useCallback(() => {
-    setOpenReplyDialog(!openReplyDialog);
-  }, [openReplyDialog]);
-
   const handleDeleteReply = () => {
     dispatch(deleteReply(_id));
   };
 
-  const handleBookmark = useCallback(() => {
-    if (onRefresh) onRefresh();
-    return !isBookmark
-      ? dispatch(createBookmark(_id))
-      : dispatch(removeBookmark(_id));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBookmark]);
+  // const handleBookmark = useCallback(() => {
+  //   if (onRefresh) onRefresh();
+  //   return !isBookmark
+  //     ? dispatch(createBookmark(_id))
+  //     : dispatch(removeBookmark(_id));
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [isBookmark]);
 
   const popoverProps = {
     id: 'more-popover',
@@ -162,34 +141,38 @@ export const TweetContainer = React.memo(function TweetContainer({
     onClose: handleClose
   };
 
-  return (
-    <Tweet
-      popoverProps={popoverProps}
-      handleBookmark={handleBookmark}
-      isBookmark={isBookmark}
-      isLiked={isLiked}
-      isRetweet={isRetweet}
-      minimized={minimized}
-      largeText={largeText}
-      navigateToTweet={navigateToTweet}
-      handleNavigateToUser={handleNavigateToUser}
-      currentUser={currentUser}
-      userImageUrl={userImageUrl}
-      handle={handle}
-      fullName={fullName}
-      fullText={fullText}
-      replies={replies}
-      tweet={tweet}
-      createdAt={createdAt}
-      tweetImages={tweetImages}
-      handleMore={handleMore}
-      handleLike={handleLike}
-      handleRetweet={handleRetweet}
+  return status === 'loading' ? (
+    <SkeletonTweet />
+  ) : (
+    <TweetContextProvider
+      tweet={data}
+      onRefresh={onRefresh ? onRefresh : refetch}
       openReplyDialog={openReplyDialog}
-      likeCount={likeCount}
-      retweetCount={retweetCount}
-      toggleReplyDialog={toggleReplyDialog}
-    />
+      setOpenReplyDialog={setOpenReplyDialog}
+    >
+      <Tweet
+        popoverProps={popoverProps}
+        isBookmark={data.isBookmark}
+        isLiked={data.isLiked}
+        isRetweet={data.isRetweet}
+        minimized={minimized}
+        largeText={largeText}
+        navigateToTweet={navigateToTweet}
+        handleNavigateToUser={handleNavigateToUser}
+        currentUser={currentUser}
+        userImageUrl={data.userImageUrl}
+        handle={handle}
+        fullName={data.fullName}
+        fullText={data.fullText}
+        replies={data.replies}
+        tweet={data}
+        createdAt={data.createdAt}
+        tweetImages={data.tweetImages}
+        handleMore={handleMore}
+        likeCount={data.likeCount}
+        retweetCount={data.retweetCount}
+      />
+    </TweetContextProvider>
   );
 });
 

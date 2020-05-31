@@ -12,7 +12,7 @@ import { red } from '@material-ui/core/colors';
 import TweetSingleImageContainer from './TweetSingleImageContainer';
 import GenericPopover from '../../common/ui/GenericPopover';
 import MoreButton from './MoreButton';
-import ReplyDialog from './ReplyDialog';
+// import ReplyDialog from './ReplyDialog';
 import TweetAction from './TweetAction';
 import TweetImagesContainer from './TweetImagesContainer';
 import TweetSubheader from './TweetSubheader';
@@ -129,38 +129,23 @@ export default function Tweet({
         {!minimized && (
           <CardActions className={classes.actions}>
             {tweet.hasOwnProperty('replies') && (
-              <TweetAction
-                actionType="reply"
-                count={replies.length}
-                onClick={toggleReplyDialog}
-              />
+              <TweetAction actionType="reply" count={replies.length} />
             )}
             <TweetAction
               actionType="retweet"
               count={retweetCount}
               isActive={isRetweet}
-              onClick={handleRetweet}
             />
             <TweetAction
               actionType="like"
               count={likeCount}
               isActive={isLiked}
-              onClick={handleLike}
             />
-            <TweetAction
-              actionType="bookmark"
-              isActive={isBookmark}
-              onClick={handleBookmark}
-            />
+            <TweetAction actionType="bookmark" isActive={isBookmark} />
           </CardActions>
         )}
       </Card>
       <GenericPopover {...popoverProps} />
-      <ReplyDialog
-        tweet={tweet}
-        openReplyDialog={openReplyDialog}
-        handleCloseEdit={toggleReplyDialog}
-      />
     </>
   );
 }

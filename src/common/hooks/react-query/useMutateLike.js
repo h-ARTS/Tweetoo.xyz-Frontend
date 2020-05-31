@@ -1,36 +1,41 @@
 import axios from 'axios';
 import { useMutation, queryCache } from 'react-query';
 
+function updateLike(oldData, mutation) {
+  if (oldData == null) return;
+
+  if (mutation.type === 'like') {
+    mutation.tweet.isLiked = true;
+    mutation.tweet.likeCount++;
+  } else {
+    mutation.tweet.isLiked = false;
+    mutation.tweet.likeCount--;
+  }
+
+  return mutation.tweet;
+}
+
 export default function useMutateLike() {
   const [mutateLike] = useMutation(
-    mutation => {
-      return axios.put(`/api/tweet/${mutation.tweet._id}/${mutation.type}`);
-    },
+    mutation => axios.put(`/api/tweet/${mutation.tweet._id}/${mutation.type}`),
     {
+      // TODO: Figure out how to mutate without jumping numbers in the UI
       onMutate: mutation => {
-        queryCache.cancelQueries('tweetsMedia');
+        queryCache.cancelQueries(['tweet', mutation.tweet._id]);
 
-        const previousTweetsMedia = queryCache.getQueryData('tweetsMedia');
+        const previousTweet = queryCache.getQueryData([
+          'tweet',
+          mutation.tweet._id
+        ]);
 
-        queryCache.setQueryData('tweetsMedia', old => {
-          if (old == null) return;
-          const filtered = old.filter(tweet => tweet._id === mutation._id);
-
-          if (mutation.type === 'like') {
-            mutation.tweet.isLiked = true;
-            mutation.tweet.likeCount++;
-          } else {
-            mutation.tweet.isLiked = false;
-            mutation.tweet.likeCount--;
-          }
-
-          return [...filtered, mutation.tweet];
+        queryCache.setQueryData(['tweet', mutation.tweet._id], old => {
+          return updateLike(old, mutation);
         });
 
-        return previousTweetsMedia;
+        return previousTweet;
       },
-      onSettled: () => {
-        queryCache.refetchQueries('tweetsMedia');
+      onSettled: (data, error, variables) => {
+        queryCache.refetchQueries(['tweet', variables.tweet._id]);
       }
     }
   );

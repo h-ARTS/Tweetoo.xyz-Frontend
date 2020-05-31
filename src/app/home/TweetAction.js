@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { IconButton, Badge } from '@material-ui/core';
 import {
   ThemeProvider,
@@ -12,6 +12,9 @@ import ReplyIcon from '@material-ui/icons/ChatBubbleTwoTone';
 import RetweetIcon from '@material-ui/icons/CachedTwoTone';
 import LikeIcon from '@material-ui/icons/FavoriteTwoTone';
 import BookmarkIcon from '@material-ui/icons/BookmarkTwoTone';
+
+import ReplyDialog from './ReplyDialog';
+import { TweetContext } from '../../common/context/TweetContextProvider';
 
 const like = createMuiTheme({
   palette: {
@@ -74,34 +77,45 @@ const StyledBadge = withStyles({
 export const TweetAction = React.memo(function TweetAction({
   actionType,
   count,
-  isActive,
-  onClick
+  isActive
 }) {
   const { ariaLabel, colorFactory, Icon, theme } = actionButtons(isActive)[
     actionType
   ];
+  const { action, tweet, openReplyDialog, toggleReplyDialog } = useContext(
+    TweetContext
+  );
 
   const handleAction = () => {
-    onClick();
+    action[actionType].onClick();
   };
 
   if (actionType !== 'bookmark') {
     return (
-      <ThemeProvider theme={theme}>
-        <IconButton
-          aria-label={ariaLabel}
-          color={colorFactory}
-          onClick={handleAction}
-        >
-          <StyledBadge
-            badgeContent={count}
-            max={100000}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      <>
+        <ThemeProvider theme={theme}>
+          <IconButton
+            aria-label={ariaLabel}
+            color={colorFactory}
+            onClick={handleAction}
           >
-            <Icon />
-          </StyledBadge>
-        </IconButton>
-      </ThemeProvider>
+            <StyledBadge
+              badgeContent={count}
+              max={100000}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            >
+              <Icon />
+            </StyledBadge>
+          </IconButton>
+        </ThemeProvider>
+        {actionType === 'reply' && (
+          <ReplyDialog
+            tweet={tweet}
+            openReplyDialog={openReplyDialog}
+            handleCloseEdit={toggleReplyDialog}
+          />
+        )}
+      </>
     );
   } else {
     return (
