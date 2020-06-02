@@ -4,7 +4,7 @@ import { useMutation, queryCache } from 'react-query';
 function updateRetweet(oldData, mutation) {
   if (oldData == null) return;
 
-  if (mutation.type === 'like') {
+  if (!mutation.isRetweet) {
     mutation.tweet.isRetweet = true;
     mutation.tweet.retweetCount++;
   } else {
@@ -18,9 +18,9 @@ function updateRetweet(oldData, mutation) {
 export default function useMutateRetweet() {
   const [mutateRetweet] = useMutation(
     mutation => {
-      return mutation.type === 'retweet'
-        ? axios.post(`/api/tweet/${mutation.tweet._id}/retweet`)
-        : axios.delete(`/api/tweet/${mutation.tweet._id}/undoretweet`);
+      return mutation.isRetweet
+        ? axios.delete(`/api/tweet/${mutation.tweet._id}/undoretweet`)
+        : axios.post(`/api/tweet/${mutation.tweet._id}/retweet`);
     },
     {
       // TODO: Figure out how to mutate without jumping numbers in the UI

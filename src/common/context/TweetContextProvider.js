@@ -1,12 +1,6 @@
-import React, { useState, useCallback, createContext } from 'react';
-import store from '../../redux/store';
+import React, { useCallback, createContext } from 'react';
 import useMutateLike from '../hooks/react-query/useMutateLike';
 import useMutateRetweet from '../hooks/react-query/useMutateRetweet';
-import { postRetweet } from '../../redux/actions/tweet.actions';
-import {
-  createBookmark,
-  removeBookmark
-} from '../../redux/actions/bookmarks.action';
 
 export const TweetContext = createContext();
 
@@ -20,55 +14,34 @@ const TweetContextProvider = ({
   const mutateLike = useMutateLike();
   const mutateRetweet = useMutateRetweet();
 
-  const handleLike = useCallback(() => {
-    if (tweet.isLiked) {
-      mutateLike({ tweet, type: 'unlike' });
-    } else {
-      mutateLike({ tweet, type: 'like' });
-    }
+  function handleAction(type) {
+    const lookupAction = {
+      like: () => mutateLike({ isLiked: tweet.isLiked, tweet }),
+      retweet: () => mutateRetweet({ isRetweet: tweet.isRetweet, tweet })
+    };
 
+    lookupAction[type]();
     if (onRefresh) onRefresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tweet.isLiked]);
-
-  const handleRetweet = useCallback(() => {
-    if (tweet.isRetweet) {
-      mutateRetweet({ tweet, type: 'undoretweet' });
-    } else {
-      mutateRetweet({ tweet, type: 'retweet' });
-    }
-
-    if (onRefresh) onRefresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tweet.isRetweet]);
-
-  const handleBookmark = useCallback(() => {
-    if (onRefresh) onRefresh();
-    return !tweet.isBookmark
-      ? store.dispatch(createBookmark(tweet._id))
-      : store.dispatch(removeBookmark(tweet._id));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tweet.isBookmark]);
+  }
 
   const toggleReplyDialog = useCallback(() => {
-    console.log('triggered', openReplyDialog);
     setOpenReplyDialog(!openReplyDialog);
   }, [openReplyDialog, setOpenReplyDialog]);
 
-  const [action, setAction] = useState({
+  const action = {
     like: {
-      onClick: handleLike
+      handleAction
     },
     retweet: {
-      onClick: handleRetweet
+      handleAction
     },
     bookmark: {
       onClick: handleBookmark
     },
     reply: {
-      onClick: toggleReplyDialog
+      handleAction: toggleReplyDialog
     }
-  });
+  };
 
   return (
     <TweetContext.Provider

@@ -4,7 +4,7 @@ import { useMutation, queryCache } from 'react-query';
 function updateLike(oldData, mutation) {
   if (oldData == null) return;
 
-  if (mutation.type === 'like') {
+  if (!mutation.isLiked) {
     mutation.tweet.isLiked = true;
     mutation.tweet.likeCount++;
   } else {
@@ -17,7 +17,11 @@ function updateLike(oldData, mutation) {
 
 export default function useMutateLike() {
   const [mutateLike] = useMutation(
-    mutation => axios.put(`/api/tweet/${mutation.tweet._id}/${mutation.type}`),
+    mutation => {
+      return mutation.isLiked
+        ? axios.put(`/api/tweet/${mutation.tweet._id}/unlike`)
+        : axios.put(`/api/tweet/${mutation.tweet._id}/like`);
+    },
     {
       // TODO: Figure out how to mutate without jumping numbers in the UI
       onMutate: mutation => {

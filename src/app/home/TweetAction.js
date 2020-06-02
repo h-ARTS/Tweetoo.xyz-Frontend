@@ -87,7 +87,7 @@ export const TweetAction = React.memo(function TweetAction({
   );
 
   const handleAction = () => {
-    action[actionType].onClick();
+    action[actionType].handleAction(actionType);
   };
 
   if (actionType !== 'bookmark') {
