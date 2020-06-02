@@ -1,42 +1,27 @@
-import React, { useEffect } from 'react';
-import { useParams } from '@reach/router';
-// Redux
-import { useSelector, useDispatch } from 'react-redux';
-import { CLEAR_REPLIES } from '../../redux/types';
-import { getReplies } from '../../redux/actions/reply.action';
+import React, { memo } from 'react';
 // Mui components
 import Box from '@material-ui/core/Box';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+// Components
 import TweetContainer from '../home/TweetContainer';
+import SkeletonTweet from '../../common/ui/skeletons/SkeletonTweet';
+// Hooks
+import { useParams } from '@reach/router';
+import useFetchReplies from '../../common/hooks/react-query/useFetchReplies';
 
-export const Replies = React.memo(function Replies() {
+const Replies = () => {
   const params = useParams();
-  const dispatch = useDispatch();
-  const loadingReplies = useSelector(state => state.ui.loadingReplies);
-  const replies = useSelector(state => state.replies);
+  const { status, data } = useFetchReplies(params.tweetId);
 
-  useEffect(() => {
-    dispatch(getReplies(params.tweetId));
-
-    return () => {
-      if (replies.length > 0) {
-        dispatch({ type: CLEAR_REPLIES });
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.tweetId, replies.length]);
-
-  if (loadingReplies) {
-    return (
-      <Box p={3}>
-        <CircularProgress size="small" color="secondary" />
-      </Box>
-    );
-  } else {
-    return replies
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-      .map(reply => <TweetContainer key={reply._id} tweet={reply} />);
-  }
-});
+  return status === 'loading' ? (
+    [1, 2, 3].map(key => <SkeletonTweet key={key} />)
+  ) : status === 'error' || !data.length ? (
+    <Box p={1}>
+      <Typography>Looks like nobody replied uptil yet. Reply now!</Typography>
+    </Box>
+  ) : (
+    data.map(reply => <TweetContainer key={reply._id} tweet={reply} />)
+  );
+};
 
 export default Replies;
