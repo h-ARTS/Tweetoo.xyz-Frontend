@@ -2,12 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { navigate } from '@reach/router';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTweet, postRetweet } from '../../redux/actions/tweet.actions';
+import { deleteTweet } from '../../redux/actions/tweet.actions';
 import { deleteReply } from '../../redux/actions/reply.action';
-import {
-  createBookmark,
-  removeBookmark
-} from '../../redux/actions/bookmarks.action';
 // Mui Styles
 import { useTheme } from '@material-ui/core/styles';
 // Mui Icons
@@ -110,12 +106,6 @@ export const TweetContainer = React.memo(function TweetContainer({
     dispatch(deleteTweet(_id));
   };
 
-  // const handleRetweet = useCallback(() => {
-  //   dispatch(postRetweet(_id, !isRetweet));
-  //   if (onRefresh) onRefresh();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [isRetweet]);
-
   const handleFollow = () => {
     handleFollowUser();
     setAnchorEl(null);
@@ -124,14 +114,6 @@ export const TweetContainer = React.memo(function TweetContainer({
   const handleDeleteReply = () => {
     dispatch(deleteReply(_id));
   };
-
-  // const handleBookmark = useCallback(() => {
-  //   if (onRefresh) onRefresh();
-  //   return !isBookmark
-  //     ? dispatch(createBookmark(_id))
-  //     : dispatch(removeBookmark(_id));
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [isBookmark]);
 
   const popoverProps = {
     id: 'more-popover',
