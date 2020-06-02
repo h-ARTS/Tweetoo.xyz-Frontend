@@ -1,6 +1,7 @@
 import React, { useCallback, createContext } from 'react';
 import useMutateLike from '../hooks/react-query/useMutateLike';
 import useMutateRetweet from '../hooks/react-query/useMutateRetweet';
+import useMutateBookmark from '../hooks/react-query/useMutateBookmark';
 
 export const TweetContext = createContext();
 
@@ -13,10 +14,12 @@ const TweetContextProvider = ({
 }) => {
   const mutateLike = useMutateLike();
   const mutateRetweet = useMutateRetweet();
+  const mutateBookmark = useMutateBookmark();
 
   function handleAction(type) {
     const lookupAction = {
       like: () => mutateLike({ isLiked: tweet.isLiked, tweet }),
+      bookmark: () => mutateBookmark({ isBookmark: tweet.isBookmark, tweet }),
       retweet: () => mutateRetweet({ isRetweet: tweet.isRetweet, tweet })
     };
 
@@ -36,7 +39,7 @@ const TweetContextProvider = ({
       handleAction
     },
     bookmark: {
-      onClick: handleBookmark
+      handleAction
     },
     reply: {
       handleAction: toggleReplyDialog
