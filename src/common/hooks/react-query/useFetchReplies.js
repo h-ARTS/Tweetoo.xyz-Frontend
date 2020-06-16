@@ -17,10 +17,10 @@ export default function useFetchReplies(tweetId) {
     );
   }
 
-  const { status, data } = useQuery('replies', fetchReplies, {
+  const { status, data, refetch } = useQuery('replies', fetchReplies, {
     retry: 4,
     refetchOnMount: true
   });
 
-  return { status, data };
+  return { status, data, refetch };
 }

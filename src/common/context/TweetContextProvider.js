@@ -29,7 +29,8 @@ const TweetContextProvider = ({
 
   const toggleReplyDialog = useCallback(() => {
     setOpenReplyDialog(!openReplyDialog);
-  }, [openReplyDialog, setOpenReplyDialog]);
+    onRefresh();
+  }, [onRefresh, openReplyDialog, setOpenReplyDialog]);
 
   const action = {
     like: {

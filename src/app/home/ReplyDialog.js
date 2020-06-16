@@ -44,7 +44,11 @@ export default function ReplyDialog({
             Reply on <Link to={`/${tweet.handle}`}>{tweet.handle}</Link>
           </Typography>
         </Box>
-        <NewTweetFormContainer reply tweetId={tweet._id} />
+        <NewTweetFormContainer
+          reply
+          tweetId={tweet._id}
+          onFormSubmit={handleCloseEdit}
+        />
       </DialogContent>
     </Dialog>
   );

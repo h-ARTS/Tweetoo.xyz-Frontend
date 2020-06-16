@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { navigate } from '@reach/router';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTweet } from '../../redux/actions/tweet.actions';
 import { deleteReply } from '../../redux/actions/reply.action';
 // Mui Styles
 import { useTheme } from '@material-ui/core/styles';
@@ -12,7 +11,8 @@ import PersonAddIcon from '@material-ui/icons/PersonAddTwoTone';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabledTwoTone';
 // Hooks
 import useFollow from '../../common/hooks/useFollow';
-import useFetchTweet from '../../common/hooks/react-query/useFetchTweet';
+import useFetchDoc from '../../common/hooks/react-query/useFetchDoc';
+import useDeleteTweet from '../../common/hooks/react-query/useDeleteTweet';
 // Components
 import Tweet from './Tweet';
 import SkeletonTweet from '../../common/ui/skeletons/SkeletonTweet';
@@ -31,12 +31,13 @@ export const TweetContainer = React.memo(function TweetContainer({
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.user.current);
   const { _id, handle, createdBy } = tweet;
-  const [status, data, error, refetch] = useFetchTweet(_id);
+  const { status, data, refetch } = useFetchDoc(tweet);
+  const deleteTweet = useDeleteTweet();
   const { isFollowing, handleFollowUser } = useFollow(handle);
 
   useEffect(() => {
     if (currentUser._id === createdBy) {
-      if (tweet.hasOwnProperty('replies')) {
+      if (!tweet.hasOwnProperty('tweetId')) {
         setListItem([
           {
             title: 'Delete Tweet',
@@ -103,7 +104,8 @@ export const TweetContainer = React.memo(function TweetContainer({
   // Tweet action methods
 
   const handleDeleteTweet = () => {
-    dispatch(deleteTweet(_id));
+    deleteTweet({ tweetId: _id });
+    onRefresh();
   };
 
   const handleFollow = () => {

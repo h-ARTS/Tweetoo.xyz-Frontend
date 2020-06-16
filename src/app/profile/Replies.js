@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { useCallback } from 'react';
 // Mui components
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -11,7 +11,11 @@ import useFetchReplies from '../../common/hooks/react-query/useFetchReplies';
 
 const Replies = () => {
   const params = useParams();
-  const { status, data } = useFetchReplies(params.tweetId);
+  const { status, data, refetch } = useFetchReplies(params.tweetId);
+
+  const refetchNewReplies = useCallback(() => {
+    refetch();
+  }, [refetch]);
 
   return status === 'loading' ? (
     [1, 2, 3].map(key => <SkeletonTweet key={key} />)
@@ -20,7 +24,13 @@ const Replies = () => {
       <Typography>Looks like nobody replied uptil yet. Reply now!</Typography>
     </Box>
   ) : (
-    data.map(reply => <TweetContainer key={reply._id} tweet={reply} />)
+    data.map(reply => (
+      <TweetContainer
+        key={reply._id}
+        tweet={reply}
+        onRefresh={refetchNewReplies}
+      />
+    ))
   );
 };
 
