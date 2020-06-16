@@ -39,7 +39,7 @@ export default function useMutateRetweet() {
         return previousTweet;
       },
       onSettled: (data, error, variables) => {
-        queryCache.refetchQueries(['tweet', variables.tweet._id]);
+        queryCache.invalidateQueries(['tweet', variables.tweet._id]);
       }
     }
   );
