@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 
 export default function useFetchUserTweets(userTweets) {
-  // const state = store.getState();
   const { status, data } = useQuery(
     'user-tweets',
     async () => {
@@ -10,7 +9,6 @@ export default function useFetchUserTweets(userTweets) {
 
       return response.data
         .filter(function(tweet) {
-          console.log(tweet, userTweets);
           return this.find(t => t.tweetId === tweet._id);
         }, userTweets)
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));

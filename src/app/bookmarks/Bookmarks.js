@@ -1,6 +1,4 @@
 import React from 'react';
-// Redux
-import { useSelector } from 'react-redux';
 // Mui Components
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
