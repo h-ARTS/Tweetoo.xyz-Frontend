@@ -8,6 +8,8 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 // Components
 import NewTweetForm from './NewTweetForm';
+import useCreateTweet from '../../../common/hooks/react-query/useCreateTweet';
+import useCreateReply from '../../../common/hooks/react-query/useCreateReply';
 
 const useStyles = makeStyles({
   root: {
@@ -23,6 +25,8 @@ export const NewTweetFormContainer = React.memo(function NewTweetFormContainer({
   const dispatch = useDispatch();
   const current = useSelector(state => state.user.current);
   const newTweetImages = useSelector(state => state.cached.newTweetImages);
+  const createTweet = useCreateTweet();
+  const createReply = useCreateReply();
   const [tweetText, setTweetText] = useState('');
 
   const handleTweetText = useCallback(event => {
@@ -38,15 +42,14 @@ export const NewTweetFormContainer = React.memo(function NewTweetFormContainer({
     };
   });
 
-  const submitForm = e => {
+  const submitForm = () => {
     if (!reply) {
-      dispatch(postTweet({ fullText: tweetText, tweetImages }));
+      createTweet({ fullText: tweetText, tweetImages });
     } else {
-      dispatch(postReply(tweetText, tweetId));
+      createReply({ fullText: tweetText, tweetId });
     }
     setTweetText('');
     onFormSubmit();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   return (
