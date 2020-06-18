@@ -1,7 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { postTweet } from '../../../redux/actions/tweet.actions';
-import { postReply } from '../../../redux/actions/reply.action';
+import { useSelector } from 'react-redux';
 // Mui Components
 import Paper from '@material-ui/core/Paper';
 // Mui Styles
@@ -22,7 +20,6 @@ export const NewTweetFormContainer = React.memo(function NewTweetFormContainer({
   onFormSubmit
 }) {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const current = useSelector(state => state.user.current);
   const newTweetImages = useSelector(state => state.cached.newTweetImages);
   const createTweet = useCreateTweet();

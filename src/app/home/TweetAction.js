@@ -90,6 +90,8 @@ export const TweetAction = React.memo(function TweetAction({
     action[actionType].handleAction(actionType);
   };
 
+  const anchorOrigin = { vertical: 'bottom', horizontal: 'right' };
+
   if (actionType !== 'bookmark') {
     return (
       <>
@@ -101,8 +103,8 @@ export const TweetAction = React.memo(function TweetAction({
           >
             <StyledBadge
               badgeContent={count}
-              max={100000}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              max={10000}
+              anchorOrigin={anchorOrigin}
             >
               <Icon />
             </StyledBadge>
