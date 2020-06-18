@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { navigate } from '@reach/router';
-// Redux
-import { useSelector, useDispatch } from 'react-redux';
-import { markAllRead } from '../../redux/actions/notifications.actions';
 // Mui Components
 import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import List from '@material-ui/core/List';
@@ -15,13 +13,15 @@ import RightBar from '../../common/ui/RightBar';
 import SuggestedFollowListContainer from '../discover/SuggestedFollowListContainer';
 import TrendsList from '../discover/TrendsList';
 import NotificationListItem from './NotificationListItem';
+import useFetchNotifications from '../../common/hooks/react-query/useFetchNotifications';
+import useMutateMarkAllRead from '../../common/hooks/react-query/useMutateMarkAllRead';
 
 export const Notifications = () => {
-  const dispatch = useDispatch();
-  const notifications = useSelector(state => state.notifications);
+  const { status, data } = useFetchNotifications();
+  const markAllRead = useMutateMarkAllRead();
 
   useEffect(() => {
-    dispatch(markAllRead());
+    markAllRead();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -40,15 +40,21 @@ export const Notifications = () => {
       <Grid item xs={12} md={8}>
         <PageTitle renderTitle="Notifications" />
         <Paper variant="outlined" square>
-          <List disablePadding>
-            {notifications.map(notification => (
-              <NotificationListItem
-                key={notification._id}
-                notification={notification}
-                navigateToPage={navigateToPage}
-              />
-            ))}
-          </List>
+          {status === 'loading' ? (
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <CircularProgress />
+            </Box>
+          ) : (
+            <List disablePadding>
+              {data.map(notification => (
+                <NotificationListItem
+                  key={notification._id}
+                  notification={notification}
+                  navigateToPage={navigateToPage}
+                />
+              ))}
+            </List>
+          )}
         </Paper>
       </Grid>
       <Hidden smDown>
