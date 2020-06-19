@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   root: {
     fontSize: props => (props.largeText ? '1.30rem' : 'inherit'),
+    whiteSpace: 'pre-wrap',
     '& a': {
       color: theme.palette.secondary.main,
       textDecoration: 'none',

@@ -64,6 +64,7 @@ const useStyles = makeStyles(theme => ({
     borderBottom: '1px solid rgba(0,0,0,0.12)'
   },
   cardContent: {
+    whiteSpace: 'pre-wrap',
     paddingBottom: theme.spacing(1)
   },
   link: {
