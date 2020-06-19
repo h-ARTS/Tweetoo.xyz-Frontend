@@ -1,35 +1,33 @@
 import { useState, useCallback } from 'react';
-import { useLocation } from '@reach/router';
+import { useParams } from '@reach/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateFollower } from '../../redux/actions/user.actions';
 
-export const useFollow = tweetHandle => {
+export const useFollow = userHandle => {
   const [followingTitle, setFollowingTitle] = useState('following');
   const current = useSelector(state => state.user.current);
   const dispatch = useDispatch();
-  const { pathname } = useLocation('/:userId');
+  const params = useParams();
   const isNotCurrentUser =
-    pathname !== '/profile' &&
-    pathname !== `/${current.handle}` &&
-    tweetHandle !== current.handle;
+    params.userId !== 'profile' && params.userId !== current.handle;
 
   const isFollowing = useCallback(() => {
     if (isNotCurrentUser) {
       const found = current.following.find(handle => {
-        return handle === tweetHandle;
+        return handle === userHandle;
       });
       return Boolean(found);
     }
-  }, [current.following, isNotCurrentUser, tweetHandle]);
+  }, [current.following, isNotCurrentUser, userHandle]);
 
   const isFollowingYou = useCallback(() => {
     if (isNotCurrentUser) {
       const found = current.followers.find(handle => {
-        return handle === tweetHandle;
+        return handle === userHandle;
       });
       return Boolean(found);
     }
-  }, [current.followers, isNotCurrentUser, tweetHandle]);
+  }, [current.followers, isNotCurrentUser, userHandle]);
 
   const handleFollowingBtnTitle = useCallback(() => {
     if (followingTitle === 'following') {
@@ -40,7 +38,7 @@ export const useFollow = tweetHandle => {
   }, [followingTitle]);
 
   const handleFollowUser = () => {
-    dispatch(updateFollower(tweetHandle, !isFollowing()));
+    dispatch(updateFollower(userHandle, !isFollowing()));
   };
 
   return {
