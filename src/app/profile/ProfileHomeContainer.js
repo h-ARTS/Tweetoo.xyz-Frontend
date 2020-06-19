@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-import { useLocation, useMatch } from '@reach/router';
+import { useMatch, useParams } from '@reach/router';
+import useFetchUser from '../../common/hooks/react-query/useFetchUser';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { getUser } from '../../redux/actions/user.actions';
 import { CLEAR_USER, PROFILE_TAB_CHANGE } from '../../redux/types';
+// Mui Components
+import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
 // Hooks
 import useFollow from '../../common/hooks/useFollow';
 import useA11yTabProps from '../../common/hooks/useA11yTabProps';
@@ -14,27 +17,28 @@ export const ProfileHomeContainer = () => {
   const [open, setOpen] = useState(false);
   const loading = useSelector(state => state.ui.loading);
   const profile = useSelector(state => state.ui.profile);
-  const { current, watching } = useSelector(state => state.user);
+  const { current } = useSelector(state => state.user);
+  const params = useParams();
+  const dispatch = useDispatch();
+  const a11yProps = useA11yTabProps('profile');
+  const date = dayjs(current.createdAt).format('MMMM YYYY');
+  const isNotCurrentUser =
+    params.userId !== 'profile' && params.userId !== `${current.handle}`;
+  const match = useMatch('/:userId');
+  const { status, data, refetch } = useFetchUser(
+    params.userId === 'profile' ? current.handle : params.userId
+  );
   const {
     followingTitle,
     isFollowing,
     isFollowingYou,
     handleFollowUser,
     handleFollowingBtnTitle
-  } = useFollow(watching.handle);
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const a11yProps = useA11yTabProps('profile');
-  const date = dayjs(current.createdAt).format('MMMM YYYY');
-  const isNotCurrentUser =
-    location.pathname !== '/profile' &&
-    location.pathname !== `/${current.handle}`;
-  const match = useMatch('/:userId');
+  } = useFollow(status === 'success' && data.handle);
 
   useEffect(() => {
-    if (isNotCurrentUser) {
-      dispatch(getUser(location.pathname.substring(1)));
-    }
+    refetch();
+    window.scroll(0, 0);
 
     if (match && !profile.tabValue) {
       dispatch({ type: PROFILE_TAB_CHANGE, tabValue: 0 });
@@ -44,7 +48,7 @@ export const ProfileHomeContainer = () => {
       dispatch({ type: CLEAR_USER });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
+  }, [params.userId]);
 
   const handleTabChange = (event, newValue) => {
     dispatch({ type: PROFILE_TAB_CHANGE, tabValue: newValue });
@@ -54,16 +58,16 @@ export const ProfileHomeContainer = () => {
     setOpen(!open);
   };
 
-  const userPropFactory = prop => {
-    return isNotCurrentUser ? watching[prop] : current[prop];
-  };
-
-  return (
+  return status === 'loading' ? (
+    <Box display="flex" alignItems="center" justifyContent="center">
+      <CircularProgress />
+    </Box>
+  ) : (
     <ProfileHome
       a11yProps={a11yProps}
       date={date}
       open={open}
-      userPropFactory={userPropFactory}
+      user={data}
       loading={loading}
       profile={profile}
       isFollowing={isFollowing}
