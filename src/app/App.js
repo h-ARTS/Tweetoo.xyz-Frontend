@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Router, navigate } from '@reach/router';
 import { ReactQueryDevtools } from 'react-query-devtools';
@@ -23,6 +23,7 @@ import Layout from '../common/ui/Layout';
 import Notifications from './notifications/Notifications';
 import Profile from './profile/Profile';
 import Discover from './discover/Discover';
+import UserContextProvider from '../common/context/UserContextProvider';
 
 axios.defaults.baseURL = 'http://localhost:6500';
 const token = localStorage.token;
@@ -43,22 +44,43 @@ if (token) {
 }
 
 export default function App() {
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    let isActive = true;
+
+    axios
+      .get('/api/user')
+      .then(response => {
+        if (isActive) {
+          setUser(response.data);
+        }
+      })
+      .catch(reason => console.error(reason));
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
-      <ErrorCatcher>
-        <AlertContainer />
-        <Router>
-          <AuthPage path="/" />
-        </Router>
-        <Router component={Layout}>
-          <Home path="home" />
-          <Discover path="discover/*" />
-          <Notifications path="notifications" />
-          <Bookmarks path="bookmarks" />
-          <Profile path=":userId/*" />
-        </Router>
-      </ErrorCatcher>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <UserContextProvider user={user}>
+        <ErrorCatcher>
+          <AlertContainer />
+          <Router>
+            <AuthPage path="/" />
+          </Router>
+          <Router component={Layout}>
+            <Home path="home" />
+            <Discover path="discover/*" />
+            <Notifications path="notifications" />
+            <Bookmarks path="bookmarks" />
+            <Profile path=":userId/*" />
+          </Router>
+        </ErrorCatcher>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </UserContextProvider>
     </ThemeProvider>
   );
 }
