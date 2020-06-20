@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation, navigate } from '@reach/router';
-// Redux
-import { useSelector, useDispatch } from 'react-redux';
-import { getUser } from '../../../redux/actions/user.actions';
+import { useParams, navigate } from '@reach/router';
 // Mui components
+import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
@@ -12,28 +11,26 @@ import Typography from '@material-ui/core/Typography';
 import FollowersList from './FollowersList';
 import PageTitle from '../../../common/ui/PageTitle';
 import ProfileTabPanel from '../ProfileTabPanel';
+// Hooks
 import useA11yTabProps from '../../../common/hooks/useA11yTabProps';
+import useFetchUser from '../../../common/hooks/react-query/useFetchUser';
 
-export const FollowerPage = React.memo(function FollowerPage() {
+export const FollowerPage = React.memo(function FollowerPage({ path }) {
   const params = useParams();
-  const location = useLocation();
-  const dispatch = useDispatch();
   const a11yProps = useA11yTabProps('follow');
-  const tabs = ['followers', 'following'];
-  const fIndex = location.pathname.indexOf('follow');
-  const pagename = location.pathname.substring(fIndex);
-  const [tabValue, setTabValue] = useState(tabs.indexOf(pagename));
-  const { current, watching } = useSelector(state => state.user);
-  const isNotCurrentUser =
-    params.userId !== 'profile' && params.userId !== current.handle;
+  const tabs = { followers: 0, following: 1 };
+  const [tabValue, setTabValue] = useState(tabs[path]);
+  const isNotCurrentUser = params.userId !== 'profile';
+  const { status, data, refetch } = useFetchUser(
+    isNotCurrentUser ? params.userId : '',
+    'FollowerPage'
+  );
 
   useEffect(() => {
-    if (isNotCurrentUser) {
-      dispatch(getUser(params.userId));
-    }
-    setTabValue(tabs.indexOf(pagename));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, isNotCurrentUser, location.pathname, params.userId]);
+    // refetch();
+
+    setTabValue(tabs[path]);
+  }, [path, refetch, tabs]);
 
   const handleTabChange = (event, newValue) => {
     if (newValue === 0) {
@@ -44,19 +41,23 @@ export const FollowerPage = React.memo(function FollowerPage() {
     setTabValue(newValue);
   };
 
-  return (
+  return status === 'loading' ? (
+    <Box>
+      <CircularProgress />
+    </Box>
+  ) : (
     <>
       <PageTitle
         backButton
         renderTitle={
           <>
-            {isNotCurrentUser ? watching.fullName : current.fullName}
+            {data.fullName}
             <Typography
               variant="caption"
               color="textSecondary"
               component="span"
             >
-              ・@{isNotCurrentUser ? watching.handle : current.handle}
+              ・@{data.handle}
             </Typography>
           </>
         }
@@ -73,16 +74,16 @@ export const FollowerPage = React.memo(function FollowerPage() {
         </Tabs>
         <ProfileTabPanel value={tabValue} index={0}>
           {isNotCurrentUser ? (
-            <FollowersList type="followers_watching" />
+            <FollowersList currentUser={data} type="followers_watching" />
           ) : (
-            <FollowersList type="followers" />
+            <FollowersList currentUser={data} type="followers" />
           )}
         </ProfileTabPanel>
         <ProfileTabPanel value={tabValue} index={1}>
           {isNotCurrentUser ? (
-            <FollowersList type="following_watching" />
+            <FollowersList currentUser={data} type="following_watching" />
           ) : (
-            <FollowersList type="following" />
+            <FollowersList currentUser={data} type="following" />
           )}
         </ProfileTabPanel>
       </Paper>

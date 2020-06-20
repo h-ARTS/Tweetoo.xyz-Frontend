@@ -1,48 +1,23 @@
-import React, { useEffect } from 'react';
-// Redux
-import { useSelector, useDispatch } from 'react-redux';
-import { getUsers } from '../../../redux/actions/user.actions';
+import React from 'react';
 // MUI Components
 import Box from '@material-ui/core/Box';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
+// Components & Hooks
 import UserListItem from '../UserListItem';
 
-export default function FollowersList({ type }) {
-  const dispatch = useDispatch();
-  const loadingUsers = useSelector(state => state.ui.loadingUsers);
-  const users = useSelector(state => {
-    const getStateUsers = {
-      followers: state.user.current.followers,
-      following: state.user.current.following,
-      followers_watching: state.user.watching.followers,
-      following_watching: state.user.watching.following
-    };
-
-    return getStateUsers[type];
-  });
-  const followers = useSelector(state => state.user.followers);
-  const following = useSelector(state => state.user.following);
-
-  useEffect(() => {
-    dispatch(getUsers(users, { type }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return users.length === 0 ? (
-    <Box display="flex" alignItems="center" justifyContent="center" py={2}>
-      <Typography variant="h6">No followers yet.. Start exploring!</Typography>
-    </Box>
-  ) : loadingUsers ? (
-    <Box display="flex" alignItems="center" justifyContent="center" py={2}>
-      <CircularProgress color="secondary" />
+export default function FollowersList({ type, currentUser }) {
+  return !currentUser.followers || !currentUser.following ? (
+    <Box display="flex" alignItems="center" justifyContent="center" p={2}>
+      <Typography>
+        You don't have anyone in your list. Start discovering!
+      </Typography>
     </Box>
   ) : (
     <List>
       {type.includes('followers')
-        ? followers.map(user => <UserListItem user={user} key={user._id} />)
-        : following.map(user => <UserListItem user={user} key={user._id} />)}
+        ? currentUser.followers.map(f => <UserListItem user={f} key={f._id} />)
+        : currentUser.following.map(f => <UserListItem user={f} key={f._id} />)}
     </List>
   );
 }
