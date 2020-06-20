@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from '@reach/router';
 // Mui Components
 import Avatar from '@material-ui/core/Avatar';
@@ -9,23 +9,39 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import PersonAddIcon from '@material-ui/icons/PersonAddTwoTone';
 import { useFollow } from '../../common/hooks/useFollow';
-import { useSelector } from 'react-redux';
+import { UserContext } from '../../common/context/UserContextProvider';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 
 export default function UserListItem({ user }) {
-  const current = useSelector(state => state.user.current);
+  const current = useContext(UserContext);
   const { isFollowing, handleFollowUser } = useFollow(user.handle);
+  const { status, data, refetch } = useQuery(
+    ['follower', user.handle],
+    async () => {
+      const response = await axios.get('/api/user/' + user.handle);
 
-  return (
-    <ListItem divider button component={Link} to={`/${user.handle}`}>
+      return response.data;
+    }
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [isFollowing, refetch]);
+
+  return status === 'loading' ? (
+    <ListItem />
+  ) : (
+    <ListItem divider button component={Link} to={`/${data.handle}`}>
       <ListItemAvatar>
-        {user.userImage ? (
-          <Avatar src={`http://localhost:6500/${user.userImage.url}`} />
+        {data.userImage ? (
+          <Avatar src={`http://localhost:6500/${data.userImage.url}`} />
         ) : (
           <Avatar />
         )}
       </ListItemAvatar>
-      <ListItemText primary={user.fullName} secondary={user.bio} />
-      {current._id !== user._id && (
+      <ListItemText primary={data.fullName} secondary={data.bio} />
+      {current._id !== data._id && (
         <ListItemSecondaryAction>
           <IconButton
             edge="end"
