@@ -37,7 +37,6 @@ export default {
     errors: null
   },
   tweets: [],
-  replies: [],
   bookmarks: [],
   notifications: [],
   searchEntries: {
