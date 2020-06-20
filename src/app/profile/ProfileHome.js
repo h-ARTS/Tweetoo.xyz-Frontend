@@ -76,7 +76,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 export const ProfileHome = React.memo(function ProfileHome({
-  userPropFactory,
+  user,
   loading,
   date,
   isNotCurrentUser,
@@ -95,7 +95,7 @@ export const ProfileHome = React.memo(function ProfileHome({
 
   return (
     <>
-      <PageTitle renderTitle={userPropFactory('handle')} backButton />
+      <PageTitle renderTitle={user.handle} backButton />
       <Card variant="outlined" square>
         {loading ? (
           <>
@@ -103,8 +103,8 @@ export const ProfileHome = React.memo(function ProfileHome({
             <SkeletonUserImage />
           </>
         ) : (
-          <CoverImage coverImage={userPropFactory('coverImage')}>
-            <ProfileImage userImage={userPropFactory('userImage')} />
+          <CoverImage coverImage={user.coverImage}>
+            <ProfileImage userImage={user.userImage} />
           </CoverImage>
         )}
         <CardContent className={classes.cardContent}>
@@ -114,13 +114,9 @@ export const ProfileHome = React.memo(function ProfileHome({
                 <SkeletonUserDetails />
               ) : (
                 <>
-                  {userPropFactory('location') && (
-                    <Location location={userPropFactory('location')} />
-                  )}
-                  {userPropFactory('date') && <Joined date={date} />}
-                  {userPropFactory('website') && (
-                    <Website website={userPropFactory('website')} />
-                  )}
+                  {user.location && <Location location={user.location} />}
+                  {user.date && <Joined date={date} />}
+                  {user.website && <Website website={user.website} />}
                 </>
               )}
             </Box>
@@ -168,10 +164,10 @@ export const ProfileHome = React.memo(function ProfileHome({
                   variant="h5"
                   component="p"
                 >
-                  {userPropFactory('fullName')}
+                  {user.fullName}
                 </Typography>
                 <Typography className={classes.handle} variant="subtitle2">
-                  @{userPropFactory('handle')}
+                  @{user.handle}
                   {isFollowingYou() && (
                     <Chip
                       size="small"
@@ -182,9 +178,7 @@ export const ProfileHome = React.memo(function ProfileHome({
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="body2">
-                  {userPropFactory('bio')}
-                </Typography>
+                <Typography variant="body2">{user.bio}</Typography>
               </Box>
             </>
           )}
@@ -195,8 +189,7 @@ export const ProfileHome = React.memo(function ProfileHome({
               ) : (
                 <Link to="following" className={classes.link}>
                   <Typography variant="body2">
-                    <strong>{userPropFactory('following').length}</strong>{' '}
-                    Following
+                    <strong>{user.following.length}</strong> Following
                   </Typography>
                 </Link>
               )}
@@ -207,8 +200,7 @@ export const ProfileHome = React.memo(function ProfileHome({
               ) : (
                 <Link to="followers" className={classes.link}>
                   <Typography variant="body2">
-                    <strong>{userPropFactory('followers').length}</strong>{' '}
-                    Follower
+                    <strong>{user.followers.length}</strong> Follower
                   </Typography>
                 </Link>
               )}
@@ -218,7 +210,7 @@ export const ProfileHome = React.memo(function ProfileHome({
                 <SkeletonCounting />
               ) : (
                 <Typography variant="body2">
-                  <strong>{userPropFactory('tweets').length}</strong> Tweets
+                  <strong>{user.tweets.length}</strong> Tweets
                 </Typography>
               )}
             </Box>
@@ -238,18 +230,18 @@ export const ProfileHome = React.memo(function ProfileHome({
         <TweetsPanel
           value={profile.tabValue}
           index={0}
-          userTweets={userPropFactory('tweets')}
+          userTweets={user.tweets}
         />
         <LikesPanel
           value={profile.tabValue}
           index={1}
-          userTweets={userPropFactory('tweets')}
+          userTweets={user.tweets}
         />
         <MediaPanel
           value={profile.tabValue}
           index={2}
-          handle={userPropFactory('handle')}
-          userTweets={userPropFactory('tweets')}
+          handle={user.handle}
+          userTweets={user.tweets}
         />
       </Card>
       <EditDialog openEditDialog={open} handleCloseEdit={toggleEditDialog} />
